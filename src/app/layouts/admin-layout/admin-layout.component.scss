@@ -1,0 +1,16 @@
+.toggle-nav-button {
+    position: absolute;
+    z-index: 123214293874;
+    padding: 20px 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: white !important;
+    cursor: pointer;
+  }
+  
+  .main-content {
+    transition: all 0.5s ease-in-out;
+  }
+  .sidebar {
+    transition: all 0.5s ease-in-out;
+  }

@@ -1,0 +1,84 @@
+<div
+  class="header shape-primary justify-content-center pb-8 pt-3 d-flex"
+  style="min-height: 300px; background-position: center top"
+>
+  <!-- Header container -->
+</div>
+
+<div class="container-fluid mt--9">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-8">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-transparent px-2 text-center">
+          <img
+            src="/assets/img/icons/uplogo-1.png"
+            class="navbar-brand-img"
+          />
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="text-center text-muted mb-4">
+            <h4 class="text-muted">KULLANICI GİRİŞİ</h4>
+          </div>
+          <div class="card-body">
+            <form role="form">
+              <div
+                class="form-group mb-3"
+                [ngClass]="{ focused: focus === true }"
+              >
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="ni ni-single-02"></i
+                    ></span>
+                  </div>
+                  <input
+                    class="form-control"
+                    placeholder="Kullanıcı Adı"
+                    type="text"
+                    (focus)="focus = true"
+                    (blur)="focus = false"
+                    [(ngModel)]="username"
+                    name="username"
+                  />
+                </div>
+              </div>
+              <div class="form-group" [ngClass]="{ focused: focus1 === true }">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="ni ni-lock-circle-open"></i
+                    ></span>
+                  </div>
+                  <input
+                    class="form-control"
+                    placeholder="Şifre"
+                    type="password"
+                    (focus)="focus1 = true"
+                    (blur)="focus1 = false"
+                    [(ngModel)]="password"
+                    name="password"
+                  />
+                </div>
+              </div>
+
+              <div class="text-center">
+                <button
+                  (click)="login()"
+                  type="button"
+                  class="btn btn-success my-4"
+                >
+                  Giriş
+                </button>
+                <a routerLink="/register">
+                  <button type="button" class="btn btn-primary my-4">
+                    ÜYELİK OLUŞTUR
+                  </button>
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

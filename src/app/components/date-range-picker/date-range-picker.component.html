@@ -1,0 +1,87 @@
+<div
+  class="date"
+  [class.width-100]="_innerWidth <= 800"
+  (clickOutside)="isOpenDateMenu = false"
+>
+  <input
+    type="text"
+    class="form-control text-center mt-1"
+    placeholder="Tarih"
+    [(ngModel)]="rangeSelected"
+    (focus)="rangeStartEndFix(); isOpenDateMenu = true"
+  />
+  <div
+    class="date-menu"
+    [class.jc-flex-start]="
+      _innerWidth >= 1101 &&
+      (flexPosition == 'start' || flexPosition == undefined)
+    "
+    [class.jc-flex-center]="flexPosition == 'center' && _innerWidth >= 1101"
+    [class.jc-flex-end]="flexPosition == 'end' && _innerWidth >= 1101"
+    id="dateMenu "
+    *ngIf="isOpenDateMenu || showCustom"
+  >
+    <bs-daterangepicker-inline
+      *ngIf="showCustom"
+      id="bsdatepickerinline"
+      (bsValueChange)="onValueChange($event)"
+      [bsValue]="dateModel"
+      (clickOutside)="showCustom = false; isOpenDateMenu = false"
+      [bsConfig]="{ adaptivePosition: true, rangeInputFormat: 'dd-MM-yyyy' }"
+      placement="bottom"
+    >
+    </bs-daterangepicker-inline>
+
+    <div class="quick-date">
+      <ng-container *ngIf="!showCustom && ranges">
+        <ng-container *ngFor="let item of ranges">
+          <div
+            class="item cursor-pointer"
+            (click)="resetDate(); onValueChange(item.value)"
+          >
+            {{ item.label }}
+          </div>
+        </ng-container>
+        <div
+          class="item cursor-pointer"
+          (click)="resetDate(); showCustom = true"
+        >
+          Özel Aralık
+        </div>
+
+        <div class="item date-row">
+          <div>
+            <label for="">BAŞLANGIÇ</label>
+            <input
+              type="text"
+              (focus)="resetDate(); showCustom = true"
+              [(ngModel)]="rangeStart"
+              readonly
+            />
+          </div>
+          <div>
+            <label for="">BİTİŞ</label>
+            <input
+              type="text"
+              (focus)="resetDate(); showCustom = true"
+              [(ngModel)]="rangeEnd"
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="item button-row">
+          <button
+            (click)="isOpenDateMenu = false"
+            class="btn btn-sm btn-primary"
+          >
+            KAPAT
+          </button>
+          <button (click)="reset()" class="btn btn-sm btn-danger">
+            SIFIRLA
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

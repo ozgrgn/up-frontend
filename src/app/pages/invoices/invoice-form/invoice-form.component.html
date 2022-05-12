@@ -1,0 +1,718 @@
+<div class="header bg-gradient-info pb-8 pt-4 pt-md-2">
+  <div class="row title justify-content-center mb-4 mt-3">
+    <h4 class="text-muted text-center">FATURA EKLE</h4>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="header-body text-center mb-7">
+    <div class="row">
+      <div class="col-xl-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+          <!-- <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-12 text-center">
+                  <button class="btn btn-sm mb-2">TARAFLAR</button>
+                  <button class="btn btn-sm mb-2">ARABULUCU/REFERANS</button>
+                </div>
+              </div>
+            </div> -->
+          <div class="card-body pb-0">
+            <form role="form">
+              <!-- <div class="row justify-content-between p-0 m-0">
+                  <h6 class="heading-small text-muted mb-4">
+                   FATURA BİLGİLERİ
+                  </h6>
+                  <div class="form-group text-right">
+                    <div style="display: inline-flex; font-size: 0.875rem">
+                      <label id="status" class="custom-toggle">
+                        <input type="checkbox" name="status" />
+                        <span
+                          class="custom-toggle-slider rounded-circle"
+                        ></span>
+                      </label>
+                      <span class="pl-2"> Aktif </span>
+                    </div>
+                  </div>
+                </div> -->
+              <div class="row">
+                <div class="col-12 col-md-4">
+                  <h6 class="heading-small text-muted mb-4 text-center">
+                    GENEL BİLGİLER
+                  </h6>
+                  <div class="form-group col-12">
+                    <div class="input-group input-group-alternative">
+                      <input
+                        class="form-control form-control-alternative datepicker"
+                        placeholder="Fatura Tarihi"
+                        name="dp3"
+                        [(ngModel)]="invoiceDate"
+                        ngbDatepicker
+                        #d3="ngbDatepicker"
+                        (click)="d3.toggle()"
+                        type="text"
+                        autocomplete="off"
+                        (focus)="focus = true"
+                        (blur)="focus = false"
+                      />
+                    </div>
+                  </div>
+                  <div class="row p-0 m-0">
+                    <div
+                      class="form-group col-4"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Seri No"
+                          type="text"
+                          name="invoiceSerial"
+                          [(ngModel)]="invoiceSerial"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="form-group col-8"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Fatura No"
+                          type="text"
+                          name="invoiceNo"
+                          [(ngModel)]="invoiceNo"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <select
+                        class="form-control form-control-alternative"
+                        [(ngModel)]="category._id"
+                      >
+                        <option [value]="null" disabled="disabled">Şube</option>
+
+                        <option *ngFor="let cat of categories" [value]="cat_id">
+                          {{ cat.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <select
+                        class="form-control form-control-alternative"
+                        [(ngModel)]="campaign"
+                      >
+                        <option [value]="null" disabled="disabled">
+                          Kampanya Seç
+                        </option>
+
+                        <option
+                          *ngFor="let campaign of campaigns"
+                          [value]="campaign.name"
+                        >
+                          {{ campaign.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <input
+                        class="form-control form-control-alternative"
+                        placeholder="Tezgahtar"
+                        type="text"
+                        name="tezgahtar"
+                        [(ngModel)]="shopman"
+                        (focus)="focus1 = true"
+                        (blur)="focus1 = false"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <h6 class="heading-small text-muted mb-4 text-center">
+                    YOLCU BİLGİLERİ
+                  </h6>
+                  <div class="row p-0 m-0">
+
+                  <div
+                    class="form-group col-6"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <input
+                        class="form-control form-control-alternative"
+                        placeholder="Yolcu Adı"
+                        type="text"
+                        name="name"
+                        [(ngModel)]="name"
+                        (focus)="focus1 = true"
+                        (blur)="focus1 = false"
+                      />
+                    </div>
+                  </div>
+                  <div
+                  class="form-group col-6"
+                  [ngClass]="{ focused: focus1 === true }"
+                >
+                  <div class="input-group input-group-alternative">
+                    <input
+                      class="form-control form-control-alternative"
+                      placeholder="Soyadı"
+                      type="text"
+                      name="surname"
+                      [(ngModel)]="surname"
+                      (focus)="focus1 = true"
+                      (blur)="focus1 = false"
+                    />
+                  </div>
+                </div>
+                  </div>
+                  <div class="row p-0 m-0">
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <select
+                          class="form-control form-control-alternative"
+                          [(ngModel)]="nation"
+                        >
+                          <option [value]="null" disabled="disabled">
+                            Uyruk
+                          </option>
+
+                          <option
+                            *ngFor="let country of countries"
+                            [value]="country.name"
+                          >
+                            {{ country.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Pasaport No"
+                          type="text"
+                          name="passportNo"
+                          [(ngModel)]="passportNo"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <input
+                        class="form-control form-control-alternative"
+                        placeholder="Adres"
+                        type="text"
+                        name="address"
+                        [(ngModel)]="address"
+                        (focus)="focus1 = true"
+                        (blur)="focus1 = false"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <input
+                        class="form-control form-control-alternative"
+                        placeholder="Telefon"
+                        type="text"
+                        name="tel"
+                        [(ngModel)]="phone"
+                        (focus)="focus1 = true"
+                        (blur)="focus1 = false"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <input
+                        class="form-control form-control-alternative"
+                        placeholder="Otel"
+                        type="text"
+                        name="hotel"
+                        [(ngModel)]="hotel"
+                        (focus)="focus1 = true"
+                        (blur)="focus1 = false"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <h6 class="heading-small text-muted mb-4 text-center">
+                    YOLCU ÇIKIŞ BİLGİLERİ
+                  </h6>
+
+                  <div class="row p-0 m-0">
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <select
+                          class="form-control form-control-alternative"
+                          [(ngModel)]="destCountry"
+                        >
+                          <option [value]="null" disabled="disabled">
+                            Ülke
+                          </option>
+
+                          <option
+                            *ngFor="let country of countries"
+                            [value]="country.name"
+                          >
+                            {{ country.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Şehir"
+                          type="text"
+                          name="invoiceNo"
+                          [(ngModel)]="invoiceNo"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <select
+                        class="form-control form-control-alternative"
+                        [(ngModel)]="way"
+                      >
+                        <option [value]="null" disabled="disabled">
+                          Ulaşım Şekli
+                        </option>
+
+                        <option *ngFor="let way of ways" [value]="way">
+                          {{ way }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row p-0 m-0">
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <select
+                          class="form-control form-control-alternative"
+                          [(ngModel)]="airport"
+                        >
+                          <option [value]="null" disabled="disabled">
+                            Varış H.alanı
+                          </option>
+
+                          <option
+                            *ngFor="let airport of airports"
+                            [value]="airport.name"
+                          >
+                            {{ airport.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Terminal"
+                          type="text"
+                          name="Terminal"
+                          [(ngModel)]="terminal"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row p-0 m-0">
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative datepicker"
+                          placeholder="Çıkış Tarihi"
+                          name="dp4"
+                          [(ngModel)]="deparDate"
+                          ngbDatepicker
+                          #d4="ngbDatepicker"
+                          (click)="d4.toggle()"
+                          type="text"
+                          autocomplete="off"
+                          (focus)="focus = true"
+                          (blur)="focus = false"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder=""
+                          type="time"
+                          name="deparTime"
+                          [(ngModel)]="invoiceNo"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row p-0 m-0">
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <select
+                          class="form-control form-control-alternative"
+                          [(ngModel)]="airline"
+                        >
+                          <option [value]="null" disabled="disabled">
+                            Uçak Şirketi
+                          </option>
+
+                          <option
+                            *ngFor="let airline of airlines"
+                            [value]="airline.name"
+                          >
+                            {{ airline.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Uçuş No"
+                          type="text"
+                          name="flight"
+                          [(ngModel)]="flight"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-4">
+                  <div class="row p-0 m-0">
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <select
+                          class="form-control form-control-alternative"
+                          [(ngModel)]="agency"
+                        >
+                          <option [value]="null" disabled="disabled">
+                            Acente
+                          </option>
+
+                          <option
+                            *ngFor="let agency of agencies"
+                            [value]="agency.name"
+                          >
+                            {{ agency.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus1 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Rehber"
+                          type="text"
+                          name="guide"
+                          [(ngModel)]="guide"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-8">
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <textarea
+                        class="form-control form-control-alternative"
+                        placeholder="Notlar"
+                        type=""
+                        name="notes"
+                        rows="1"
+                        [(ngModel)]="notes"
+                        (focus)="focus1 = true"
+                        (blur)="focus1 = false"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-body pt-4">
+            <form role="form">
+              <div class="col-12 text-left">
+                <h6 class="heading-small text-muted mb-4">ÜRÜN GİRİŞİ</h6>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 mb-xl-0">
+                  <div class="card shadow">
+                    <!-- <div class="card-header border-0">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <h3 class="mb-0">Page visits</h3>
+                            </div>
+                            <div class="col text-right">
+                              <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                            </div>
+                          </div>
+                        </div> -->
+                    <div class="table-responsive">
+                      <!-- Projects table -->
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">KATEGORİ</th>
+                            <th scope="col">ÜRÜN</th>
+                            <th scope="col">ÜRÜN KODU</th>
+                            <th scope="col">BİRİM</th>
+                            <th scope="col">MİKTAR</th>
+                            <th scope="col">BİRİM FİYATI</th>
+                            <th scope="col">KDV</th>
+                            <th scope="col">TOPLAM TUTAR</th>
+                            <th scope="col">İŞLEM</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <select
+                                    class="form-control-sm form-control-alternative"
+                                    [(ngModel)]="selectedCategory"
+                                    (change)="selectCat(selectedCategory)"
+                                  >
+                                    <option [value]="null" disabled="disabled">
+                                      Ürün Kategorisi
+                                    </option>
+
+                                    <option
+                                      *ngFor="let cat of categories"
+                                      [value]="cat._id"
+                                    >
+                                      {{ cat.category }}
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <select
+                                    class="form-control-sm form-control-alternative"
+                                    [(ngModel)]="selectedProduct"
+                                    (change)="selectProduct(selectedProduct)"
+                                  >
+                                    <option [value]="null" disabled="disabled">
+                                      Ürün
+                                    </option>
+                                    <ng-container *ngIf="cats">
+                                      <option
+                                        *ngFor="let product of cats.product"
+                                        [value]="product._id"
+                                      >
+                                        {{ product.name }}
+                                      </option>
+                                    </ng-container>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control-sm form-control-alternative"
+                                    type="text"
+                                    name="newProductCode"
+                                    [(ngModel)]="newProduct.code"
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <select
+                                    class="form-control-sm form-control-alternative"
+                                    [(ngModel)]="newProduct.unit"
+                                  >
+                                    <option [value]="null" disabled="disabled">
+                                      Birim
+                                    </option>
+
+                                    <option *ngFor="let u of units" [value]="u">
+                                      {{ u }}
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control-sm form-control-alternative"
+                                    type="number"
+                                    name="quantity"
+                                    [(ngModel)]="newProduct.quantity"
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control-sm form-control-alternative"
+                                    type="number"
+                                    name="price"
+                                    [(ngModel)]="newProduct.price"
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>%{{ product ? product.kdv : "0" }}</td>
+                            <td>
+                              {{
+                                newProduct.price * newProduct.quantity > 0
+                                  ? newProduct.price * newProduct.quantity
+                                  : 0
+                              }}TL
+                            </td>
+                            <td>
+                              <button
+                                class="btn btn-icon btn-2 btn-success btn-sm"
+                                type="button"
+                              >
+                                <span class="btn-inner--icon"
+                                  ><i class="ni ni-fat-add"></i
+                                ></span>
+                              </button>
+
+                              <button
+                                class="btn btn-icon btn-2 btn-danger btn-sm"
+                                type="button"
+                              >
+                                <span class="btn-inner--icon"
+                                  ><i class="ni ni-fat-delete"></i
+                                ></span>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

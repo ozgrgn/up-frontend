@@ -1,0 +1,322 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-6">
+  <div class="row title justify-content-center mb-4 mt-3">
+    <h4 class="text-muted text-center">KATEGORİLER ve ÜRÜNLER</h4>
+  </div>
+</div>
+<div *ngIf="!loading" class="container-fluid mt--7">
+  <div class="header-body text-center mb-7">
+    <div class="row justify-content-center">
+      <div class="col-md-3 col-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+          <!-- <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                      <div class="col-12 text-center">
+                        <button class="btn btn-sm mb-2">TARAFLAR</button>
+                        <button class="btn btn-sm mb-2">ARABULUCU/REFERANS</button>
+                      </div>
+                    </div>
+                  </div> -->
+          <div class="card-body pb-0">
+            <form role="form">
+              <!-- <div class="row justify-content-between p-0 m-0">
+                        <h6 class="heading-small text-muted mb-4">
+                         FATURA BİLGİLERİ
+                        </h6>
+                        <div class="form-group text-right">
+                          <div style="display: inline-flex; font-size: 0.875rem">
+                            <label id="status" class="custom-toggle">
+                              <input type="checkbox" name="status" />
+                              <span
+                                class="custom-toggle-slider rounded-circle"
+                              ></span>
+                            </label>
+                            <span class="pl-2"> Aktif </span>
+                          </div>
+                        </div>
+                      </div> -->
+              <div class="row">
+                <div class="col-12">
+                  <h6 class="heading-small text-muted mb-4 text-center">
+                    KATEGORİLER
+                  </h6>
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <select
+                        class="form-control form-control-alternative"
+                        [(ngModel)]="selectedCategory"
+                        (change)="selectCat(selectedCategory)"
+                      >
+                        <option [value]="null" disabled="disabled">
+                          Kategori
+                        </option>
+
+                        <option
+                          *ngFor="let cat of categories"
+                          [value]="cat._id"
+                        >
+                          {{ cat.category }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <button
+                    class="btn btn-sm btn-secondary mb-3"
+                    (click)="open(category, '', 'sm')"
+                  >
+                    KATEGORİLERİ DÜZENLE
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 col-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+          <!-- <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                  <div class="col-12 text-center">
+                    <button class="btn btn-sm mb-2">TARAFLAR</button>
+                    <button class="btn btn-sm mb-2">ARABULUCU/REFERANS</button>
+                  </div>
+                </div>
+              </div> -->
+          <div class="card-body pb-0">
+            <form role="form">
+              <!-- <div class="row justify-content-between p-0 m-0">
+                    <h6 class="heading-small text-muted mb-4">
+                     FATURA BİLGİLERİ
+                    </h6>
+                    <div class="form-group text-right">
+                      <div style="display: inline-flex; font-size: 0.875rem">
+                        <label id="status" class="custom-toggle">
+                          <input type="checkbox" name="status" />
+                          <span
+                            class="custom-toggle-slider rounded-circle"
+                          ></span>
+                        </label>
+                        <span class="pl-2"> Aktif </span>
+                      </div>
+                    </div>
+                  </div> -->
+              <div class="row">
+                <div class="col-12">
+                  <h6 class="heading-small text-muted mb-4 text-center">
+                    ÜRÜNLER
+                  </h6>
+                  <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">ÜRÜN İSMİ</th>
+                          <th scope="col">KDV</th>
+                          <th scope="col">İŞLEM</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="Ürün İsmi"
+                                  type="text"
+                                  name="name"
+                                  [(ngModel)]="newProduct.name"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="KDV"
+                                  type="number"
+                                  name="kdv"
+                                  [(ngModel)]="newProduct.kdv"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <button
+                              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+                              [class.disabled]="
+                                !newProduct.name && !newProduct.kdv
+                              "
+                              type="button"
+                              (click)="addProduct()"
+                            >
+                              <span class="btn-inner--icon">Yeni Kayıt</span>
+                            </button>
+                          </td>
+                        </tr>
+                        <ng-container *ngIf="cat">
+                          <tr *ngFor="let p of cat.product; let i = index">
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Ürün İsmi"
+                                    type="text"
+                                    name="name{{i}}"
+                                    [(ngModel)]="cat.product[i].name"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                                <div class="form-group mb-0">
+                                  <div class="input-group input-group-alternative">
+                                    <input
+                                      class="form-control form-control-alternative"
+                                      placeholder="KDV"
+                                      type="number"
+                                      name="kdv{{i}}"
+                                      [(ngModel)]="cat.product[i].kdv"
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            <td>
+                             
+                              <button
+                                class="btn btn-icon btn-2 btn-danger btn-sm w-100"
+                                type="button"
+                                (click)="deleteProduct(i)"
+                              >
+                                <span class="btn-inner--icon"
+                                  ><i class="ni ni-fat-delete"></i
+                                ></span>
+                              </button>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #category let-c="close" let-d="dismiss">
+  <div class="modal-content">
+    <div class="modal-header text-muted text-center pt-3">
+      <h6 class="modal-title" id="modal-title-default">Ekle</h6>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body bg-secondary">
+      <form role="form">
+        <div class="row justify-content-center">
+          <div class="col-12 mb-2"></div>
+          <div
+            class="form-group col-6 d-flex justify-content-center"
+            [ngClass]="{ focused: focus === true }"
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="ni ni-archive-2"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Yeni Kategori"
+                type="text"
+                (focus)="focus = true"
+                (blur)="focus = false"
+                [(ngModel)]="newCategory"
+                name="newCategory"
+              />
+            </div>
+          </div>
+          <div class="col-4">
+            <button
+              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+              [class.disabled]="!newCategory"
+              type="button"
+              (click)="addCategory()"
+            >
+              <span class="btn-inner--icon">Yeni Kayıt</span>
+            </button>
+          </div>
+        </div>
+        <div
+          *ngFor="let cat of categories; let i = index"
+          class="row justify-content-center"
+        >
+          <div class="col-12 mb-2"></div>
+          <div
+            class="form-group col-6 d-flex justify-content-center"
+            [ngClass]="{ focused: focus === true }"
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="ni ni-archive-2"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Kategori"
+                type="text"
+                (focus)="focus = true"
+                (blur)="focus = false"
+                [(ngModel)]="cat.category"
+                name="catCategory{{ i }}"
+              />
+            </div>
+          </div>
+          <div class="col-2">
+            <button
+              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+              type="button"
+              (click)="updateCategory(cat)"
+            >
+              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+            </button>
+          </div>
+          <div class="col-2">
+            <button
+              class="btn btn-icon btn-2 btn-danger btn-sm w-100"
+              type="button"
+              (click)="deleteCategory(cat._id)"
+            >
+              <span class="btn-inner--icon"
+                ><i class="ni ni-fat-delete"></i
+              ></span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer"></div>
+  </div>
+</ng-template>
