@@ -172,60 +172,60 @@ getAgencies() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  addLawsuit(
-    contractDate: String,
-    finishDate: String,
-    dtype: String,
-    type?: any,
-    description?: String,
-    price?: Number,
-    lawyers?: any[],
-    agents?: any[],
-    clients?: any[],
-    uyapNo?: String,
-    status?: Boolean,
-    dealPrice?: Number,
-    appNo?: String,
-    result?: String,
-    office?: String,
-    id?: String,
-    closed?: Boolean,
-    creator?: String
+  addInvoice(
+    invoiceDate?: String,
+    company?: String,
+    branch?:String,
+    campaign?: String,
+    shopman?: String,
+    destCountry?: String,
+    destCity?: String,
+    way?: String,
+    airport?: Number,
+    terminal?: String,
+    deparDate?: any,
+    deparTime?:any,
+    invoiceSerial?:String,
+    invoiceNo?: String,
+    airline?: String,
+    flight?: String,
+    agency?: String,
+    guide?: String,
+    note?: String,
+    client?: any[],
+    details?: any[],
+    agencyId?: String,
+    campaignId?: String,
+    airlineId?: String,
   ) {
+    
     return this.http.post(
-      `${this.apiUrl}/lawsuit`,
+      `${this.apiUrl}/invoice`,
       {
-        contractDate,
-        finishDate,
-        dtype,
-        type,
-        description,
-        price,
-        lawyers,
-        agents,
-        clients,
-        uyapNo,
-        status,
-        dealPrice,
-        appNo,
-        result,
-        office,
-        id,
-        closed,
-        creator,
+        invoiceDate,
+        company,
+        branch,
+        campaign,
+        shopman,
+        destCountry,
+        destCity,
+        way,
+        airport,
+        terminal,
+        deparDate,
+        deparTime,
+        invoiceSerial,
+        invoiceNo,
+        airline,
+        flight,
+        agency,
+        guide,
+        note,
+        client,
+        details,
+        agencyId,
+        campaignId,
+        airlineId,
       },
       {
         headers: new HttpHeaders({
@@ -235,26 +235,19 @@ getAgencies() {
     );
   }
 
-  getLawsuits(
+  getInvoices(
     limit?: number,
     skip?: number,
-    user?: String,
-    status?: Boolean,
+    company?: String,
+    branch?: Boolean,
+    invoiceNo?:String,
+    fullName?:String,
+    status?:String,
+    deparDate1?: String,
+    deparDate2?: String,
+    invoiceDate1?: String,
+    invoiceDate2?: String,
     sort?: Object,
-    startDate?: String,
-    endDate?: String,
-    startDate2?: String,
-    endDate2?: String,
-    type?: String,
-    dtype?: String,
-    closed?: Boolean,
-    result?: String,
-    client?: String,
-    lawyer?: String,
-    agent?: String,
-    who?: String,
-    lawyerOrAgent?: Boolean,
-    uyapNo?: String,
     creator?: String
   ) {
     let query: any = {};
@@ -264,56 +257,23 @@ getAgencies() {
     if (skip) {
       query.skip = skip;
     }
-    if (user) {
-      query.user = user;
-    }
-    if (startDate) {
-      query.startDate = startDate;
-    }
-    if (endDate) {
-      query.endDate = endDate;
-    }
-    if (startDate2) {
-      query.startDate2 = startDate2;
-    }
-    if (endDate2) {
-      query.endDate2 = endDate2;
+    if (fullName) {
+      query.fullName = fullName;
     }
     if (status) {
       query.status = status;
     }
-    if (type) {
-      query.type = type;
+    if (deparDate1) {
+      query.deparDate1 = deparDate1;
     }
-    if (dtype) {
-      query.dtype = dtype;
+    if (deparDate2) {
+      query.deparDate2 = deparDate2;
     }
-    if (dtype) {
-      query.dtype = dtype;
+    if (invoiceDate1) {
+      query.invoiceDate1 = invoiceDate1;
     }
-    if (closed) {
-      query.closed = closed;
-    }
-    if (result) {
-      query.result = result;
-    }
-    if (client) {
-      query.client = client;
-    }
-    if (lawyer) {
-      query.lawyer = lawyer;
-    }
-    if (agent) {
-      query.agent = agent;
-    }
-    if (who) {
-      query.who = who;
-    }
-    if (lawyerOrAgent) {
-      query.lawyerOrAgent = lawyerOrAgent;
-    }
-    if (uyapNo) {
-      query.uyapNo = uyapNo;
+    if (invoiceDate2) {
+      query.invoiceDate2 = invoiceDate2;
     }
     if (sort) {
       query.sort = JSON.stringify(sort);
@@ -322,7 +282,7 @@ getAgencies() {
       query.creator = creator;
     }
 
-    return this.http.get(`${this.apiUrl}/lawsuit`, {
+    return this.http.get(`${this.apiUrl}/invoice`, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem("token"),
       }),
@@ -330,13 +290,56 @@ getAgencies() {
     });
   }
 
-  getLawsuit(lawsuitId: String) {
-    return this.http.get(`${this.apiUrl}/lawsuit/${lawsuitId}`, {
+
+
+  getInvoice(invoiceId: String) {
+    return this.http.get(`${this.apiUrl}/invoice/${invoiceId}`, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem("token"),
       }),
     });
   }
+
+
+
+  approveInvoice(invoiceId: string,status:String,reason:any) {
+    console.log(reason)
+    return this.http.post(  `${this.apiUrl}/invoice/approved/${invoiceId}`,
+    { status, reason},
+    
+    {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+  
+  
+  updateInvoice(invoice: any) {
+    return this.http.put(
+      `${this.apiUrl}/invoice/${invoice._id}`,
+      { invoice },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+
+  deleteInvoice(id: any) {
+    return this.http.delete(`${this.apiUrl}/invoice/${id}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+
+
+
+  
+  
   updateLawsuit(lawsuit: any) {
     return this.http.put(
       `${this.apiUrl}/lawsuit/${lawsuit._id}`,

@@ -5,3 +5,15 @@
   .modal-backdrop {
     z-index: 1040 !important;
 }
+.table td {
+  font-size: 0.9rem !important;
+  max-width: 250px;
+  overflow: auto;
+}
+.form-control {
+  font-size: 0.9rem;
+  color:#555657 !important;
+}
+.heading-small {
+  font-size: 0.9rem  !important;
+}

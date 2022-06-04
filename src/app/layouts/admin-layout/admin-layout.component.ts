@@ -24,6 +24,7 @@ auth:Boolean;
       }
       this.auth = data;
     });
+    this.helperService.toggleSide();
   }
 
   toggleSide(oneway?) {

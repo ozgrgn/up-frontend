@@ -1,9 +1,9 @@
-<div class="header bg-gradient-info pb-8 pt-4 pt-md-2">
+<div class="header bg-gradient-primary pb-8 pt-4 pt-md-2">
   <div class="row title justify-content-center mb-4 mt-3">
     <h4 class="text-muted text-center">FATURA EKLE</h4>
   </div>
 </div>
-<div class="container-fluid mt--7">
+<div class="container-fluid mt--8">
   <div class="header-body text-center mb-7">
     <div class="row">
       <div class="col-xl-12 order-xl-1">
@@ -68,6 +68,8 @@
                           type="text"
                           name="invoiceSerial"
                           [(ngModel)]="invoiceSerial"
+                          maxlength="3"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           (focus)="focus1 = true"
                           (blur)="focus1 = false"
                         />
@@ -75,31 +77,37 @@
                     </div>
                     <div
                       class="form-group col-8"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus2 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <input
                           class="form-control form-control-alternative"
                           placeholder="Fatura No"
                           type="text"
-                          name="invoiceNo"
+                          name="faturaNo"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           [(ngModel)]="invoiceNo"
-                          (focus)="focus1 = true"
-                          (blur)="focus1 = false"
+                          maxlength="13"
+                          (focus)="focus2 = true"
+                          (blur)="focus2 = false"
                         />
                       </div>
                     </div>
                   </div>
                   <div
                     class="form-group col-12"
-                    [ngClass]="{ focused: focus1 === true }"
+                    [ngClass]="{ focused: focus3 === true }"
                   >
                     <div class="input-group input-group-alternative">
                       <select
-                        class="form-control form-control-alternative"
+                        class="form-control form-control-alternative firstColor"
                         [(ngModel)]="category._id"
+                        
+                        onkeyup="this.value = this.value.toUpperCase();"
                       >
-                        <option [value]="null" disabled="disabled">Şube</option>
+                        <option [value]="undefined" disabled="disabled">
+                          Şube
+                        </option>
 
                         <option *ngFor="let cat of categories" [value]="cat_id">
                           {{ cat.name }}
@@ -109,20 +117,22 @@
                   </div>
                   <div
                     class="form-group col-12"
-                    [ngClass]="{ focused: focus1 === true }"
+                    [ngClass]="{ focused: focus4 === true }"
                   >
                     <div class="input-group input-group-alternative">
                       <select
                         class="form-control form-control-alternative"
-                        [(ngModel)]="campaign"
+                        [(ngModel)]="campaignId"
+                        onkeyup="this.value = this.value.toUpperCase();"
+                        [class.firstColor] = "!campaignId"
                       >
-                        <option [value]="null" disabled="disabled">
+                        <option [value]="undefined" disabled="disabled">
                           Kampanya Seç
                         </option>
 
                         <option
                           *ngFor="let campaign of campaigns"
-                          [value]="campaign.name"
+                          [value]="campaign._id"
                         >
                           {{ campaign.name }}
                         </option>
@@ -132,7 +142,7 @@
 
                   <div
                     class="form-group col-12"
-                    [ngClass]="{ focused: focus1 === true }"
+                    [ngClass]="{ focused: focus5 === true }"
                   >
                     <div class="input-group input-group-alternative">
                       <input
@@ -141,8 +151,8 @@
                         type="text"
                         name="tezgahtar"
                         [(ngModel)]="shopman"
-                        (focus)="focus1 = true"
-                        (blur)="focus1 = false"
+                        (focus)="focus5 = true"
+                        (blur)="focus5 = false"
                       />
                     </div>
                   </div>
@@ -152,51 +162,58 @@
                     YOLCU BİLGİLERİ
                   </h6>
                   <div class="row p-0 m-0">
-
-                  <div
-                    class="form-group col-6"
-                    [ngClass]="{ focused: focus1 === true }"
-                  >
-                    <div class="input-group input-group-alternative">
-                      <input
-                        class="form-control form-control-alternative"
-                        placeholder="Yolcu Adı"
-                        type="text"
-                        name="name"
-                        [(ngModel)]="name"
-                        (focus)="focus1 = true"
-                        (blur)="focus1 = false"
-                      />
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus6 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Yolcu Adı"
+                          type="text"
+                          name="name"
+                          [(ngModel)]="name"
+                          onkeyup="
+  var start = this.selectionStart;
+  var end = this.selectionEnd;
+  this.value = this.value.toUpperCase();
+  this.setSelectionRange(start, end);
+"
+                          (focus)="focus6 = true"
+                          (blur)="focus6 = false"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div
-                  class="form-group col-6"
-                  [ngClass]="{ focused: focus1 === true }"
-                >
-                  <div class="input-group input-group-alternative">
-                    <input
-                      class="form-control form-control-alternative"
-                      placeholder="Soyadı"
-                      type="text"
-                      name="surname"
-                      [(ngModel)]="surname"
-                      (focus)="focus1 = true"
-                      (blur)="focus1 = false"
-                    />
-                  </div>
-                </div>
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus7 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Soyadı"
+                          type="text"
+                          name="surname"
+                          [(ngModel)]="surname"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                          (focus)="focus7 = true"
+                          (blur)="focus7 = false"
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div class="row p-0 m-0">
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus8 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="nation"
+                          [class.firstColor] = "!nation"
                         >
-                          <option [value]="null" disabled="disabled">
+                          <option [value]="undefined" disabled="disabled">
                             Uyruk
                           </option>
 
@@ -211,7 +228,7 @@
                     </div>
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus9 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <input
@@ -220,15 +237,16 @@
                           type="text"
                           name="passportNo"
                           [(ngModel)]="passportNo"
-                          (focus)="focus1 = true"
-                          (blur)="focus1 = false"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                          (focus)="focus9 = true"
+                          (blur)="focus9 = false"
                         />
                       </div>
                     </div>
                   </div>
                   <div
                     class="form-group col-12"
-                    [ngClass]="{ focused: focus1 === true }"
+                    [ngClass]="{ focused: focus10 === true }"
                   >
                     <div class="input-group input-group-alternative">
                       <input
@@ -237,14 +255,14 @@
                         type="text"
                         name="address"
                         [(ngModel)]="address"
-                        (focus)="focus1 = true"
-                        (blur)="focus1 = false"
+                        (focus)="focus10 = true"
+                        (blur)="focus10 = false"
                       />
                     </div>
                   </div>
                   <div
                     class="form-group col-12"
-                    [ngClass]="{ focused: focus1 === true }"
+                    [ngClass]="{ focused: focus11 === true }"
                   >
                     <div class="input-group input-group-alternative">
                       <input
@@ -253,14 +271,14 @@
                         type="text"
                         name="tel"
                         [(ngModel)]="phone"
-                        (focus)="focus1 = true"
-                        (blur)="focus1 = false"
+                        (focus)="focus11 = true"
+                        (blur)="focus11 = false"
                       />
                     </div>
                   </div>
                   <div
                     class="form-group col-12"
-                    [ngClass]="{ focused: focus1 === true }"
+                    [ngClass]="{ focused: focus12 === true }"
                   >
                     <div class="input-group input-group-alternative">
                       <input
@@ -269,8 +287,8 @@
                         type="text"
                         name="hotel"
                         [(ngModel)]="hotel"
-                        (focus)="focus1 = true"
-                        (blur)="focus1 = false"
+                        (focus)="focus12 = true"
+                        (blur)="focus12 = false"
                       />
                     </div>
                   </div>
@@ -283,14 +301,16 @@
                   <div class="row p-0 m-0">
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus13 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="destCountry"
+                          [class.firstColor] = "!destCountry"
+                          
                         >
-                          <option [value]="null" disabled="disabled">
+                          <option [value]="undefined" disabled="disabled">
                             Ülke
                           </option>
 
@@ -306,17 +326,18 @@
 
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus14 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <input
                           class="form-control form-control-alternative"
                           placeholder="Şehir"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           type="text"
-                          name="invoiceNo"
-                          [(ngModel)]="invoiceNo"
-                          (focus)="focus1 = true"
-                          (blur)="focus1 = false"
+                          name="destCity"
+                          [(ngModel)]="destCity"
+                          (focus)="focus14 = true"
+                          (blur)="focus14 = false"
                         />
                       </div>
                     </div>
@@ -324,14 +345,16 @@
 
                   <div
                     class="form-group col-12"
-                    [ngClass]="{ focused: focus1 === true }"
+                    [ngClass]="{ focused: focus15 === true }"
                   >
                     <div class="input-group input-group-alternative">
                       <select
                         class="form-control form-control-alternative"
                         [(ngModel)]="way"
+                        [class.firstColor] = "!way"
+                        onkeyup="this.value = this.value.toUpperCase();"
                       >
-                        <option [value]="null" disabled="disabled">
+                        <option [value]="undefined" disabled="disabled">
                           Ulaşım Şekli
                         </option>
 
@@ -344,14 +367,16 @@
                   <div class="row p-0 m-0">
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus16 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="airport"
+                          [class.firstColor] = "!airport"
+                          onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="null" disabled="disabled">
+                          <option [value]="undefined" disabled="disabled">
                             Varış H.alanı
                           </option>
 
@@ -366,7 +391,7 @@
                     </div>
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus17 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <input
@@ -375,6 +400,7 @@
                           type="text"
                           name="Terminal"
                           [(ngModel)]="terminal"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           (focus)="focus1 = true"
                           (blur)="focus1 = false"
                         />
@@ -385,7 +411,7 @@
                   <div class="row p-0 m-0">
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus18 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <input
@@ -398,14 +424,14 @@
                           (click)="d4.toggle()"
                           type="text"
                           autocomplete="off"
-                          (focus)="focus = true"
-                          (blur)="focus = false"
+                          (focus)="focus18 = true"
+                          (blur)="focus18 = false"
                         />
                       </div>
                     </div>
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus19 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <input
@@ -413,9 +439,9 @@
                           placeholder=""
                           type="time"
                           name="deparTime"
-                          [(ngModel)]="invoiceNo"
-                          (focus)="focus1 = true"
-                          (blur)="focus1 = false"
+                          [(ngModel)]="deparTime"
+                          (focus)="focus19 = true"
+                          (blur)="focus19 = false"
                         />
                       </div>
                     </div>
@@ -423,20 +449,22 @@
                   <div class="row p-0 m-0">
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus20 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <select
                           class="form-control form-control-alternative"
-                          [(ngModel)]="airline"
+                          [(ngModel)]="airlineId"
+                          [class.firstColor] = "!airlineId"
+                          onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="null" disabled="disabled">
+                          <option [value]="undefined" disabled="disabled">
                             Uçak Şirketi
                           </option>
 
                           <option
                             *ngFor="let airline of airlines"
-                            [value]="airline.name"
+                            [value]="airline._id"
                           >
                             {{ airline.name }}
                           </option>
@@ -445,7 +473,7 @@
                     </div>
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus21 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <input
@@ -454,8 +482,9 @@
                           type="text"
                           name="flight"
                           [(ngModel)]="flight"
-                          (focus)="focus1 = true"
-                          (blur)="focus1 = false"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                          (focus)="focus21 = true"
+                          (blur)="focus21 = false"
                         />
                       </div>
                     </div>
@@ -467,20 +496,22 @@
                   <div class="row p-0 m-0">
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus22 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <select
                           class="form-control form-control-alternative"
-                          [(ngModel)]="agency"
+                          [(ngModel)]="agencyId"
+                          [class.firstColor] = "!agencyId"
+                          onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="null" disabled="disabled">
+                          <option [value]="undefined" disabled="disabled">
                             Acente
                           </option>
 
                           <option
                             *ngFor="let agency of agencies"
-                            [value]="agency.name"
+                            [value]="agency._id"
                           >
                             {{ agency.name }}
                           </option>
@@ -490,7 +521,7 @@
 
                     <div
                       class="form-group col-6"
-                      [ngClass]="{ focused: focus1 === true }"
+                      [ngClass]="{ focused: focus23 === true }"
                     >
                       <div class="input-group input-group-alternative">
                         <input
@@ -499,8 +530,9 @@
                           type="text"
                           name="guide"
                           [(ngModel)]="guide"
-                          (focus)="focus1 = true"
-                          (blur)="focus1 = false"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                          (focus)="focus23 = true"
+                          (blur)="focus23 = false"
                         />
                       </div>
                     </div>
@@ -509,7 +541,7 @@
                 <div class="col-8">
                   <div
                     class="form-group col-12"
-                    [ngClass]="{ focused: focus1 === true }"
+                    [ngClass]="{ focused: focus24 === true }"
                   >
                     <div class="input-group input-group-alternative">
                       <textarea
@@ -518,9 +550,9 @@
                         type=""
                         name="notes"
                         rows="1"
-                        [(ngModel)]="notes"
-                        (focus)="focus1 = true"
-                        (blur)="focus1 = false"
+                        [(ngModel)]="note"
+                        (focus)="focus24 = true"
+                        (blur)="focus24 = false"
                       ></textarea>
                     </div>
                   </div>
@@ -528,10 +560,10 @@
               </div>
             </form>
           </div>
-          <div class="card-body pt-4">
+          <div class="card-body pt-2">
             <form role="form">
               <div class="col-12 text-left">
-                <h6 class="heading-small text-muted mb-4">ÜRÜN GİRİŞİ</h6>
+                <h6 class="heading-small text-muted mb-2">ÜRÜN GİRİŞİ</h6>
               </div>
               <div class="row">
                 <div class="col-xl-12 mb-xl-0">
@@ -570,12 +602,18 @@
                                   class="input-group input-group-alternative"
                                 >
                                   <select
-                                    class="form-control-sm form-control-alternative"
+                                    class="form-control-sm form-control-alternative "
+                                    [class.firstColor] = "!selectedCategory"
+                                    style="min-width: 82px;"
                                     [(ngModel)]="selectedCategory"
                                     (change)="selectCat(selectedCategory)"
                                   >
-                                    <option [value]="null" disabled="disabled">
-                                      Ürün Kategorisi
+                                    <option
+                                      [value]="undefined"
+                                      disabled="disabled"
+                                      style="background: white; color: rgb(209, 28, 28);"
+                                    >
+                                      Kategori
                                     </option>
 
                                     <option
@@ -588,7 +626,7 @@
                                 </div>
                               </div>
                             </td>
-                            <td>
+                            <!-- <td>
                               <div class="form-group mb-0">
                                 <div
                                   class="input-group input-group-alternative"
@@ -598,7 +636,7 @@
                                     [(ngModel)]="selectedProduct"
                                     (change)="selectProduct(selectedProduct)"
                                   >
-                                    <option [value]="null" disabled="disabled">
+                                    <option [value]=undefined disabled="disabled">
                                       Ürün
                                     </option>
                                     <ng-container *ngIf="cats">
@@ -612,6 +650,21 @@
                                   </select>
                                 </div>
                               </div>
+                            </td> -->
+                            <td style="width: 500px">
+                              <ng-select
+                              class="form-control-sm form-control-alternative"
+                                *ngIf="cats"
+                                [items]="cats.product"
+                                appendTo="body"
+                                bindLabel="name"
+                                bindValue="_id"
+                                [(ngModel)]="selectedProduct"
+                                (change)="selectProduct(selectedProduct)"
+                                
+                              >
+                              </ng-select>
+                             <span *ngIf="!cats" style="opacity:0.5; font-size: 13px;"> Kategori seçilmedi </span> 
                             </td>
                             <td>
                               <div class="form-group mb-0">
@@ -636,9 +689,7 @@
                                     class="form-control-sm form-control-alternative"
                                     [(ngModel)]="newProduct.unit"
                                   >
-                                    <option [value]="null" disabled="disabled">
-                                      Birim
-                                    </option>
+                           
 
                                     <option *ngFor="let u of units" [value]="u">
                                       {{ u }}
@@ -687,15 +738,41 @@
                               <button
                                 class="btn btn-icon btn-2 btn-success btn-sm"
                                 type="button"
+                                (click)="addDetail()"
                               >
                                 <span class="btn-inner--icon"
                                   ><i class="ni ni-fat-add"></i
                                 ></span>
                               </button>
+                            </td>
+                          </tr>
+                          <tr *ngFor="let detail of details; let i = index">
+                            <td>
+                              {{ detail.productCategory }}
+                            </td>
+                            <td>
+                              {{ detail.productName }}
+                            </td>
 
+                            <td>
+                              {{ detail.productCode }}
+                            </td>
+                            <td>
+                              {{ detail.unit }}
+                            </td>
+                            <td>
+                              {{ detail.quantity }}
+                            </td>
+                            <td>{{ detail.price }} TL</td>
+                            <td>
+                              {{ detail.kdv }}
+                            </td>
+                            <td>{{ detail.productTotal }} TL</td>
+                            <td>
                               <button
                                 class="btn btn-icon btn-2 btn-danger btn-sm"
                                 type="button"
+                                (click)="removeDetail(i)"
                               >
                                 <span class="btn-inner--icon"
                                   ><i class="ni ni-fat-delete"></i
@@ -712,6 +789,20 @@
             </form>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="text-center">
+        <button
+          type="button"
+          [routerLink]="['/user-list']"
+          class="btn btn-secondary my-4"
+        >
+          GERİ
+        </button>
+        <button type="button" (click)="send()" class="btn btn-success my-4">
+          Kaydet
+        </button>
       </div>
     </div>
   </div>

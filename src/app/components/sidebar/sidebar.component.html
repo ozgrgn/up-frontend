@@ -83,7 +83,7 @@
       <!-- Heading -->
       <h6 class="navbar-heading text-muted">Raporlar</h6>
       <!-- Navigation -->
-      <ul class="navbar-nav mb-md-3">
+      <!-- <ul class="navbar-nav mb-md-3">
         <li class="nav-item">
           <a
             class="nav-link"
@@ -94,17 +94,7 @@
             <i class="fas fa-folder-open text-primary"></i> Dosya Raporu
           </a>
         </li>
-        <!-- <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/account-report']"
-            routerLinkActive="router-link-active"
-            (click)="toggleSide()"
-          >
-            <i class="fas fa-file-invoice text-primary"></i> Mali Rapor
-          </a>
-        </li> -->
-      </ul>
+      </ul> -->
       
       <!-- Divider -->
       <hr class="my-3" />
@@ -117,55 +107,25 @@
         <li *ngIf="perm=='ADMIN'" class="nav-item">
           <a
             class="nav-link"
-            [routerLink]="['/payments']"
+            [routerLink]="['/products']"
             routerLinkActive="router-link-active"
             (click)="toggleSide()"
           >
-            <i class="fas fa-file-invoice text-primary"></i> Ödemeler
+            <i class="ni ni-bag-17 text-primary"></i> Ürünler
           </a>
         </li>
         <li *ngIf="perm=='ADMIN'" class="nav-item">
           <a
             class="nav-link"
-            [routerLink]="['/templates']"
+            [routerLink]="['/general-settings']"
             routerLinkActive="router-link-active"
             (click)="toggleSide()"
           >
-            <i class="fas fa-file-invoice text-primary"></i> Şablonlar
+            <i class="ni ni-settings-gear-65 text-primary"></i> Genel Ayarlar
           </a>
         </li>
-        <li *ngIf="perm=='ADMIN'" class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/settings']"
-            routerLinkActive="router-link-active"
-          >
-            <i class="ni ni-settings-gear-65 text-primary"></i> Ayarlar
-          </a>
-          <!-- <a
-            class="nav-link"
-            [routerLink]="['/templates']"
-            routerLinkActive="router-link-active"
-          >
-            <i class="ni ni-settings-gear-65 text-primary"></i> Şablon Ekle
-          </a> -->
-        </li>
-        <li *ngIf="perm=='ADMIN'" class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/approve']"
-            routerLinkActive="router-link-active"
-          >
-            <i class="ni ni-key-25 text-primary"></i> Kullanıcı Onayları
-          </a>
-          <!-- <a
-            class="nav-link"
-            [routerLink]="['/templates']"
-            routerLinkActive="router-link-active"
-          >
-            <i class="ni ni-settings-gear-65 text-primary"></i> Şablon Ekle
-          </a> -->
-        </li>
+
+
         <li class="nav-item">
           <a class="nav-link" (click)="logout()" [routerLink]="['/']">
             <i class="ni ni-button-power text-primary"></i> Çıkış

@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { NgSelectConfig } from "@ng-select/ng-select";
 import { ToastrService } from "ngx-toastr";
 import { RestService } from "src/app/services/rest.service";
 
@@ -8,10 +10,11 @@ import { RestService } from "src/app/services/rest.service";
   styleUrls: ["./invoice-form.component.scss"],
 })
 export class InvoiceFormComponent implements OnInit {
-  focus;
-  focus1;
+
+  company:any;
+  branch:any=undefined;
   name: any;
-  surname:any;
+  surname: any;
   invoiceDate: any;
   invoiceSerial: any;
   invoiceNo: any;
@@ -20,6 +23,7 @@ export class InvoiceFormComponent implements OnInit {
   address: any;
   phone: any;
   hotel: any;
+  cardNo: any;
   gate: any;
   terminal: any;
   destCountry: any;
@@ -28,34 +32,71 @@ export class InvoiceFormComponent implements OnInit {
   deparTime: any;
   flight: any;
   guide: any;
-  notes: any;
+  note: any;
   passportNo: any;
   selectedCategory: any;
   selectedProduct: any;
   cats: any;
   category: any = {};
   categories: any = [];
-  product: any = null;
+  product: any = undefined;
   newProduct: any = {};
   units: any = ["Adet", "Kilo", "Litre"];
   countries: any;
   airlines: any;
-  airline:any=null;
+  airlineId: any = undefined;
+  airline: any;
   airports: any;
-  airport:any=null;
+  airport: any = undefined;
   agencies: any;
-  agency:any=null;
+  agency: any = undefined;
+  agencyId: any;
   reasons: any;
-  reason:any=null;
+  reason: any = undefined;
+  reasonId: any;
   campaigns: any;
-  campaign:any=null;
-  ways:any=["Havayolu","Karayolu","DenizYolu","Koşarak"]
-  way:any=null;
+  campaign: any = undefined;
+  campaignId: any;
+  ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
+  way: any = undefined;
+  details: any = [];
+  client: any = {};
+
+
+  focus;
+  focus1;
+  focus2;
+  focus3;
+  focus4;
+  focus5;
+  focus6;
+  focus7;
+  focus8;
+  focus9;
+  focus10;
+  focus11;
+  focus12;
+  focus13;
+  focus14;
+  focus15;
+  focus16;
+  focus17;
+  focus18;
+  focus19;
+  focus20;
+  focus21;
+  focus22;
+  focus23;
+  focus24;
 
   constructor(
+    private router: Router,
     private restService: RestService,
-    private toaster: ToastrService
-  ) {}
+    private toaster: ToastrService,
+   private config: NgSelectConfig
+     
+    
+  ) { this.config.notFoundText = "Böyle bir ürün yok";}
 
   ngOnInit(): void {
     this.category._id = null;
@@ -65,7 +106,7 @@ export class InvoiceFormComponent implements OnInit {
     this.getAgencies();
     this.getAirports();
     this.getAirlines();
-    console.log(this.ways,"ways")
+    console.log(this.ways, "ways");
   }
   getCategories() {
     this.restService
@@ -78,15 +119,63 @@ export class InvoiceFormComponent implements OnInit {
           console.log(this.categories, "categories");
         }
       });
+    
+  }
+  addDetail() {
+    if(!this.cats) {
+      this.toaster.error("Lütfen Kategori Seçiniz");
+      return
+    }
+    if(!this.product) {
+      this.toaster.error("Lütfen Ürün Seçiniz");
+      return
+    }
+    if(!this.newProduct.unit) {
+      this.toaster.error("Lütfen Birim Seçiniz");
+      return
+    }
+    if(!this.newProduct.quantity) {
+      this.toaster.error("Lütfen Miktar Giriniz");
+      return
+    }
+    if(!this.newProduct.price) {
+      this.toaster.error("Lütfen Fiyat Giriniz");
+      return
+    }
+    if(!this.product.kdv) {
+      this.toaster.error("Kdv ile ilgili bir hata var.");
+      return
+    }
+
+    this.details.push({
+      productCategory: this.cats.category,
+      productName: this.product.name,
+      productId:this.product._id,
+      kdv: this.product.kdv,
+      productCode:this.newProduct.code,
+      unit:this.newProduct.unit,
+      quantity:this.newProduct.quantity,
+      price:this.newProduct.price,
+      productTotal:(this.newProduct.quantity*this.newProduct.price)
+    });
+    console.log(this.details)
+    this.product={};
+    this.selectedCategory=undefined;
+    this.selectedProduct=undefined;
+    this.newProduct={};
+    this.getCategories();
   }
 
+  removeDetail(index){
+    this.details.splice(index, 1);
+  }
   selectCat(a) {
     this.cats = this.categories.filter(function (b) {
       console.log(a._id, "test");
       return b._id == a;
     });
     this.cats = this.cats[0];
-    console.log(this.cats);
+    console.log(this.cats, "CAT");
   }
   selectProduct(a) {
     console.log(a);
@@ -97,9 +186,7 @@ export class InvoiceFormComponent implements OnInit {
     this.product = this.product[0];
     console.log(this.product, "product");
   }
-  dene(cat) {
-    console.log(cat);
-  }
+
   getCampaigns() {
     this.restService
       .getCampaigns()
@@ -128,7 +215,7 @@ export class InvoiceFormComponent implements OnInit {
       .toPromise()
       .then((data) => {
         if (data["status"]) {
-          console.log(data);
+          console.log(data,"airlines");
           this.airlines = data["airlines"];
         }
       });
@@ -154,6 +241,113 @@ export class InvoiceFormComponent implements OnInit {
           this.agencies = data["agencies"];
         }
       });
+  }
+
+  send() {
+
+
+    if(this.branch==null) {
+      this.branch="Merkez"
+    }
+
+
+    if (!this.name){
+      this.toaster.error("Lütfen Yolcu Adı Giriniz");
+      return
+    }
+    if (!this.surname){
+      this.toaster.error("Lütfen Yolcu Soyadı Giriniz");
+      return
+    }
+    if (!this.nation){
+      this.toaster.error("Lütfen Uyruk Giriniz");
+      return
+    }
+    if (!this.surname){
+      this.toaster.error("Lütfen İsim Giriniz");
+      return
+    }
+    if (!this.passportNo){
+      this.toaster.error("Lütfen Pasaport No Giriniz");
+      return
+    }
+    if (!this.branch){
+      this.toaster.error("Lütfen Şube Giriniz");
+      return
+    }
+    if(this.airlineId)
+    this.airline=this.airlines.find(x => x._id === this.airlineId).name;
+    if(this.campaignId)
+    this.campaign=this.campaigns.find(x => x._id === this.campaignId).name;
+    if(this.agencyId)
+    this.agency=this.agencies.find(x => x._id === this.agencyId).name;
+
+    this.client.name = this.name.toUpperCase();
+    this.client.surname = this.surname.toUpperCase();
+    this.client.cardNo = this.cardNo;
+    this.client.nation = this.nation;
+    this.client.passportNo = this.passportNo.toUpperCase();;
+    this.client.address = this.address;
+    this.client.phone = this.phone;
+    this.client.hotel = this.hotel;
+  
+if(this.destCity)
+    this.destCity=this.destCity.toUpperCase();
+    if(this.invoiceSerial)
+    this.invoiceSerial=this.invoiceSerial.toUpperCase();
+    if(this.passportNo)
+    this.passportNo=this.passportNo.toUpperCase();
+    if(this.terminal)
+    this.terminal=this.terminal.toUpperCase();
+    if(this.flight)
+    this.flight=this.flight.toUpperCase();
+    if(this.guide)
+    this.guide=this.guide.toUpperCase();
+
+    this.restService
+      .addInvoice(
+        this.convertIsoString(this.invoiceDate),
+        this.company,
+        this.branch,
+        this.campaign,
+        this.shopman,
+        this.destCountry,
+        this.destCity,
+        this.way,
+        this.airport,
+        this.terminal,
+        this.convertIsoString(this.deparDate),
+        this.deparTime,
+        this.invoiceSerial,
+        this.invoiceNo,
+        this.airline,
+        this.flight,
+        this.agency,
+        this.guide,
+        this.note,
+        this.client,
+        this.details,
+        this.agencyId,
+        this.campaignId,
+        this.airlineId,
+
+        
+      )
+      .toPromise()
+      .then((data) => {
+        console.log(data);
+
+        if (data["status"]) {
+          this.toaster.success("Yeni Fatura Oluşturuldu");
+          this.router.navigate(["/invoice-list"]);
+        }
+      });
+  }
+
+  convertIsoString(date: any) {
+    if (date) {
+      return new Date(`${date.year}-${date.month}-${date.day}`).toISOString();
+    }
   }
   getCountries() {
     this.countries = [

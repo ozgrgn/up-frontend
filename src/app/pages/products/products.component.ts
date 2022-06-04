@@ -77,6 +77,7 @@ deleteCategory(id){
   });  
 }
   addProduct() {
+    this.newProduct.kdv=18
     this.cat.product.push(this.newProduct)
     
     console.log(this.cat.product,"newproductssss")
@@ -103,7 +104,7 @@ deleteProduct(index){
 });
 }
   selectCat(a) {
-    this.getCategories();
+    
     console.log(a)
     console.log(this.selectedCategory,"selectedCategory")
     this.cat =  this.categories.filter(function(b) {

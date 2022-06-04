@@ -11,3 +11,17 @@
 .form-group{
     margin-bottom:1rem;
 }
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+::ng-deep .ng-dropdown-panel .scroll-host {
+    background: #fff !important;
+}
+
+select {
+    color: #555657 !important;
+}
+
+
+.firstColor {
+    color:#aeb7bf !important ;
+}

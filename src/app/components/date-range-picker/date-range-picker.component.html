@@ -2,12 +2,14 @@
   class="date"
   [class.width-100]="_innerWidth <= 800"
   (clickOutside)="isOpenDateMenu = false"
+  
 >
   <input
     type="text"
-    class="form-control text-center mt-1"
+    class="form-control form-control-sm  text-center "
     placeholder="Tarih"
     [(ngModel)]="rangeSelected"
+   
     (focus)="rangeStartEndFix(); isOpenDateMenu = true"
   />
   <div

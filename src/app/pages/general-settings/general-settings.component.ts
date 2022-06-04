@@ -93,8 +93,8 @@ addReason() {
     .toPromise()
     .then((data) => {
       if (data["status"]) {
-        this.toaster.success("Yeni Kampanya Oluşturuldu");
-        this.newCampaign = {};
+        this.toaster.success("Onaylanmama Sebebi Oluşturuldu");
+        this.newReason = {};
       }
       this.getReasons();
     });

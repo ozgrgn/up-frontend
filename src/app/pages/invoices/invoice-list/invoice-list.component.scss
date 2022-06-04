@@ -1,0 +1,40 @@
+.btn-3 {
+    width: 46%;
+}
+.note {
+    white-space: normal;
+    padding:inherit !important;
+    min-width: 200px !important;
+    color: #5e72e4;
+}
+.note span {
+    color: #fb6340;
+}
+.primary {
+    color:#5e72e4
+}
+.info {
+    color:#11cdef
+}
+.danger {
+    color:#f5365c
+}
+.warning {
+    color:#fb6340
+}
+i {
+    width: 20px;
+    text-align: center;
+}
+
+br {
+    content: " ";
+    display: block;
+    margin: 10px 0;
+ }
+ .br_zero br {
+    content: " ";
+    display: block;
+    margin: 10px 0;
+ }
+ tr:nth-child(even) {background: #f6f9fc}

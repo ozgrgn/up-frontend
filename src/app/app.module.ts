@@ -26,6 +26,7 @@ import { InvoiceListComponent } from './pages/invoices/invoice-list/invoice-list
 import { InvoiceEditComponent } from './pages/invoices/invoice-edit/invoice-edit.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { GeneralSettingsComponent } from './pages/general-settings/general-settings.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 moment.tz.setDefault("Europe/Istanbul");
 
@@ -48,6 +49,7 @@ moment.tz.setDefault("Europe/Istanbul");
       positionClass: "toast-bottom-right",
     }),
     NgxMaskModule.forRoot(),
+    NgSelectModule
   ],
   declarations: [
     AppComponent,
