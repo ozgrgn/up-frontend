@@ -6,9 +6,9 @@
     <div class="col-12 text-center">
       <button
         class="btn btn-secondary btn-sm mb-2"
-        (click)="page = 'branches'"
+        (click)="page = 'company'"
       >
-        Şubeler
+        Firma Bilgileri
       </button>
       <button
         class="btn btn-secondary btn-sm mb-2"
@@ -28,25 +28,184 @@
     <div class="row justify-content-center">
       <div class="col-sm-12 col-md-8 col-lg-6 col-12 order-xl-1">
         <div class="card bg-secondary shadow">
-          <div class="card-header bg-white border-0"></div>
+          <div class="card-header bg-white border-0">
+            <div class="row justify-content-center">
+            <div class="col-4 ">
+                                
+              <div class="form-group mb-0">
+                <div
+                  class="input-group justify-content-center"
+                >
+                  <select
+                    class="form-control-sm form-control-alternative"
+                    [(ngModel)]="selectedCompany._id"
+                    (change)="getCompany()"
+                  >
+                  <option [ngValue]="undefined"  >
+                    YENİ FİRMA KAYDI
+                  </option>
+
+                    <option *ngFor="let u of companies" [value]="u._id">
+                      {{ u.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>    
+            </div>
+            </div>
+          </div>
           <div class="card-body pb-0">
+            
             <form role="form">
-              <!-- <div class="row justify-content-between p-0 m-0">
-                      <h6 class="heading-small text-muted mb-4">
-                       FATURA BİLGİLERİ
-                      </h6>
-                      <div class="form-group text-right">
-                        <div style="display: inline-flex; font-size: 0.875rem">
-                          <label id="status" class="custom-toggle">
-                            <input type="checkbox" name="status" />
-                            <span
-                              class="custom-toggle-slider rounded-circle"
-                            ></span>
-                          </label>
-                          <span class="pl-2"> Aktif </span>
-                        </div>
-                      </div>
-                    </div> -->
+              <div *ngIf="page=='company'" class="row">
+       
+                <div *ngIf="!company" class="col-12">
+    
+                  <div class="table-responsive">
+                 
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">FİRMA İSMİ</th>
+                          <th scope="col">İŞLEM</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr  *ngIf="!selectedCompany._id">
+                          <td>
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="Firma Adı"
+                                  type="text"
+                                  name="newCompanyName"
+                                  [(ngModel)]="newCompany.name"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <button 
+                              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+                              [class.disabled]="
+                                !newCompany.name"
+                              type="button"
+                              (click)="addCompany()"
+                            >
+                              <span class="btn-inner--icon">YENİ KAYIT</span>
+                            </button>
+              
+                          </td>
+                        </tr>
+                        <tr  *ngIf="selectedCompany._id">
+                          <td>
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="Firma Adı"
+                                  type="text"
+                                  name="selectedName"
+                                  [(ngModel)]="selectedCompany.name"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <button 
+                              class="btn btn-icon btn-2 btn-warning btn-sm w-100"
+                              
+                              type="button"
+                              (click)="updateCompany()"
+                            >
+                              <span class="btn-inner--icon">DÜZENLE</span>
+                            </button>
+              
+                          </td>
+                        </tr>
+                        
+                  
+                      </tbody>
+                    </table>
+                  </div>
+                  <ng-container *ngIf="selectedCompany._id">
+                  
+                  <h6 class="heading-small text-muted mb-4 text-center">
+                   Şubeler
+                  </h6>
+                  <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">ŞUBE İSMİ</th>
+                          <th scope="col">İŞLEM</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="Yeni Şube Ekle"
+                                  type="text"
+                                  name="newBranchName"
+                                  [(ngModel)]="newBranch.name"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <button
+                              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+                              [class.disabled]="
+                                !newBranch.name"
+                              type="button"
+                              (click)="addBranch()"
+                            >
+                              <span class="btn-inner--icon">YENİ KAYIT</span>
+                            </button>
+                          </td>
+                        </tr>
+                        
+                          <tr *ngFor="let branch of selectedCompany.branches; let i = index">
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Onaylanmama Sebebi"
+                                    type="text"
+                                    name="selectedCompany.branches{{ i }}"
+                                    [(ngModel)]="selectedCompany.branches[i].name"
+                                 
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <button
+                                class="btn btn-icon btn-2 btn-warning btn-sm w-100"
+                                type="button"
+                                (click)="updateCompany()"
+                              >
+                                <span class="btn-inner--icon"
+                               
+                                >DÜZENLE</span>
+                              </button>
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </ng-container>
+                </div>
+              </div>
               <div *ngIf="page=='campaigns'" class="row">
                 <div class="col-12">
                   <h6 class="heading-small text-muted mb-4 text-center">
@@ -199,6 +358,7 @@
                   </div>
                 </div>
               </div>
+           
             </form>
           </div>
         </div>

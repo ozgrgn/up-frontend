@@ -37,6 +37,9 @@ export interface DaterangeModel {
 export class DateRangePickerComponent implements OnInit {
   dayNumber: number = new Date().getDate() - 1;
   _innerWidth = 0;
+  @Input() placeholder: String ;
+
+
   @Input() flexPosition: String = undefined;
 
   ranges = [

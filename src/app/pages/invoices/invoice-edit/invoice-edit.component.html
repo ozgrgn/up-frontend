@@ -95,22 +95,54 @@
                         </div>
                       </div>
                     </div>
-                    <div
-                      class="form-group col-12"
-                      [ngClass]="{ focused: focus1 === true }"
-                    >
-                      <div class="input-group input-group-alternative">
-                        <select
-                          class="form-control form-control-alternative"
-                          [(ngModel)]="invoice.branch"
-                          name="branch"
-                        >
-                          <option [value]=undefined disabled="disabled">Şube</option>
+                    <div class="row m-0">
+                      <div
+                        *ngIf="perm == 'SUPERADMIN'"
+                        class="form-group col-6"
+                        [ngClass]="{ focused: focus3 === true }"
+                      >
+                        <div class="input-group input-group-alternative">
+                          <select
+                            class="form-control form-control-alternative firstColor"
+                            [(ngModel)]="invoice.company._id"
+                            onkeyup="this.value = this.value.toUpperCase();"
+                          >
+                            <option [value]="undefined" disabled="disabled">
+                              Firma
+                            </option>
   
-                          <option *ngFor="let cat of categories" [value]="cat._id">
-                            {{ cat.name }}
-                          </option>
-                        </select>
+                            <option
+                              *ngFor="let com of companies"
+                              [value]="com._id"
+                            >
+                              {{ com.name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div
+                        class="form-group"
+                        [ngClass]="{ focused: focus3 === true }"
+                        [class.col-6]="perm === 'SUPERADMIN'"
+                        [class.col-12]="perm != 'SUPERADMIN'"
+                      >
+                        <div class="input-group input-group-alternative">
+                          <select
+                            class="form-control form-control-alternative firstColor"
+                            [(ngModel)]="invoice.branch"
+                            onkeyup="this.value = this.value.toUpperCase();"
+                          >
+                            <option value=undefined disabled="disabled">Şube Seçin </option>
+                            <ng-container *ngIf="invoice.company && invoice.company.branches">
+                              <option
+                                *ngFor="let u of invoice.company.branches"
+                                [attr.selected]="u.name == invoice.branch ? true : null"
+                              >
+                                {{ u.name }}
+                              </option>
+                            </ng-container>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div
@@ -783,7 +815,7 @@
         <div class="text-center">
           <button
             type="button"
-            [routerLink]="['/user-list']"
+            [routerLink]="['/invoice-list']"
             class="btn btn-secondary my-4"
           >
             GERİ

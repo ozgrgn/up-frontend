@@ -6,6 +6,12 @@ import { InvoiceEditComponent } from 'src/app/pages/invoices/invoice-edit/invoic
 import { InvoiceListComponent } from 'src/app/pages/invoices/invoice-list/invoice-list.component';
 import { ProductsComponent } from 'src/app/pages/products/products.component';
 import { GeneralSettingsComponent } from 'src/app/pages/general-settings/general-settings.component';
+import { PerformanceReportComponent } from 'src/app/pages/reports/performance-report/performance-report.component';
+import { UserListComponent } from 'src/app/pages/user-settings/user-list/user-list.component';
+import { UserFormComponent } from 'src/app/pages/user-settings/user-form/user-form.component';
+import { UserEditComponent } from 'src/app/pages/user-settings/user-edit/user-edit.component';
+import { ProductReportComponent } from 'src/app/pages/reports/product-report/product-report.component';
+import { IcmalComponent } from 'src/app/pages/reports/icmal/icmal.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -14,5 +20,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'products',   component: ProductsComponent },
     { path: 'general-settings',   component: GeneralSettingsComponent },
     { path: 'invoice-edit/:id',   component: InvoiceEditComponent },
-
+    { path: 'performance-reports',   component: PerformanceReportComponent },
+    { path: 'product-reports',   component: ProductReportComponent },
+    { path: 'icmal',   component: IcmalComponent },
+    { path: 'user-list',   component: UserListComponent },
+    { path: 'user-form',   component: UserFormComponent },
+    { path: 'user-edit/:id',   component: UserEditComponent },
 ];

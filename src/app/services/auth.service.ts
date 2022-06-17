@@ -70,13 +70,15 @@ export class AuthService {
     }
   }
 
-  addUser(username: String, password: String, fullName: String) {
+  addUser(username: String, password: String, fullName: String, company:String,branch:String,userType:String) {
     return this.http.post(`${this.apiUrl}/auth/signup`, {
       username,
       password,
       fullName,
+      company,
+      branch,
 
-      userType: "USER",
+      userType: userType,
     });
   }
 }

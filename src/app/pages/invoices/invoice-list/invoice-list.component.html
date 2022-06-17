@@ -6,8 +6,8 @@
   <div class="container-fluid">
     <div class="header-body text-center mb-7">
       <!-- Card stats -->
-      <div class="row">
-        <div class="col-12">
+      <div class="row justify-content-center">
+        <div class="col-9">
           <div class="card h-100 card-stats mb-4 mb-xl-0">
             <div class="card-body">
               <div class="row justify-content-center">
@@ -43,6 +43,7 @@
                 [(value)]="invoiceDate"
                 (dataEvent)="getData()"
                 (resetDateBind)="resetDate('invoiceDate')"
+                placeholder="Fatura Tarihi"
               ></app-date-range-picker>
               </div>
             </div>
@@ -82,32 +83,32 @@
               <tr *ngFor="let invoice of invoices">
                 
                 <td>
-                  <i class="fa fa-building primary"></i> {{ invoice.company }}<br /><br />
-                  <i class="fa fa-store primary"></i> {{ invoice.branch }}
+                  <i class="fa fa-building primary"></i> {{ invoice?.company?.name }}<br /><br />
+                  <i class="fa fa-store primary"></i> {{ invoice?.branch }}
                 </td>
                 <td>
-                  <i class="fa fa-file-invoice primary"></i> {{ invoice.invoiceMerged }}
+                  <i class="fa fa-file-invoice primary"></i> {{ invoice?.invoiceMerged }}
                   <br /><br />
-                  <i class="fa fa-calendar primary"></i> {{ invoice.invoiceDate | date: "dd/MM/yyyy"  }}
+                  <i class="fa fa-calendar primary"></i> {{ invoice?.invoiceDate | date: "dd/MM/yyyy"  }}
                 </td>
                 <td>
-                  <i class="fa fa-user primary"></i> {{ invoice.fullName }} <br /><br />
-                  <i class="fa fa-passport primary"></i> {{ invoice.client.passportNo }}
+                  <i class="fa fa-user primary"></i> {{ invoice?.fullName }} <br /><br />
+                  <i class="fa fa-passport primary"></i> {{ invoice?.client?.passportNo }}
                 </td>
                 <td>
-                  <i class="fa fa-plane-arrival primary"></i>  {{ invoice.destCountry }} <br /><br />
-                  <i class="fa fa-plane-arrival primary"></i> {{ invoice.destCity }}
+                  <i class="fa fa-plane-arrival primary"></i>  {{ invoice?.destCountry }} <br /><br />
+                  <i class="fa fa-plane-arrival primary"></i> {{ invoice?.destCity }}
                 </td>
                 <td>
-                  <i class="fa fa-plane-departure primary"></i> {{ invoice.airline }} <br /><br />
-                  <i class="fa fa-plane-departure primary"></i> {{ invoice.flight }}
+                  <i class="fa fa-plane-departure primary"></i> {{ invoice?.airline }} <br /><br />
+                  <i class="fa fa-plane-departure primary"></i> {{ invoice?.flight }}
                 </td>
                 <td>
-                  <i class="fa fa-calendar-check primary"></i>  {{ invoice.deparDate | date: "dd/MM/yyyy" }} <br /><br />
-                  <i class="fa fa-clock primary"></i> {{ invoice.deparTime }}
+                  <i class="fa fa-calendar-check primary"></i>  {{ invoice?.deparDate | date: "dd/MM/yyyy" }} <br /><br />
+                  <i class="fa fa-clock primary"></i> {{ invoice?.deparTime }}
                 </td>
-                <td class="note br_zero"> <span *ngIf="invoice.campaign"> {{ invoice.campaign  }} </span><br />
-                  {{ invoice.note }}
+                <td class="note br_zero"> <span *ngIf="invoice.campaign"> {{ invoice?.campaign  }} </span><br />
+                  {{ invoice?.note }}
                 </td>
                 <td  *ngIf="page!='onay'">
                   <span
@@ -115,8 +116,8 @@
                   style="cursor:pointer;"
                     class="badge w-100 "
                     
-                    [ngClass]="invoice.status == 'CONFIRMED'?'badge-success':invoice.status == 'DECLINE'?'badge-danger':'badge-default'"
-                    >{{invoice.status == 'CONFIRMED'?'ONAYLI':invoice.status == 'DECLINE'?'ONAYSIZ':'BEKLEMEDE'}}</span
+                    [ngClass]="invoice.status == 'CONFIRMED'?'badge-success':invoice.status == 'DECLINED'?'badge-danger':'badge-default'"
+                    >{{invoice.status == 'CONFIRMED'?'ONAYLI':invoice.status == 'DECLINED'?'ONAYSIZ':'BEKLEMEDE'}}</span
                   >
                 </td>
                 <td class="br_zero">
@@ -208,7 +209,24 @@
       </button>
     </div>
     <div class="modal-body text-center">
-      Bu Faturayı Onaylamak İstediğinizden Emin misiniz?
+      <div class="form-group centerli ">
+        <label class="form-control-label "
+          >Onaylanma Tarihi</label
+        >
+        <input
+          class="form-control form-control-alternative datepicker w-50 "
+          placeholder="Tarih Seçiniz"
+          name="dp4"
+          [(ngModel)]="approveDate"
+          ngbDatepicker
+          #d4="ngbDatepicker"
+          (click)="d4.toggle()"
+          type="text"
+          autocomplete="off"
+          (focus)="focus = true"
+          (blur)="focus = false"
+        />
+      </div>
     </div>
 
     <div class="modal-footer">
@@ -230,7 +248,43 @@
     </div>
   </div>
 </ng-template>
+<ng-template #cancel let-c="close" let-d="dismiss">
+  <div class="modal-content">
+    <div class="modal-header text-muted text-center pt-3">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body text-center">
+      Bu Faturayı Onaylamamak İstediğinizden Emin misiniz?
+    </div>
 
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="disapproveInvoice(); d('Cross click')"
+      >
+        ONAYLAMA
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-dismiss="modal"
+        (click)="d('Cross click')"
+      >
+        VAZGEÇ
+      </button>
+    </div>
+  </div>
+</ng-template>
 <ng-template #changeStatus let-c="close" let-d="dismiss">
   <div class="modal-content">
     <div class="modal-header text-muted text-center pt-3">
@@ -244,9 +298,9 @@
         <span aria-hidden="true">×</span>
       </button>
     </div>
-    <div class="modal-body">
-      <label>Faturanın Durumunu Değiştirin</label>
-      <div class="input-group input-group-alternative">
+    <div class="modal-body centerli">
+      <label class="form-control-label">Faturanın Durumunu Değiştirin</label>
+      <div class="input-group input-group-alternative w-50">
         <select
           class="form-control form-control-alternative"
          [(ngModel)]="newStatus"
@@ -259,13 +313,32 @@
           <option  value="CONFIRMED">
             ONAYLI
           </option>
-          <option  value="DECLINE">
+          <option  value="DECLINED">
             ONAYSIZ
           </option>
           <option  value="PENDING">
             BEKLEMEDE
           </option>
         </select>
+
+      </div>
+      <div *ngIf="newStatus=='CONFIRMED'" class="form-group centerli mt-3">
+        <label class="form-control-label "
+          >Onaylanma Tarihi</label
+        >
+        <input
+          class="form-control form-control-alternative datepicker w-50 "
+          placeholder="Tarih Seçiniz"
+          name="dp4"
+          [(ngModel)]="approveDate"
+          ngbDatepicker
+          #d5="ngbDatepicker"
+          (click)="d5.toggle()"
+          type="text"
+          autocomplete="off"
+          (focus)="focus = true"
+          (blur)="focus = false"
+        />
       </div>
     </div>
 
@@ -273,7 +346,7 @@
       <button
         type="button"
         class="btn btn-success"
-        (click)="changeInvStatus(); d('Cross click')"
+        (click)="changeInvStatus();"
       >
         DEĞİŞTİR
       </button>

@@ -28,8 +28,7 @@ export class LoginComponent implements OnInit {
         console.log(data)
        if (data['status']){
         this.toaster.success("Giriş Başarılı!");
-       }else if(data['message']='Hesabınız Henüz Onaylanmamış')
-       this.toaster.error("Hesabınız Henüz Onaylanmadı. Lütfen Sistem Yöneticisi ile Görüşün");
+       }
        else
        this.toaster.error("Kullanıcı Adı ya da Şifre Hatalı");
       });

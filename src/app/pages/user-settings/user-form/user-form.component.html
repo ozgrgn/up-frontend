@@ -1,0 +1,150 @@
+<div
+  class="header shape-primary justify-content-center pb-8 pt-3 d-flex"
+  style="min-height: 300px; background-position: center top"
+>
+  <!-- Header container -->
+</div>
+
+<div class="container-fluid mt--9">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-8">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-transparent px-2 text-center">
+          
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="text-center text-muted mb-4">
+            <h4 class="text-muted">KULLANICI KAYDI</h4>
+          </div>
+          <div class="card-body">
+            <form role="form">
+              <div
+                class="form-group mb-3"
+                [ngClass]="{ focused: focus === true }"
+              >
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="ni ni-single-02"></i
+                    ></span>
+                  </div>
+                  <input
+                    class="form-control"
+                    placeholder="Kullanıcı Adı"
+                    type="text"
+                    (focus)="focus = true"
+                    (blur)="focus = false"
+                    [(ngModel)]="username"
+                    name="username"
+                  />
+                </div>
+              </div>
+              <div class="form-group" [ngClass]="{ focused: focus1 === true }">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="ni ni-lock-circle-open"></i
+                    ></span>
+                  </div>
+                  <input
+                    class="form-control"
+                    placeholder="Şifre"
+                    type="password"
+                    (focus)="focus1 = true"
+                    (blur)="focus1 = false"
+                    [(ngModel)]="password"
+                    name="password"
+                  />
+                </div>
+              </div>
+              <div class="form-group" [ngClass]="{ focused: focus1 === true }">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="ni ni-single-02"></i
+                  ></span>
+                </div>
+                <input
+                  class="form-control"
+                  placeholder="İsim Soyisim"
+                  type="text"
+                  (focus)="focus = true"
+                  (blur)="focus = false"
+                  [(ngModel)]="fullName"
+                  name="fullName"
+                />
+              </div>
+            </div>
+            <div class="form-group ">
+                <div
+                  class="input-group input-group-alternative "
+                >
+                  <select
+                    class="form-control form-control-alternative"
+                    [(ngModel)]="selectedCompany"
+                    (change)="selectCompany()"
+                  >
+                  <option value=undefined disabled="disabled">
+                    Firma Seçin
+                  </option>
+
+                    <option *ngFor="let u of companies" [value]="u._id">
+                      {{ u.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>    
+              <div class="form-group ">
+                <div
+                  class="input-group input-group-alternative "
+                >
+                  <select
+                    class="form-control form-control-alternative"
+                    [(ngModel)]="selectedBranch"
+                  >
+                  <option value=undefined disabled="disabled">
+                    Tüm Şubeler
+                  </option>
+
+                    <option *ngFor="let u of company.branches" [value]="u.name">
+                      {{ u.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>  
+              <div class="form-group ">
+                <div
+                  class="input-group input-group-alternative "
+                >
+                  <select
+                    class="form-control form-control-alternative"
+                    [(ngModel)]="userType"
+                  >
+                  <option value=undefined disabled="disabled">
+                    Yetki Seçin
+                  </option>
+                  <option value="USER" >
+                   KULLANICI
+                  </option>
+                  <option value="ADMIN" >
+                    YÖNETİCİ
+                   </option>
+
+                  </select>
+                </div>
+              </div>  
+              <div class="text-center">
+     
+                <!-- <a routerLink="/register"> -->
+                  <button type="button" (click)="save()" class="btn btn-primary my-4">
+                    ÜYELİK OLUŞTUR
+                  </button>
+                <!-- </a> -->
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

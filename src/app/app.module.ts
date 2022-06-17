@@ -11,7 +11,8 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 
-import { NgbModule,NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule,NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
+import { TurkishDatePickerI18 } from './pages/invoices/invoice-list/TurkishDatePickerI18.1';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -27,6 +28,12 @@ import { InvoiceEditComponent } from './pages/invoices/invoice-edit/invoice-edit
 import { ProductsComponent } from './pages/products/products.component';
 import { GeneralSettingsComponent } from './pages/general-settings/general-settings.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PerformanceReportComponent } from './pages/reports/performance-report/performance-report.component';
+import { UserListComponent } from './pages/user-settings/user-list/user-list.component';
+import { UserFormComponent } from './pages/user-settings/user-form/user-form.component';
+import { UserEditComponent } from './pages/user-settings/user-edit/user-edit.component';
+import { ProductReportComponent } from './pages/reports/product-report/product-report.component';
+import { IcmalComponent } from './pages/reports/icmal/icmal.component';
 
 moment.tz.setDefault("Europe/Istanbul");
 
@@ -61,6 +68,12 @@ moment.tz.setDefault("Europe/Istanbul");
     InvoiceEditComponent,
     ProductsComponent,
     GeneralSettingsComponent,
+    PerformanceReportComponent,
+    UserListComponent,
+    UserFormComponent,
+    UserEditComponent,
+    ProductReportComponent,
+    IcmalComponent,
 
   ],
   providers: [
@@ -70,7 +83,7 @@ moment.tz.setDefault("Europe/Istanbul");
       useClass: Interceptor,
       multi: true,
     },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    { provide: NgbDatepickerI18n, useClass: TurkishDatePickerI18 } ,
   ],
   bootstrap: [AppComponent]
 })

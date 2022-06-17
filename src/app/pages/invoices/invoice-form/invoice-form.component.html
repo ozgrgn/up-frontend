@@ -39,6 +39,7 @@
                   <h6 class="heading-small text-muted mb-4 text-center">
                     GENEL BİLGİLER
                   </h6>
+
                   <div class="form-group col-12">
                     <div class="input-group input-group-alternative">
                       <input
@@ -94,25 +95,55 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="form-group col-12"
-                    [ngClass]="{ focused: focus3 === true }"
-                  >
-                    <div class="input-group input-group-alternative">
-                      <select
-                        class="form-control form-control-alternative firstColor"
-                        [(ngModel)]="category._id"
-                        
-                        onkeyup="this.value = this.value.toUpperCase();"
-                      >
-                        <option [value]="undefined" disabled="disabled">
-                          Şube
-                        </option>
+                  <div class="row m-0">
+                    <div
+                      *ngIf="perm == 'SUPERADMIN'"
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus3 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <select
+                          class="form-control form-control-alternative firstColor"
+                          [(ngModel)]="selectedCompany"
+                          (change)="selectCompany()"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                        >
+                          <option value=null disabled="disabled">
+                            Firma
+                          </option>
 
-                        <option *ngFor="let cat of categories" [value]="cat_id">
-                          {{ cat.name }}
-                        </option>
-                      </select>
+                          <option
+                            *ngFor="let com of companies"
+                            [value]="com._id"
+                          >
+                            {{ com.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      class="form-group "
+                      [ngClass]="{ focused: focus3 === true }"
+                      [class.col-6]="perm == 'SUPERADMIN'"
+                      [class.col-12]="perm != 'SUPERADMIN'"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <select
+                          class="form-control form-control-alternative firstColor"
+                          [(ngModel)]="branch"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                        >
+                          <option value="all">Tüm Şubeler</option>
+                          <ng-container *ngIf="company && company.branches">
+                            <option
+                              *ngFor="let u of company.branches"
+                              [attr.selected]="u.name == branch ? true : null"
+                            >
+                              {{ u.name }}
+                            </option>
+                          </ng-container>
+                        </select>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -124,9 +155,9 @@
                         class="form-control form-control-alternative"
                         [(ngModel)]="campaignId"
                         onkeyup="this.value = this.value.toUpperCase();"
-                        [class.firstColor] = "!campaignId"
+                        [class.firstColor]="!campaignId"
                       >
-                        <option [value]="undefined" disabled="disabled">
+                        <option value=null disabled="disabled">
                           Kampanya Seç
                         </option>
 
@@ -211,9 +242,9 @@
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="nation"
-                          [class.firstColor] = "!nation"
+                          [class.firstColor]="!nation"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option value=null disabled="disabled">
                             Uyruk
                           </option>
 
@@ -307,10 +338,9 @@
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="destCountry"
-                          [class.firstColor] = "!destCountry"
-                          
+                          [class.firstColor]="!destCountry"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option value=null disabled="disabled">
                             Ülke
                           </option>
 
@@ -351,10 +381,10 @@
                       <select
                         class="form-control form-control-alternative"
                         [(ngModel)]="way"
-                        [class.firstColor] = "!way"
+                        [class.firstColor]="!way"
                         onkeyup="this.value = this.value.toUpperCase();"
                       >
-                        <option [value]="undefined" disabled="disabled">
+                        <option [value]=null disabled="disabled">
                           Ulaşım Şekli
                         </option>
 
@@ -373,10 +403,10 @@
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="airport"
-                          [class.firstColor] = "!airport"
+                          [class.firstColor]="!airport"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option [value]=null disabled="disabled">
                             Varış H.alanı
                           </option>
 
@@ -455,10 +485,10 @@
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="airlineId"
-                          [class.firstColor] = "!airlineId"
+                          [class.firstColor]="!airlineId"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option [value]=null disabled="disabled">
                             Uçak Şirketi
                           </option>
 
@@ -502,10 +532,10 @@
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="agencyId"
-                          [class.firstColor] = "!agencyId"
+                          [class.firstColor]="!agencyId"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option value=null disabled="disabled">
                             Acente
                           </option>
 
@@ -602,16 +632,19 @@
                                   class="input-group input-group-alternative"
                                 >
                                   <select
-                                    class="form-control-sm form-control-alternative "
-                                    [class.firstColor] = "!selectedCategory"
-                                    style="min-width: 82px;"
+                                    class="form-control-sm form-control-alternative"
+                                    [class.firstColor]="!selectedCategory"
+                                    style="min-width: 82px"
                                     [(ngModel)]="selectedCategory"
                                     (change)="selectCat(selectedCategory)"
                                   >
                                     <option
                                       [value]="undefined"
                                       disabled="disabled"
-                                      style="background: white; color: rgb(209, 28, 28);"
+                                      style="
+                                        background: white;
+                                        color: rgb(209, 28, 28);
+                                      "
                                     >
                                       Kategori
                                     </option>
@@ -653,7 +686,7 @@
                             </td> -->
                             <td style="width: 500px">
                               <ng-select
-                              class="form-control-sm form-control-alternative"
+                                class="form-control-sm form-control-alternative"
                                 *ngIf="cats"
                                 [items]="cats.product"
                                 appendTo="body"
@@ -661,10 +694,14 @@
                                 bindValue="_id"
                                 [(ngModel)]="selectedProduct"
                                 (change)="selectProduct(selectedProduct)"
-                                
                               >
                               </ng-select>
-                             <span *ngIf="!cats" style="opacity:0.5; font-size: 13px;"> Kategori seçilmedi </span> 
+                              <span
+                                *ngIf="!cats"
+                                style="opacity: 0.5; font-size: 13px"
+                              >
+                                Kategori seçilmedi
+                              </span>
                             </td>
                             <td>
                               <div class="form-group mb-0">
@@ -689,8 +726,6 @@
                                     class="form-control-sm form-control-alternative"
                                     [(ngModel)]="newProduct.unit"
                                   >
-                           
-
                                     <option *ngFor="let u of units" [value]="u">
                                       {{ u }}
                                     </option>
@@ -730,7 +765,11 @@
                             <td>
                               {{
                                 newProduct.price * newProduct.quantity > 0
-                                  ? newProduct.price * newProduct.quantity
+                                  ? newProduct.price * newProduct.quantity +
+                                    (newProduct.price *
+                                      newProduct.quantity *
+                                      product.kdv) /
+                                      100
                                   : 0
                               }}TL
                             </td>

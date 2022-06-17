@@ -17,6 +17,7 @@ auth:Boolean;
   ) {}
 
   ngOnInit() {
+    
     this.authService.checkLoginStatus();
     this.authService.auth$.subscribe((data) => {
       if (!data) {
@@ -24,7 +25,10 @@ auth:Boolean;
       }
       this.auth = data;
     });
-    this.helperService.toggleSide();
+    setTimeout(() => {
+        this.helperService.toggleSide();
+    }, 500);
+    
   }
 
   toggleSide(oneway?) {

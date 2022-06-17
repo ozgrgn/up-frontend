@@ -4,6 +4,7 @@ import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { RestService } from "src/app/services/rest.service";
 import { NgSelectConfig } from "@ng-select/ng-select";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
   selector: "app-invoice-edit",
@@ -22,7 +23,7 @@ export class InvoiceEditComponent implements OnInit {
   agencies: any;
   airlines: any;
   airports: any;
-  ways: any;
+  ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
   countries: any;
   campaigns: any;
   product: any;
@@ -32,7 +33,8 @@ export class InvoiceEditComponent implements OnInit {
   oldAgencyId: any;
   oldCampaignId: any;
   oldAirlineId: any;
-
+  perm:any;
+  companies:any;
   focus;
   focus1;
   constructor(
@@ -41,17 +43,27 @@ export class InvoiceEditComponent implements OnInit {
     private restService: RestService,
     private modalService: NgbModal,
     private toaster: ToastrService,
-    private config: NgSelectConfig
+    private config: NgSelectConfig,
 
-  ) { this.config.notFoundText = "Böyle bir ürün yok";}
+   private authService: AuthService,
+  ) {
+    this.config.notFoundText = "Böyle bir ürün yok";
+  }
 
   ngOnInit(): void {
+    this.authService
+    .getPermission()
+    .toPromise()
+    .then((perm) => {
+      this.perm=perm['userType']
+      });
     this.getAgencies();
     this.getAirlines();
     this.getCategories();
+    this.getCompanies();
     this.getCampaigns();
     this.getCountries();
-
+    this.getData();
     this.getAirports();
   }
   getCategories() {
@@ -63,6 +75,17 @@ export class InvoiceEditComponent implements OnInit {
           this.categories = data["category"];
 
           console.log(this.categories, "categories");
+        }
+      });
+  }
+  getCompanies() {
+    this.restService
+      .getCompanies()
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          console.log(data);
+          this.companies = data["companies"];
         }
       });
   }
@@ -87,6 +110,7 @@ export class InvoiceEditComponent implements OnInit {
         this.oldAgencyId = this.invoice.agencyId;
         this.oldCampaignId = this.invoice.campaignId;
         this.oldAirlineId = this.invoice.airlineId;
+        console.log(data);
       });
   }
   getCampaigns() {
@@ -243,12 +267,17 @@ export class InvoiceEditComponent implements OnInit {
     this.invoice.details.push({
       productCategory: this.cats.category,
       productName: this.product.name,
+      productId: this.product._id,
       kdv: this.product.kdv,
       productCode: this.newProduct.code,
       unit: this.newProduct.unit,
       quantity: this.newProduct.quantity,
       price: this.newProduct.price,
-      productTotal: this.newProduct.quantity * this.newProduct.price,
+      productBrut: this.newProduct.quantity * this.newProduct.price,
+      productTotal:
+        this.newProduct.quantity * this.newProduct.price +
+        (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
+          100,
     });
     console.log(this.invoice.details);
     this.product = {};

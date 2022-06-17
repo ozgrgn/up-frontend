@@ -7,7 +7,7 @@
   <input
     type="text"
     class="form-control form-control-sm  text-center "
-    placeholder="Tarih"
+    [placeholder]="placeholder"
     [(ngModel)]="rangeSelected"
    
     (focus)="rangeStartEndFix(); isOpenDateMenu = true"

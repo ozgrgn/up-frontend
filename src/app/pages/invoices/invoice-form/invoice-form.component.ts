@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgSelectConfig } from "@ng-select/ng-select";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/services/auth.service";
 import { RestService } from "src/app/services/rest.service";
 
 @Component({
@@ -10,9 +11,8 @@ import { RestService } from "src/app/services/rest.service";
   styleUrls: ["./invoice-form.component.scss"],
 })
 export class InvoiceFormComponent implements OnInit {
-
-  company:any;
-  branch:any=undefined;
+  company: any;
+  branch: any = "all";
   name: any;
   surname: any;
   invoiceDate: any;
@@ -56,12 +56,15 @@ export class InvoiceFormComponent implements OnInit {
   reasonId: any;
   campaigns: any;
   campaign: any = undefined;
-  campaignId: any;
+  campaignId: any = null;
   ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
   way: any = undefined;
   details: any = [];
   client: any = {};
-
+  companies: any;
+  selectedCompany: any = null;
+  selectedBranch: any = null;
+  perm: any;
 
   focus;
   focus1;
@@ -93,14 +96,34 @@ export class InvoiceFormComponent implements OnInit {
     private router: Router,
     private restService: RestService,
     private toaster: ToastrService,
-   private config: NgSelectConfig
-     
-    
-  ) { this.config.notFoundText = "Böyle bir ürün yok";}
+    private config: NgSelectConfig,
+    private authService: AuthService
+  ) {
+    this.config.notFoundText = "Böyle bir ürün yok";
+  }
 
   ngOnInit(): void {
+    this.authService
+      .getPermission()
+      .toPromise()
+      .then((perm) => {
+        this.perm = perm["userType"];
+        console.log(this.perm, "perm");
+        if (this.perm != "SUPERADMIN") {
+          this.restService
+            .getUser(localStorage.getItem("userId"))
+            .toPromise()
+            .then((data) => {
+              if (data["status"]) {
+                this.company = data["user"].company;
+                console.log(this.company, "company");
+              }
+            });
+        }
+      });
     this.category._id = null;
     this.getCategories();
+    this.getCompanies();
     this.getCampaigns();
     this.getCountries();
     this.getAgencies();
@@ -119,54 +142,68 @@ export class InvoiceFormComponent implements OnInit {
           console.log(this.categories, "categories");
         }
       });
-    
+  }
+  getCompanies() {
+    this.restService
+      .getCompanies()
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          console.log(data);
+          this.companies = data["companies"];
+        }
+      });
   }
   addDetail() {
-    if(!this.cats) {
+    if (!this.cats) {
       this.toaster.error("Lütfen Kategori Seçiniz");
-      return
+      return;
     }
-    if(!this.product) {
+    if (!this.product) {
       this.toaster.error("Lütfen Ürün Seçiniz");
-      return
+      return;
     }
-    if(!this.newProduct.unit) {
+    if (!this.newProduct.unit) {
       this.toaster.error("Lütfen Birim Seçiniz");
-      return
+      return;
     }
-    if(!this.newProduct.quantity) {
+    if (!this.newProduct.quantity) {
       this.toaster.error("Lütfen Miktar Giriniz");
-      return
+      return;
     }
-    if(!this.newProduct.price) {
+    if (!this.newProduct.price) {
       this.toaster.error("Lütfen Fiyat Giriniz");
-      return
+      return;
     }
-    if(!this.product.kdv) {
+    if (!this.product.kdv) {
       this.toaster.error("Kdv ile ilgili bir hata var.");
-      return
+      return;
     }
 
     this.details.push({
       productCategory: this.cats.category,
       productName: this.product.name,
-      productId:this.product._id,
+      productId: this.product._id,
       kdv: this.product.kdv,
-      productCode:this.newProduct.code,
-      unit:this.newProduct.unit,
-      quantity:this.newProduct.quantity,
-      price:this.newProduct.price,
-      productTotal:(this.newProduct.quantity*this.newProduct.price)
+      productCode: this.newProduct.code,
+      unit: this.newProduct.unit,
+      quantity: this.newProduct.quantity,
+      price: this.newProduct.price,
+      productBrut: this.newProduct.quantity * this.newProduct.price,
+      productTotal:
+        this.newProduct.quantity * this.newProduct.price +
+        (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
+          100,
     });
-    console.log(this.details)
-    this.product={};
-    this.selectedCategory=undefined;
-    this.selectedProduct=undefined;
-    this.newProduct={};
+    console.log(this.details);
+    this.product = {};
+    this.selectedCategory = undefined;
+    this.selectedProduct = undefined;
+    this.newProduct = {};
     this.getCategories();
   }
 
-  removeDetail(index){
+  removeDetail(index) {
     this.details.splice(index, 1);
   }
   selectCat(a) {
@@ -195,6 +232,7 @@ export class InvoiceFormComponent implements OnInit {
         if (data["status"]) {
           console.log(data);
           this.campaigns = data["campaigns"];
+          console.log(this.campaigns, "campaigns");
         }
       });
   }
@@ -215,7 +253,7 @@ export class InvoiceFormComponent implements OnInit {
       .toPromise()
       .then((data) => {
         if (data["status"]) {
-          console.log(data,"airlines");
+          console.log(data, "airlines");
           this.airlines = data["airlines"];
         }
       });
@@ -244,70 +282,72 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   send() {
-
-
-    if(this.branch==null) {
-      this.branch="Merkez"
+    if (this.branch == null) {
+      this.branch = "Merkez";
     }
 
-
-    if (!this.name){
+    if (!this.name) {
       this.toaster.error("Lütfen Yolcu Adı Giriniz");
-      return
+      return;
     }
-    if (!this.surname){
+    if (!this.surname) {
       this.toaster.error("Lütfen Yolcu Soyadı Giriniz");
-      return
+      return;
     }
-    if (!this.nation){
+    if (!this.nation) {
       this.toaster.error("Lütfen Uyruk Giriniz");
-      return
+      return;
     }
-    if (!this.surname){
+    if (!this.surname) {
       this.toaster.error("Lütfen İsim Giriniz");
-      return
+      return;
     }
-    if (!this.passportNo){
+    if (!this.passportNo) {
       this.toaster.error("Lütfen Pasaport No Giriniz");
-      return
+      return;
     }
-    if (!this.branch){
+    if (!this.branch) {
       this.toaster.error("Lütfen Şube Giriniz");
-      return
+      return;
     }
-    if(this.airlineId)
-    this.airline=this.airlines.find(x => x._id === this.airlineId).name;
-    if(this.campaignId)
-    this.campaign=this.campaigns.find(x => x._id === this.campaignId).name;
-    if(this.agencyId)
-    this.agency=this.agencies.find(x => x._id === this.agencyId).name;
-
+    if (this.airlineId) {
+      this.airline = this.airlines.find((x) => x._id === this.airlineId).name;
+    } else {
+      this.airlineId = undefined;
+    }
+    if (this.campaignId) {
+      this.campaign = this.campaigns.find(
+        (x) => x._id === this.campaignId
+      ).name;
+    } else {
+      this.campaignId = undefined;
+    }
+    if (this.agencyId) {
+      this.agency = this.agencies.find((x) => x._id === this.agencyId).name;
+    } else {
+      this.agencyId = undefined;
+    }
     this.client.name = this.name.toUpperCase();
     this.client.surname = this.surname.toUpperCase();
     this.client.cardNo = this.cardNo;
     this.client.nation = this.nation;
-    this.client.passportNo = this.passportNo.toUpperCase();;
+    this.client.passportNo = this.passportNo.toUpperCase();
     this.client.address = this.address;
     this.client.phone = this.phone;
     this.client.hotel = this.hotel;
-  
-if(this.destCity)
-    this.destCity=this.destCity.toUpperCase();
-    if(this.invoiceSerial)
-    this.invoiceSerial=this.invoiceSerial.toUpperCase();
-    if(this.passportNo)
-    this.passportNo=this.passportNo.toUpperCase();
-    if(this.terminal)
-    this.terminal=this.terminal.toUpperCase();
-    if(this.flight)
-    this.flight=this.flight.toUpperCase();
-    if(this.guide)
-    this.guide=this.guide.toUpperCase();
+
+    if (this.destCity) this.destCity = this.destCity.toUpperCase();
+    if (this.invoiceSerial)
+      this.invoiceSerial = this.invoiceSerial.toUpperCase();
+    if (this.passportNo) this.passportNo = this.passportNo.toUpperCase();
+    if (this.terminal) this.terminal = this.terminal.toUpperCase();
+    if (this.flight) this.flight = this.flight.toUpperCase();
+    if (this.guide) this.guide = this.guide.toUpperCase();
 
     this.restService
       .addInvoice(
         this.convertIsoString(this.invoiceDate),
-        this.company,
+        this.company._id,
         this.branch,
         this.campaign,
         this.shopman,
@@ -329,9 +369,7 @@ if(this.destCity)
         this.details,
         this.agencyId,
         this.campaignId,
-        this.airlineId,
-
-        
+        this.airlineId
       )
       .toPromise()
       .then((data) => {
@@ -348,6 +386,10 @@ if(this.destCity)
     if (date) {
       return new Date(`${date.year}-${date.month}-${date.day}`).toISOString();
     }
+  }
+  selectCompany() {
+    this.company = this.companies.find((x) => x._id === this.selectedCompany);
+    console.log(this.company, "company");
   }
   getCountries() {
     this.countries = [

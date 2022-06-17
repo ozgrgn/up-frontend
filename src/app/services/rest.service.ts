@@ -53,8 +53,6 @@ export class RestService {
     });
   }
 
-
-
   updateCategory(category: any) {
     return this.http.put(
       `${this.apiUrl}/product/category`,
@@ -67,11 +65,11 @@ export class RestService {
     );
   }
 
-  addProduct(category:String,product: String) {
+  addProduct(category: String, product: String) {
     return this.http.post(
       `${this.apiUrl}/product/product/${category}`,
       {
-        product
+        product,
       },
       {
         headers: new HttpHeaders({
@@ -87,7 +85,7 @@ export class RestService {
       }),
     });
   }
-// CAMPAIGNS
+  // CAMPAIGNS
   getCampaigns() {
     return this.http.get(`${this.apiUrl}/others/campaigns`, {
       headers: new HttpHeaders({
@@ -117,65 +115,109 @@ export class RestService {
     });
   }
 
-  
-// CAMPAIGNS
-getReasons() {
-  return this.http.get(`${this.apiUrl}/others/reasons`, {
-    headers: new HttpHeaders({
-      Authorization: localStorage.getItem("token"),
-    }),
-  });
-}
-
-addReason(reason: String) {
-  return this.http.post(
-    `${this.apiUrl}/others/reason`,
-    {
-      reason,
-    },
-    {
+  // Reasons
+  getReasons() {
+    return this.http.get(`${this.apiUrl}/others/reasons`, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem("token"),
       }),
-    }
-  );
-}
-deleteReason(id: any) {
-  return this.http.delete(`${this.apiUrl}/others/reason/${id}`, {
-    headers: new HttpHeaders({
-      Authorization: localStorage.getItem("token"),
-    }),
-  });
-}
+    });
+  }
+
+  addReason(reason: String) {
+    return this.http.post(
+      `${this.apiUrl}/others/reason`,
+      {
+        reason,
+      },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+  deleteReason(id: any) {
+    return this.http.delete(`${this.apiUrl}/others/reason/${id}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+  getAirlines() {
+    return this.http.get(`${this.apiUrl}/others/airlines`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+  getAirports() {
+    return this.http.get(`${this.apiUrl}/others/airports`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+  getAgencies() {
+    return this.http.get(`${this.apiUrl}/others/agencies`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
 
 
-getAirlines() {
-  return this.http.get(`${this.apiUrl}/others/airlines`, {
-    headers: new HttpHeaders({
-      Authorization: localStorage.getItem("token"),
-    }),
-  });
-}
-getAirports() {
-  return this.http.get(`${this.apiUrl}/others/airports`, {
-    headers: new HttpHeaders({
-      Authorization: localStorage.getItem("token"),
-    }),
-  });
-}
-getAgencies() {
-  return this.http.get(`${this.apiUrl}/others/agencies`, {
-    headers: new HttpHeaders({
-      Authorization: localStorage.getItem("token"),
-    }),
-  });
-}
+  getCompanies() {
+    return this.http.get(`${this.apiUrl}/companies`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+
+  addCompany(name: String) {
+    return this.http.post(
+      `${this.apiUrl}/companies`,
+      {
+        name,
+      },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+  getCompany(companyId: String) {
+    return this.http.get(`${this.apiUrl}/companies/${companyId}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+  updateCompany(company: any) {
+    return this.http.put(
+      `${this.apiUrl}/companies/company`,
+      { company },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+
+
+
 
 
   addInvoice(
     invoiceDate?: String,
     company?: String,
-    branch?:String,
+    branch?: String,
     campaign?: String,
     shopman?: String,
     destCountry?: String,
@@ -184,8 +226,8 @@ getAgencies() {
     airport?: Number,
     terminal?: String,
     deparDate?: any,
-    deparTime?:any,
-    invoiceSerial?:String,
+    deparTime?: any,
+    invoiceSerial?: String,
     invoiceNo?: String,
     airline?: String,
     flight?: String,
@@ -196,9 +238,8 @@ getAgencies() {
     details?: any[],
     agencyId?: String,
     campaignId?: String,
-    airlineId?: String,
+    airlineId?: String
   ) {
-    
     return this.http.post(
       `${this.apiUrl}/invoice`,
       {
@@ -240,9 +281,9 @@ getAgencies() {
     skip?: number,
     company?: String,
     branch?: Boolean,
-    invoiceNo?:String,
-    fullName?:String,
-    status?:String,
+    invoiceNo?: String,
+    fullName?: String,
+    status?: String,
     deparDate1?: String,
     deparDate2?: String,
     invoiceDate1?: String,
@@ -256,6 +297,9 @@ getAgencies() {
     }
     if (skip) {
       query.skip = skip;
+    }
+    if (company) {
+      query.company = company;
     }
     if (fullName) {
       query.fullName = fullName;
@@ -281,7 +325,7 @@ getAgencies() {
     if (creator) {
       query.creator = creator;
     }
-
+console.log(company)
     return this.http.get(`${this.apiUrl}/invoice`, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem("token"),
@@ -290,31 +334,28 @@ getAgencies() {
     });
   }
 
-
-
   getInvoice(invoiceId: String) {
-    return this.http.get(`${this.apiUrl}/invoice/${invoiceId}`, {
+    return this.http.get(`${this.apiUrl}/invoice/one/${invoiceId}`, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem("token"),
       }),
     });
   }
 
+  approveInvoice(invoiceId: string, status: String, reason: any,approveDate:any) {
+    console.log(reason);
+    return this.http.post(
+      `${this.apiUrl}/invoice/approved/${invoiceId}`,
+      { status, reason,approveDate },
 
-
-  approveInvoice(invoiceId: string,status:String,reason:any) {
-    console.log(reason)
-    return this.http.post(  `${this.apiUrl}/invoice/approved/${invoiceId}`,
-    { status, reason},
-    
-    {
-      headers: new HttpHeaders({
-        Authorization: localStorage.getItem("token"),
-      }),
-    });
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
   }
-  
-  
+
   updateInvoice(invoice: any) {
     return this.http.put(
       `${this.apiUrl}/invoice/${invoice._id}`,
@@ -335,11 +376,166 @@ getAgencies() {
     });
   }
 
+  getPerformance(
+    company?: String,
+    branch?: Boolean,
+    noPending?: Boolean,
+    year?: String,
+    invoiceDate1?: String,
+    invoiceDate2?: String,
+    approveDate1?: String,
+    approveDate2?: String,
+    deparDate1?: String,
+    deparDate2?: String
+  ) {
+    let query: any = {};
+    if (noPending) {
+      query.noPending = noPending;
+    }
+    if (company) {
+      query.company = company;
+    }
+    if (branch) {
+      query.branch = branch;
+    }
+    if (invoiceDate1) {
+      query.invoiceDate1 = invoiceDate1;
+    }
+    if (invoiceDate2) {
+      query.invoiceDate2 = invoiceDate2;
+    }
+    if (approveDate1) {
+      query.approveDate1 = approveDate1;
+    }
+    if (approveDate2) {
+      query.approveDate2 = approveDate2;
+    }
+    if (deparDate1) {
+      query.deparDate1 = deparDate1;
+    }
+    if (deparDate2) {
+      query.deparDate2 = deparDate2;
+    }
+
+    return this.http.get(`${this.apiUrl}/invoice/performance`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+      params: query,
+    });
+  }
+
+  getProductReports(
+    company?: String,
+    branch?: Boolean,
+    noPending?: Boolean,
+    year?: String,
+    invoiceDate1?: String,
+    invoiceDate2?: String,
+    approveDate1?: String,
+    approveDate2?: String,
+    deparDate1?: String,
+    deparDate2?: String
+  ) {
+    let query: any = {};
+    if (noPending) {
+      query.noPending = noPending;
+    }
+    if (company) {
+      query.company = company;
+    }
+    if (branch) {
+      query.branch = branch;
+    }
+    if (invoiceDate1) {
+      query.invoiceDate1 = invoiceDate1;
+    }
+    if (invoiceDate2) {
+      query.invoiceDate2 = invoiceDate2;
+    }
+    if (approveDate1) {
+      query.approveDate1 = approveDate1;
+    }
+    if (approveDate2) {
+      query.approveDate2 = approveDate2;
+    }
+    if (deparDate1) {
+      query.deparDate1 = deparDate1;
+    }
+    if (deparDate2) {
+      query.deparDate2 = deparDate2;
+    }
+
+    return this.http.get(`${this.apiUrl}/invoice/productreports`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+      params: query,
+    });
+  }
+  getUsers(
+    limit?: number,
+    skip?: number,
+    fullName?: String,
+    company?: Object,
+    status?: Boolean,
+    userType?:String
+   
+  ) {
+    let query: any = {};
+    if (limit) {
+      query.limit = limit;
+    }
+    if (skip) {
+      query.skip = skip;
+    }
+    if (status) {
+      query.status = status;
+    }
+    if (fullName) {
+      query.fullName = fullName;
+    }
+    if (company) {
+      query.group = company;
+    }
+    // if (sort) {
+    //   query.sort = JSON.stringify(sort);
+    // }
+    if (userType) {
+      query.userType = userType;
+    }
+    return this.http.get(`${this.apiUrl}/user`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+      params: query,
+    });
+  }
+
+  deleteUser(id: any) {
+    return this.http.delete(`${this.apiUrl}/user/${id}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
 
 
 
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   updateLawsuit(lawsuit: any) {
     return this.http.put(
       `${this.apiUrl}/lawsuit/${lawsuit._id}`,
@@ -582,17 +778,18 @@ getAgencies() {
     });
   }
 
-  getConflictMeetings(startDate:any,finishDate:any) {
-    console.log(startDate,"rest start")
-    return this.http.get(`${this.apiUrl}/others/conflicts/${startDate}/${finishDate}`, {
-      headers: new HttpHeaders({
-        Authorization: localStorage.getItem("token"),
-      }),
-      params: { startDate,finishDate },
-    });
+  getConflictMeetings(startDate: any, finishDate: any) {
+    console.log(startDate, "rest start");
+    return this.http.get(
+      `${this.apiUrl}/others/conflicts/${startDate}/${finishDate}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+        params: { startDate, finishDate },
+      }
+    );
   }
-
-
 
   getDocumentTypes() {
     return this.http.get(`${this.apiUrl}/document/document-types`, {

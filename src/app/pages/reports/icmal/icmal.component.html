@@ -1,0 +1,269 @@
+<div class="header bg-gradient-primary pb-5 pt-4 pt-md-2">
+    <div class="row title justify-content-center mb-4 mt-3">
+      <h4 class="text-muted text-center">ÜRÜN RAPORU</h4>
+    </div>
+  
+    <div class="container-fluid">
+      <div class="header-body text-center mb-7">
+        <!-- Card stats -->
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <div class="card h-100 card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <!-- <div class="row justify-content-center">
+                    <button
+                      [ngClass]="page == 'onay' ? 'btn-primary' : 'btn-secondary'"
+                      class="btn btn-sm mb-2"
+                      (click)="
+                        page = 'onay'; status = 'PENDING'; skip = 0; getInvoices()
+                      "
+                    >
+                      ONAY BEKLEYEN FATURALAR
+                    </button>
+                    <button
+                      [ngClass]="page == 'all' ? 'btn-primary' : 'btn-secondary'"
+                      class="btn btn-sm mb-2"
+                      (click)="
+                        page = 'all'; status = undefined; skip = 0; getInvoices()
+                      "
+                    >
+                      TÜM FATURALAR
+                    </button>
+                  </div> -->
+                <div class="row justify-content-center pt-2">
+                  <!-- <input
+                      style="width: 100px"
+                      placeholder="İsim Arama"
+                      type="text"
+                      class="form-control form-control-sm text-justify centered mr-2"
+                      [(ngModel)]="fullName"
+                      (input)="getInvoices()"
+                    /> -->
+                                      
+              <!-- <div *ngIf="perm=='SUPERADMIN'" class="col-2">
+                <select style="width:100%;"
+                class="form-control-sm form-control "
+                [(ngModel)]="noPending"
+                (change)="getInvoices()"
+              >
+              <option [ngValue] ="false" >
+                TÜM FATURALAR
+               </option>
+              <option [ngValue] ="true" >
+               ONAYLI + ONAYSIZ
+              </option>
+                
+              </select>
+              </div> -->
+              <!-- <div *ngIf="perm=='SUPERADMIN'" class="col-2">
+                <select style="width:100%;"
+                class="form-control-sm form-control "
+                [(ngModel)]="selectedCompany"
+                (change)="branch=undefined; getInvoices()"
+              >
+              <option [ngValue] ="undefined" >
+                TÜM FİRMALAR
+              </option>
+                <option *ngFor="let u of companies" [value]="u._id">
+                  {{ u.name }}
+                </option>
+              </select>
+              <!-- <h3>{{company?.name}}</h3> -->
+              <!-- </div> -->
+              <div class="col-2">
+                  <select style="width:100%;" 
+                    class="form-control-sm form-control "
+                    [(ngModel)]="branch"
+                    (change)="getInvoices()"
+                  >
+                  <option [ngValue] ="undefined" >
+                    TÜM ŞUBELER
+                  </option >
+                  <ng-container *ngIf="company.branches">
+                  
+                    <option *ngFor="let u of company.branches" [value]="u.name">
+                      {{ u.name }}
+                    </option>
+                  </ng-container>
+                  </select>
+                </div> -->
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="invoiceDate"
+                    (dataEvent)="getInvoices()"
+                    (resetDateBind)="resetDate('invoiceDate')"
+                    placeholder="Fatura Tarihi"
+                  ></app-date-range-picker>
+                </div>
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="approveDate"
+                    (dataEvent)="getInvoices()"
+                    (resetDateBind)="resetDate('approveDate')"
+                    placeholder="Onay Tarihi"
+                  ></app-date-range-picker>
+                </div>
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="deparDate"
+                    (dataEvent)="getInvoices()"
+                    (resetDateBind)="resetDate('deparDate')"
+                    placeholder="Çıkış Tarihi"
+                  ></app-date-range-picker>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Page content -->
+  <div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+      <div class="col">
+        <div class="card shadow">
+          <!-- <div class="card-header pt-1 border-0">
+              <h3 *ngIf="page == 'all'" class="mb-0">TÜM FATURALAR</h3>
+            </div> -->
+          <div class="table-responsive">
+            <table *ngIf="!loading" class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-dark" scope="col">KATEGORİ</th>
+                  <th class="text-dark" scope="col">ÜRÜN</th>
+                  <th class="text-dark" scope="col">FATURA SAYISI</th>
+                  <th class="text-dark" scope="col">ÜRÜN SAYISI</th>
+                  <th class="text-dark" scope="col">MATRAH</th>
+                  <th class="text-dark" scope="col">KDV</th>
+                  <th class="text-dark" scope="col">TOPLAM</th>
+                </tr>
+              </thead>
+              <tbody>
+                 
+                    <ng-container *ngFor="let invoice of invoices" >
+                    <tr  >
+
+                        <td>
+                          {{invoice._id}}
+                        </td>
+                    </tr>
+                        
+                  </ng-container>
+                
+                  
+     
+     
+                <!-- <tr *ngFor="let invoice of invoices">
+                    
+                    <td>
+                      <i class="fa fa-building primary"></i> {{ invoice.company }}<br /><br />
+                      <i class="fa fa-store primary"></i> {{ invoice.branch }}
+                    </td>
+                    <td>
+                      <i class="fa fa-file-invoice primary"></i> {{ invoice.invoiceMerged }}
+                      <br /><br />
+                      <i class="fa fa-calendar primary"></i> {{ invoice.invoiceDate | date: "dd/MM/yyyy"  }}
+                    </td>
+                    <td>
+                      <i class="fa fa-user primary"></i> {{ invoice.fullName }} <br /><br />
+                      <i class="fa fa-passport primary"></i> {{ invoice.client.passportNo }}
+                    </td>
+                    <td>
+                      <i class="fa fa-plane-arrival primary"></i>  {{ invoice.destCountry }} <br /><br />
+                      <i class="fa fa-plane-arrival primary"></i> {{ invoice.destCity }}
+                    </td>
+                    <td>
+                      <i class="fa fa-plane-departure primary"></i> {{ invoice.airline }} <br /><br />
+                      <i class="fa fa-plane-departure primary"></i> {{ invoice.flight }}
+                    </td>
+                    <td>
+                      <i class="fa fa-calendar-check primary"></i>  {{ invoice.deparDate | date: "dd/MM/yyyy" }} <br /><br />
+                      <i class="fa fa-clock primary"></i> {{ invoice.deparTime }}
+                    </td>
+                    <td class="note br_zero"> <span *ngIf="invoice.campaign"> {{ invoice.campaign  }} </span><br />
+                      {{ invoice.note }}
+                    </td>
+                    <td  *ngIf="page!='onay'">
+                      <span
+                      (click)="open(changeStatus, '', 'sm', invoice._id)"
+                      style="cursor:pointer;"
+                        class="badge w-100 "
+                        
+                        [ngClass]="invoice.status == 'CONFIRMED'?'badge-success':invoice.status == 'DECLINE'?'badge-danger':'badge-default'"
+                        >{{invoice.status == 'CONFIRMED'?'ONAYLI':invoice.status == 'DECLINE'?'ONAYSIZ':'BEKLEMEDE'}}</span
+                      >
+                    </td>
+                    <td class="br_zero">
+                      <button
+                        class="btn btn-sm btn-secondary w-100 mb-2 mr-0"
+                        [routerLink]="['/invoice-edit', invoice._id]"
+                      >
+                        Düzenle
+                      </button>
+                      <br />
+                      <button
+                        *ngIf="page == 'onay'"
+                        class="btn btn-sm btn-success btn-3"
+                       
+                        (click)="open(approve, '', 'sm', invoice._id)"
+                      >
+                        Onay
+                      </button>
+                      <button *ngIf="page=='onay'"
+                        class="btn btn-sm btn-danger btn-3"
+                     
+                        (click)="open(cancel, '', 'sm', invoice._id)"
+                      >
+                        İptal
+                      </button>
+                    </td>
+                  </tr> -->
+              </tbody>
+            </table>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #approve let-c="close" let-d="dismiss">
+    <div class="modal-content">
+      <div class="modal-header text-muted text-center pt-3">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="d('Cross click')"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        Bu Faturayı Onaylamak İstediğinizden Emin misiniz?
+      </div>
+  
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="approveInvoice(); d('Cross click')"
+        >
+          ONAYLA
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="d('Cross click')"
+        >
+          VAZGEÇ
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  

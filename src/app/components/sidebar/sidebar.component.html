@@ -83,28 +83,36 @@
       <!-- Heading -->
       <h6 class="navbar-heading text-muted">Raporlar</h6>
       <!-- Navigation -->
-      <!-- <ul class="navbar-nav mb-md-3">
+      <ul class="navbar-nav mb-md-3">
         <li class="nav-item">
           <a
             class="nav-link"
-            [routerLink]="['/case-report']"
+            [routerLink]="['/performance-reports']"
             routerLinkActive="router-link-active"
             (click)="toggleSide()"
           >
-            <i class="fas fa-folder-open text-primary"></i> Dosya Raporu
+            <i class="fas fa-folder-open text-primary"></i> Performans Raporu
           </a>
+          <a
+          class="nav-link"
+          [routerLink]="['/product-reports']"
+          routerLinkActive="router-link-active"
+          (click)="toggleSide()"
+        >
+          <i class="fas fa-folder-open text-primary"></i> Ürün Raporu
+        </a>
         </li>
-      </ul> -->
+      </ul>
       
       <!-- Divider -->
       <hr class="my-3" />
       <!-- Heading -->
-      <div *ngIf="perm=='ADMIN'">
+      <div *ngIf="perm=='SUPERADMIN'">
       <h6 class="navbar-heading text-muted">YÖNETİM</h6>
     </div>
       <!-- Navigation -->
       <ul  class="navbar-nav mb-md-3">
-        <li *ngIf="perm=='ADMIN'" class="nav-item">
+        <li *ngIf="perm=='SUPERADMIN'" class="nav-item">
           <a
             class="nav-link"
             [routerLink]="['/products']"
@@ -114,7 +122,7 @@
             <i class="ni ni-bag-17 text-primary"></i> Ürünler
           </a>
         </li>
-        <li *ngIf="perm=='ADMIN'" class="nav-item">
+        <li *ngIf="perm=='SUPERADMIN'" class="nav-item">
           <a
             class="nav-link"
             [routerLink]="['/general-settings']"
@@ -124,6 +132,17 @@
             <i class="ni ni-settings-gear-65 text-primary"></i> Genel Ayarlar
           </a>
         </li>
+        <li *ngIf="perm=='SUPERADMIN'" class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/user-list']"
+            routerLinkActive="router-link-active"
+            
+          >
+            <i class="ni ni-settings-gear-65 text-primary"></i> Kullanıcı Ayarları
+          </a>
+        </li>
+
 
 
         <li class="nav-item">
