@@ -24,6 +24,7 @@ export class InvoiceEditComponent implements OnInit {
   airlines: any;
   airports: any;
   ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
+  terminals:any=["AYT-1", "AYT-2"];
   countries: any;
   campaigns: any;
   product: any;
@@ -170,6 +171,39 @@ export class InvoiceEditComponent implements OnInit {
       });
   }
   send() {
+    if (!this.invoice.company || !this.invoice.company._id) {
+      this.toaster.error("Lütfen Şirket Seçiniz");
+      return;
+    }
+    if (!this.invoice.branch) {
+      this.toaster.error("Lütfen Şube Seçiniz");
+      return;
+    }
+    if (!this.invoice.invoiceSerial) {
+      this.toaster.error("Lütfen Fatura Seri No Giriniz");
+      return;
+    }
+    if (!this.invoice.invoiceNo) {
+      this.toaster.error("Lütfen Fatura No Giriniz");
+      return;
+    }
+    if (!this.invoice.client.name) {
+      this.toaster.error("Lütfen Yolcu Adı Giriniz");
+      return;
+    }
+    if (!this.invoice.client.surname) {
+      this.toaster.error("Lütfen Yolcu Soyadı Giriniz");
+      return;
+    }
+    if (!this.invoice.client.nation) {
+      this.toaster.error("Lütfen Uyruk Giriniz");
+      return;
+    }
+    if (!this.invoice.client.passportNo) {
+      this.toaster.error("Lütfen Pasaport No Giriniz");
+      return;
+    }
+
     if (this.invoice.airlineId && this.invoice.airlineId != this.oldAirlineId) {
       this.invoice.airline = this.airlines.find(
         (x) => x._id === this.invoice.airlineId
@@ -206,8 +240,7 @@ export class InvoiceEditComponent implements OnInit {
       this.invoice.destCity = this.invoice.destCity.toUpperCase();
     if (this.invoice.invoiceSerial)
       this.invoice.invoiceSerial = this.invoice.invoiceSerial.toUpperCase();
-    if (this.invoice.terminal)
-      this.invoice.terminal = this.invoice.terminal.toUpperCase();
+
     if (this.invoice.flight)
       this.invoice.flight = this.invoice.flight.toUpperCase();
     if (this.invoice.guide)

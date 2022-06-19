@@ -108,7 +108,7 @@
                           (change)="selectCompany()"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option value=null disabled="disabled">
+                          <option value="null" disabled="disabled">
                             Firma
                           </option>
 
@@ -122,7 +122,7 @@
                       </div>
                     </div>
                     <div
-                      class="form-group "
+                      class="form-group"
                       [ngClass]="{ focused: focus3 === true }"
                       [class.col-6]="perm == 'SUPERADMIN'"
                       [class.col-12]="perm != 'SUPERADMIN'"
@@ -157,7 +157,7 @@
                         onkeyup="this.value = this.value.toUpperCase();"
                         [class.firstColor]="!campaignId"
                       >
-                        <option value=null disabled="disabled">
+                        <option value="null" disabled="disabled">
                           Kampanya Seç
                         </option>
 
@@ -244,7 +244,7 @@
                           [(ngModel)]="nation"
                           [class.firstColor]="!nation"
                         >
-                          <option value=null disabled="disabled">
+                          <option value="null" disabled="disabled">
                             Uyruk
                           </option>
 
@@ -324,6 +324,7 @@
                     </div>
                   </div>
                 </div>
+                
                 <div class="col-12 col-md-4">
                   <h6 class="heading-small text-muted mb-4 text-center">
                     YOLCU ÇIKIŞ BİLGİLERİ
@@ -340,9 +341,7 @@
                           [(ngModel)]="destCountry"
                           [class.firstColor]="!destCountry"
                         >
-                          <option value=null disabled="disabled">
-                            Ülke
-                          </option>
+                          <option value="null" disabled="disabled">Ülke</option>
 
                           <option
                             *ngFor="let country of countries"
@@ -384,7 +383,7 @@
                         [class.firstColor]="!way"
                         onkeyup="this.value = this.value.toUpperCase();"
                       >
-                        <option [value]=null disabled="disabled">
+                        <option [value]="null" disabled="disabled">
                           Ulaşım Şekli
                         </option>
 
@@ -406,7 +405,7 @@
                           [class.firstColor]="!airport"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]=null disabled="disabled">
+                          <option [value]="null" disabled="disabled">
                             Varış H.alanı
                           </option>
 
@@ -424,20 +423,22 @@
                       [ngClass]="{ focused: focus17 === true }"
                     >
                       <div class="input-group input-group-alternative">
-                        <input
+                        <select
                           class="form-control form-control-alternative"
-                          placeholder="Terminal"
-                          type="text"
-                          name="Terminal"
                           [(ngModel)]="terminal"
-                          onkeyup="this.value = this.value.toUpperCase();"
-                          (focus)="focus1 = true"
-                          (blur)="focus1 = false"
-                        />
+                          [class.firstColor]="!terminal"
+                        >
+                          <option [value]="undefined" disabled="disabled">
+                            Terminal
+                          </option>
+
+                          <option *ngFor="let t of terminals" [value]="t">
+                            {{ t }}
+                          </option>
+                        </select>
                       </div>
                     </div>
                   </div>
-
                   <div class="row p-0 m-0">
                     <div
                       class="form-group col-6"
@@ -488,7 +489,7 @@
                           [class.firstColor]="!airlineId"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]=null disabled="disabled">
+                          <option [value]="null" disabled="disabled">
                             Uçak Şirketi
                           </option>
 
@@ -521,73 +522,74 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-12 col-md-4">
-                  <div class="row p-0 m-0">
-                    <div
-                      class="form-group col-6"
-                      [ngClass]="{ focused: focus22 === true }"
-                    >
-                      <div class="input-group input-group-alternative">
-                        <select
-                          class="form-control form-control-alternative"
-                          [(ngModel)]="agencyId"
-                          [class.firstColor]="!agencyId"
-                          onkeyup="this.value = this.value.toUpperCase();"
-                        >
-                          <option value=null disabled="disabled">
-                            Acente
-                          </option>
-
-                          <option
-                            *ngFor="let agency of agencies"
-                            [value]="agency._id"
+                <div class="row">
+                  <div class="col-12 col-md-4">
+                    <div class="row p-0 m-0">
+                      <div
+                        class="form-group col-6"
+                        [ngClass]="{ focused: focus22 === true }"
+                      >
+                        <div class="input-group input-group-alternative">
+                          <select
+                            class="form-control form-control-alternative"
+                            [(ngModel)]="agencyId"
+                            [class.firstColor]="!agencyId"
+                            onkeyup="this.value = this.value.toUpperCase();"
                           >
-                            {{ agency.name }}
-                          </option>
-                        </select>
+                            <option value="null" disabled="disabled">
+                              Acente
+                            </option>
+
+                            <option
+                              *ngFor="let agency of agencies"
+                              [value]="agency._id"
+                            >
+                              {{ agency.name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div
+                        class="form-group col-6"
+                        [ngClass]="{ focused: focus23 === true }"
+                      >
+                        <div class="input-group input-group-alternative">
+                          <input
+                            class="form-control form-control-alternative"
+                            placeholder="Rehber"
+                            type="text"
+                            name="guide"
+                            [(ngModel)]="guide"
+                            onkeyup="this.value = this.value.toUpperCase();"
+                            (focus)="focus23 = true"
+                            (blur)="focus23 = false"
+                          />
+                        </div>
                       </div>
                     </div>
-
+                  </div>
+                  <div class="col-8">
                     <div
-                      class="form-group col-6"
-                      [ngClass]="{ focused: focus23 === true }"
+                      class="form-group col-12"
+                      [ngClass]="{ focused: focus24 === true }"
                     >
                       <div class="input-group input-group-alternative">
-                        <input
+                        <textarea
                           class="form-control form-control-alternative"
-                          placeholder="Rehber"
-                          type="text"
-                          name="guide"
-                          [(ngModel)]="guide"
-                          onkeyup="this.value = this.value.toUpperCase();"
-                          (focus)="focus23 = true"
-                          (blur)="focus23 = false"
-                        />
+                          placeholder="Notlar"
+                          type=""
+                          name="notes"
+                          rows="1"
+                          [(ngModel)]="note"
+                          (focus)="focus24 = true"
+                          (blur)="focus24 = false"
+                        ></textarea>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-8">
-                  <div
-                    class="form-group col-12"
-                    [ngClass]="{ focused: focus24 === true }"
-                  >
-                    <div class="input-group input-group-alternative">
-                      <textarea
-                        class="form-control form-control-alternative"
-                        placeholder="Notlar"
-                        type=""
-                        name="notes"
-                        rows="1"
-                        [(ngModel)]="note"
-                        (focus)="focus24 = true"
-                        (blur)="focus24 = false"
-                      ></textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </form>
           </div>
           <div class="card-body pt-2">

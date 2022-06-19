@@ -226,6 +226,22 @@
           (focus)="focus = true"
           (blur)="focus = false"
         />
+        
+      </div>
+      <div class="form-group centerli ">
+        <label class="form-control-label "
+          >Onay No</label
+        >
+        <input
+        class="form-control form-control-alternative w-50"
+        placeholder="Onay No"
+        type="text"
+        name="onayno"
+        [(ngModel)]="approveNo"
+        (focus)="focus5 = true"
+        (blur)="focus5 = false"
+      />
+        
       </div>
     </div>
 
@@ -262,7 +278,44 @@
       </button>
     </div>
     <div class="modal-body text-center">
-      Bu Faturayı Onaylamamak İstediğinizden Emin misiniz?
+      <div  class="form-group centerli mt-3">
+        <label class="form-control-label "
+          >Onaylanmama Tarihi</label
+        >
+        <input
+          class="form-control form-control-alternative datepicker w-50 "
+          placeholder="Tarih Seçiniz"
+          name="dp6"
+          [(ngModel)]="declineDate"
+          ngbDatepicker
+          #d6="ngbDatepicker"
+          (click)="d6.toggle()"
+          type="text"
+          autocomplete="off"
+          (focus)="focus = true"
+          (blur)="focus = false"
+        />
+      </div>
+      <div  class="form-group centerli ">
+        <label class="form-control-label "
+          >Onaylanmama Sebebi</label
+        >
+        <select
+        class="form-control form-control-alternative w-50"
+       [(ngModel)]="newReason"
+        name="newReason"
+      >
+        <option value=undefined disabled="disabled">
+          Onaylanmama Sebebi
+        </option>
+
+        <option *ngFor="let reason of reasons" [value]="reason._id">
+          {{reason.name}}
+        </option>
+
+      </select>
+        
+      </div>
     </div>
 
 
@@ -339,6 +392,59 @@
           (focus)="focus = true"
           (blur)="focus = false"
         />
+      </div>
+      <div *ngIf="newStatus=='CONFIRMED'" class="form-group centerli ">
+        <label class="form-control-label "
+          >Onay No</label
+        >
+        <input
+        class="form-control form-control-alternative w-50"
+        placeholder="Onay No"
+        type="text"
+        name="onayno"
+        [(ngModel)]="approveNo"
+        (focus)="focus5 = true"
+        (blur)="focus5 = false"
+      />
+        
+      </div>
+      <div *ngIf="newStatus=='DECLINED'" class="form-group centerli mt-3">
+        <label class="form-control-label "
+          >Onaylanmama Tarihi</label
+        >
+        <input
+          class="form-control form-control-alternative datepicker w-50 "
+          placeholder="Tarih Seçiniz"
+          name="dp6"
+          [(ngModel)]="declineDate"
+          ngbDatepicker
+          #d6="ngbDatepicker"
+          (click)="d6.toggle()"
+          type="text"
+          autocomplete="off"
+          (focus)="focus = true"
+          (blur)="focus = false"
+        />
+      </div>
+      <div *ngIf="newStatus=='DECLINED'" class="form-group centerli ">
+        <label class="form-control-label "
+          >Onaylanmama Sebebi</label
+        >
+        <select
+        class="form-control form-control-alternative w-50"
+       [(ngModel)]="newReason"
+        name="newReason"
+      >
+        <option value=undefined disabled="disabled">
+          Onaylanmama Sebebi
+        </option>
+
+        <option *ngFor="let reason of reasons" [value]="reason._id">
+          {{reason.name}}
+        </option>
+
+      </select>
+        
       </div>
     </div>
 

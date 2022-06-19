@@ -342,11 +342,11 @@ console.log(company)
     });
   }
 
-  approveInvoice(invoiceId: string, status: String, reason: any,approveDate:any) {
-    console.log(reason);
+  approveInvoice(invoiceId?: string, status?: String, reasonId?: any, declineDate?:any, approveDate?:any, approveNo?:any) {
+
     return this.http.post(
       `${this.apiUrl}/invoice/approved/${invoiceId}`,
-      { status, reason,approveDate },
+      { status, reasonId,declineDate,approveDate,approveNo },
 
       {
         headers: new HttpHeaders({
@@ -473,6 +473,71 @@ console.log(company)
       params: query,
     });
   }
+
+  getIcmal(
+    limit?: number,
+    skip?: number,
+    company?: String,
+    branch?: Boolean,
+    invoiceNo?: String,
+    fullName?: String,
+    status?: String,
+    deparDate1?: String,
+    deparDate2?: String,
+    approveDate1?: String,
+    approveDate2?: String,
+    invoiceDate1?: String,
+    invoiceDate2?: String,
+    sort?: Object,
+    creator?: String
+  ) {
+    let query: any = {};
+    if (limit) {
+      query.limit = limit;
+    }
+    if (skip) {
+      query.skip = skip;
+    }
+    if (company) {
+      query.company = company;
+    }
+    if (fullName) {
+      query.fullName = fullName;
+    }
+    if (status) {
+      query.status = status;
+    }
+    if (deparDate1) {
+      query.deparDate1 = deparDate1;
+    }
+    if (deparDate2) {
+      query.deparDate2 = deparDate2;
+    }
+    if (invoiceDate1) {
+      query.invoiceDate1 = invoiceDate1;
+    }
+    if (invoiceDate2) {
+      query.invoiceDate2 = invoiceDate2;
+    }
+    if (approveDate1) {
+      query.approveDate1 = approveDate1;
+    }
+    if (approveDate2) {
+      query.approveDate2 = approveDate2;
+    }
+    if (sort) {
+      query.sort = JSON.stringify(sort);
+    }
+
+console.log(company)
+    return this.http.get(`${this.apiUrl}/invoice/icmal`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+      params: query,
+    });
+  }
+
   getUsers(
     limit?: number,
     skip?: number,

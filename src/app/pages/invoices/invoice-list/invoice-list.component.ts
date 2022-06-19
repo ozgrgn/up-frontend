@@ -25,10 +25,14 @@ export class InvoiceListComponent implements OnInit {
   invoices: any;
   selectedInvoiceID: any;
   reasons: any;
-  reason: any = {};
+  reason: any = {};  
+  declineDate:any;
   status: any = "PENDING";
   newStatus: any;
+  newReason:any;
   approveDate: any;
+
+  approveNo:any;
   invoiceDate: DaterangeModel = {} as DaterangeModel;
   dateRange2: DaterangeModel = {} as DaterangeModel;
   perm: any;
@@ -137,8 +141,10 @@ export class InvoiceListComponent implements OnInit {
     this.getData();
   }
   approveInvoice() {
-    if (!this.approveDate) {
-      this.toaster.error("Onaylandığı Tarihi Girmelisiniz");
+    this.declineDate=null;
+    this.newReason=null
+    if (!this.approveDate ||  !this.approveNo) {
+      this.toaster.error("Onaylandığı Tarihi ve Onay Nosunu Girmelisiniz");
       return;
     }
     this.restService
@@ -146,49 +152,81 @@ export class InvoiceListComponent implements OnInit {
         this.selectedInvoiceID,
         "CONFIRMED",
         undefined,
-        this.convertIsoString(this.approveDate)
+        undefined,
+        this.convertIsoString(this.approveDate),
+        this.approveNo
       )
       .toPromise()
       .then((data) => {
         if (data["status"]) {
           this.toaster.success("Fatura Onaylandı!");
+          this.approveDate =  null;
+          this.approveNo = null;
+          this.getData();
         }
       });
   }
   disapproveInvoice() {
+    if(!this.newReason || !this.declineDate) {
+      this.toaster.error("Onaylanmama Sebebini ve Tarihini Girmelisiniz");
+      return;
+    }
+    this.approveDate=null
+    this.approveNo=null
     console.log(this.reason.name);
     this.restService
       .approveInvoice(
         this.selectedInvoiceID,
         "DECLINED",
-        this.reason.name,
+        this.newReason,
+       this.convertIsoString(this.declineDate),
         undefined
       )
       .toPromise()
       .then((data) => {
+        if (data["status"]) {
         this.toaster.success("Fatura İptal Edildi!");
-        this.reason = {};
+        this.declineDate=null;
+        this.newReason=null
         this.getData();
+        }
       });
   }
   changeInvStatus() {
     console.log(this.newStatus, "newstatus");
     if (this.newStatus == "CONFIRMED") {
-      if (!this.approveDate) {
-        this.toaster.error("Onaylandığı Tarihi Girmelisiniz");
+      if (!this.approveDate || !this.approveNo ) {
+        this.toaster.error("Onay No ve Onay Tarihi Girmelisiniz");
         return;
       } else {
         this.approveDate = this.convertIsoString(this.approveDate);
       }
-    } else {
+      this.declineDate =  null;
+      this.newReason = null;
+
+    } else if (this.newStatus == "DECLINED") {
+      if(!this.newReason || !this.declineDate) {
+        this.toaster.error("Onaylanmama Sebebini ve Tarihini Girmelisiniz");
+        return;
+      }
+      this.declineDate = this.convertIsoString(this.declineDate);
       this.approveDate =  null;
+      this.approveNo = null;
+    }
+    else {
+      this.approveDate =  null;
+      this.approveNo = null;
+      this.declineDate =  null;
+      this.newReason = null;
     }
     this.restService
       .approveInvoice(
         this.selectedInvoiceID,
         this.newStatus,
-        undefined,
-        this.approveDate
+        this.newReason,
+        this.declineDate,
+        this.approveDate,
+        this.approveNo
       )
       .toPromise()
       .then((data) => {
@@ -197,7 +235,11 @@ export class InvoiceListComponent implements OnInit {
 
         this.modalService.dismissAll();
         this.getData();
-        this.approveDate = undefined;}
+        this.approveDate = undefined;
+        this.declineDate =  undefined;
+        this.approveNo = undefined;
+        this.newReason = undefined;
+      }
       });
   }
   resetDate(valueName: string) {

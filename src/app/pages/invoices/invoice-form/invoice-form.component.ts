@@ -11,8 +11,8 @@ import { RestService } from "src/app/services/rest.service";
   styleUrls: ["./invoice-form.component.scss"],
 })
 export class InvoiceFormComponent implements OnInit {
-  company: any;
-  branch: any = "all";
+  company: any = {};
+  branch: any;
   name: any;
   surname: any;
   invoiceDate: any;
@@ -59,6 +59,7 @@ export class InvoiceFormComponent implements OnInit {
   campaignId: any = null;
   ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
   way: any = undefined;
+  terminals:any=["AYT-1", "AYT-2"];
   details: any = [];
   client: any = {};
   companies: any;
@@ -119,6 +120,8 @@ export class InvoiceFormComponent implements OnInit {
                 console.log(this.company, "company");
               }
             });
+        } else {
+          this.company={}
         }
       });
     this.category._id = null;
@@ -282,10 +285,23 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   send() {
-    if (this.branch == null) {
-      this.branch = "Merkez";
+    console.log(this.company,"0*0*0*")
+    if (!this.company || !this.company._id) {
+      this.toaster.error("Lütfen Şirket Seçiniz");
+      return;
     }
-
+    if (!this.branch) {
+      this.toaster.error("Lütfen Şube Seçiniz");
+      return;
+    }
+    if (!this.invoiceSerial) {
+      this.toaster.error("Lütfen Fatura Seri No Giriniz");
+      return;
+    }
+    if (!this.invoiceNo) {
+      this.toaster.error("Lütfen Fatura No Giriniz");
+      return;
+    }
     if (!this.name) {
       this.toaster.error("Lütfen Yolcu Adı Giriniz");
       return;
@@ -298,18 +314,12 @@ export class InvoiceFormComponent implements OnInit {
       this.toaster.error("Lütfen Uyruk Giriniz");
       return;
     }
-    if (!this.surname) {
-      this.toaster.error("Lütfen İsim Giriniz");
-      return;
-    }
+
     if (!this.passportNo) {
       this.toaster.error("Lütfen Pasaport No Giriniz");
       return;
     }
-    if (!this.branch) {
-      this.toaster.error("Lütfen Şube Giriniz");
-      return;
-    }
+
     if (this.airlineId) {
       this.airline = this.airlines.find((x) => x._id === this.airlineId).name;
     } else {

@@ -1,6 +1,6 @@
 <div class="header bg-gradient-primary pb-5 pt-4 pt-md-2">
     <div class="row title justify-content-center mb-4 mt-3">
-      <h4 class="text-muted text-center">ÜRÜN RAPORU</h4>
+      <h4 class="text-muted text-center">İCMAL RAPORU</h4>
     </div>
   
     <div class="container-fluid">
@@ -15,7 +15,7 @@
                       [ngClass]="page == 'onay' ? 'btn-primary' : 'btn-secondary'"
                       class="btn btn-sm mb-2"
                       (click)="
-                        page = 'onay'; status = 'PENDING'; skip = 0; getInvoices()
+                        page = 'onay'; status = 'PENDING'; skip = 0; getIcmal()
                       "
                     >
                       ONAY BEKLEYEN FATURALAR
@@ -24,7 +24,7 @@
                       [ngClass]="page == 'all' ? 'btn-primary' : 'btn-secondary'"
                       class="btn btn-sm mb-2"
                       (click)="
-                        page = 'all'; status = undefined; skip = 0; getInvoices()
+                        page = 'all'; status = undefined; skip = 0; getIcmal()
                       "
                     >
                       TÜM FATURALAR
@@ -37,14 +37,14 @@
                       type="text"
                       class="form-control form-control-sm text-justify centered mr-2"
                       [(ngModel)]="fullName"
-                      (input)="getInvoices()"
+                      (input)="getIcmal()"
                     /> -->
                                       
               <!-- <div *ngIf="perm=='SUPERADMIN'" class="col-2">
                 <select style="width:100%;"
                 class="form-control-sm form-control "
                 [(ngModel)]="noPending"
-                (change)="getInvoices()"
+                (change)="getIcmal()"
               >
               <option [ngValue] ="false" >
                 TÜM FATURALAR
@@ -55,11 +55,11 @@
                 
               </select>
               </div> -->
-              <!-- <div *ngIf="perm=='SUPERADMIN'" class="col-2">
+              <div *ngIf="perm=='SUPERADMIN'" class="col-2">
                 <select style="width:100%;"
                 class="form-control-sm form-control "
                 [(ngModel)]="selectedCompany"
-                (change)="branch=undefined; getInvoices()"
+                (change)="branch=undefined; getIcmal()"
               >
               <option [ngValue] ="undefined" >
                 TÜM FİRMALAR
@@ -68,13 +68,13 @@
                   {{ u.name }}
                 </option>
               </select>
-              <!-- <h3>{{company?.name}}</h3> -->
-              <!-- </div> -->
+              <h3>{{company?.name}}</h3>
+               </div> 
               <div class="col-2">
                   <select style="width:100%;" 
                     class="form-control-sm form-control "
                     [(ngModel)]="branch"
-                    (change)="getInvoices()"
+                    (change)="getIcmal()"
                   >
                   <option [ngValue] ="undefined" >
                     TÜM ŞUBELER
@@ -86,11 +86,11 @@
                     </option>
                   </ng-container>
                   </select>
-                </div> -->
+                </div> 
                 <div class="col-2">
                   <app-date-range-picker
                     [(value)]="invoiceDate"
-                    (dataEvent)="getInvoices()"
+                    (dataEvent)="getIcmal()"
                     (resetDateBind)="resetDate('invoiceDate')"
                     placeholder="Fatura Tarihi"
                   ></app-date-range-picker>
@@ -98,7 +98,7 @@
                 <div class="col-2">
                   <app-date-range-picker
                     [(value)]="approveDate"
-                    (dataEvent)="getInvoices()"
+                    (dataEvent)="getIcmal()"
                     (resetDateBind)="resetDate('approveDate')"
                     placeholder="Onay Tarihi"
                   ></app-date-range-picker>
@@ -106,12 +106,19 @@
                 <div class="col-2">
                   <app-date-range-picker
                     [(value)]="deparDate"
-                    (dataEvent)="getInvoices()"
+                    (dataEvent)="getIcmal()"
                     (resetDateBind)="resetDate('deparDate')"
                     placeholder="Çıkış Tarihi"
                   ></app-date-range-picker>
                 </div>
                 </div>
+                <input
+                style="width: 350px"
+                type="button"
+                value="Excel"
+                class="btn btn-success mt-0 m-1"
+                (click)="exportexcel()"
+              />
               </div>
             </div>
           </div>
@@ -129,26 +136,67 @@
               <h3 *ngIf="page == 'all'" class="mb-0">TÜM FATURALAR</h3>
             </div> -->
           <div class="table-responsive">
-            <table *ngIf="!loading" class="table align-items-center table-flush">
+            <table id="excel-table" *ngIf="!loading" class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
-                  <th class="text-dark" scope="col">KATEGORİ</th>
-                  <th class="text-dark" scope="col">ÜRÜN</th>
-                  <th class="text-dark" scope="col">FATURA SAYISI</th>
-                  <th class="text-dark" scope="col">ÜRÜN SAYISI</th>
-                  <th class="text-dark" scope="col">MATRAH</th>
-                  <th class="text-dark" scope="col">KDV</th>
-                  <th class="text-dark" scope="col">TOPLAM</th>
+                  <th class="text-dark" scope="col">Sıra</th>
+                  <th class="text-dark" scope="col">Seri</th>
+                  <th class="text-dark" scope="col">Fatura No</th>
+                  <th class="text-dark" scope="col">Fatura Tarih</th>
+                  <th class="text-dark" scope="col">İade Tarihi</th>
+                  <th class="text-dark" scope="col">Ülkesi</th>
+                  <th class="text-dark" scope="col">Turist Adı</th>
+                  <th class="text-dark" scope="col">Antalya Hava Limanı Gümrük Md.</th>
+                  <th class="text-dark" scope="col">Onay Tarihi</th>
+                  <th class="text-dark" scope="col">Onay No</th>
+                  <th class="text-dark" scope="col">Kdv Matrahı</th>
+                  <th class="text-dark" scope="col">Kdv Tutarı</th>
+                  <th class="text-dark" scope="col">Genel Toplam</th>
                 </tr>
               </thead>
               <tbody>
                  
-                    <ng-container *ngFor="let invoice of invoices" >
+                    <ng-container *ngFor="let invoice of invoices; let i=index" >
                     <tr  >
-
                         <td>
-                          {{invoice._id}}
+                            {{i+1}}
+                          </td>
+                        <td>
+                          {{invoice?.invoiceSerial}}
                         </td>
+                        <td>
+                            {{invoice?.invoiceNo}}
+                          </td>
+                          <td>
+                            {{invoice?.invoiceDate | date: "dd.MM.yyyy"}}
+                          </td>
+                          <td>
+                            {{invoice?.invoiceDate | date: "dd.MM.yyyy"}}
+                          </td>
+                          <td>
+                            {{invoice?.client?.nation}}
+                          </td>
+                          <td>
+                            {{invoice?.client?.name}} {{invoice?.client?.surname}}
+                          </td>
+                          <td>
+                            {{invoice?.terminal}}
+                          </td>
+                          <td>
+                            {{invoice?.approveDate | date: "dd.MM.yyyy"}}
+                          </td>
+                          <td>
+                            {{invoice?.approveNo}}
+                          </td>
+                          <td>
+                            {{invoice?.productBrut}}
+                          </td>
+                          <td>
+                            {{(invoice?.productTotal-invoice?.productBrut) | number:"1.0-2"}}
+                          </td>
+                          <td>
+                            {{invoice?.productTotal}}
+                          </td>
                     </tr>
                         
                   </ng-container>
@@ -165,7 +213,7 @@
                     <td>
                       <i class="fa fa-file-invoice primary"></i> {{ invoice.invoiceMerged }}
                       <br /><br />
-                      <i class="fa fa-calendar primary"></i> {{ invoice.invoiceDate | date: "dd/MM/yyyy"  }}
+                      <i class="fa fa-calendar primary"></i> {{ invoice.invoiceDate | date: "dd.MM.yyyy"  }}
                     </td>
                     <td>
                       <i class="fa fa-user primary"></i> {{ invoice.fullName }} <br /><br />
@@ -180,7 +228,7 @@
                       <i class="fa fa-plane-departure primary"></i> {{ invoice.flight }}
                     </td>
                     <td>
-                      <i class="fa fa-calendar-check primary"></i>  {{ invoice.deparDate | date: "dd/MM/yyyy" }} <br /><br />
+                      <i class="fa fa-calendar-check primary"></i>  {{ invoice.deparDate | date: "dd.MM.yyyy" }} <br /><br />
                       <i class="fa fa-clock primary"></i> {{ invoice.deparTime }}
                     </td>
                     <td class="note br_zero"> <span *ngIf="invoice.campaign"> {{ invoice.campaign  }} </span><br />
@@ -230,40 +278,5 @@
     </div>
   </div>
   
-  <ng-template #approve let-c="close" let-d="dismiss">
-    <div class="modal-content">
-      <div class="modal-header text-muted text-center pt-3">
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="d('Cross click')"
-        >
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        Bu Faturayı Onaylamak İstediğinizden Emin misiniz?
-      </div>
-  
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-success"
-          (click)="approveInvoice(); d('Cross click')"
-        >
-          ONAYLA
-        </button>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-dismiss="modal"
-          (click)="d('Cross click')"
-        >
-          VAZGEÇ
-        </button>
-      </div>
-    </div>
-  </ng-template>
+
   

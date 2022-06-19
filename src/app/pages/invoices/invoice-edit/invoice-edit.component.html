@@ -417,15 +417,21 @@
                         [ngClass]="{ focused: focus1 === true }"
                       >
                         <div class="input-group input-group-alternative">
-                          <input
-                            class="form-control form-control-alternative"
-                            placeholder="Terminal"
-                            type="text"
-                            name="Terminal"
-                            [(ngModel)]="invoice.terminal"
-                            (focus)="focus1 = true"
-                            (blur)="focus1 = false"
-                          />
+                          <select
+                          class="form-control form-control-alternative"
+                          [(ngModel)]="invoice.terminal"
+                          [class.firstColor]="!invoice.terminal"
+                          name="terminal"
+                         
+                        >
+                          <option [value]="undefined" disabled="disabled">
+                            Terminal
+                          </option>
+
+                          <option *ngFor="let t of terminals" [value]="t">
+                            {{ t }}
+                          </option>
+                        </select>
                         </div>
                       </div>
                     </div>
