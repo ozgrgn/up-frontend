@@ -12,6 +12,7 @@ import { UserFormComponent } from 'src/app/pages/user-settings/user-form/user-fo
 import { UserEditComponent } from 'src/app/pages/user-settings/user-edit/user-edit.component';
 import { ProductReportComponent } from 'src/app/pages/reports/product-report/product-report.component';
 import { IcmalComponent } from 'src/app/pages/reports/icmal/icmal.component';
+import { CustomerListComponent } from 'src/app/pages/reports/customer-list/customer-list.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -26,4 +27,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'user-list',   component: UserListComponent },
     { path: 'user-form',   component: UserFormComponent },
     { path: 'user-edit/:id',   component: UserEditComponent },
+    { path: 'customer-list',   component: CustomerListComponent },
 ];

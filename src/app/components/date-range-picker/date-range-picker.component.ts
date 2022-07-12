@@ -44,10 +44,19 @@ export class DateRangePickerComponent implements OnInit {
 
   ranges = [
     {
+      value: [
+        moment().add(1, "days").startOf("day").toDate(),
+        moment().add(1, "days").endOf("day").toDate(),
+      ],
+      label: "Yarın",
+      selected: false,
+    },
+    {
       value: [moment().startOf("day").toDate(), moment().endOf("day").toDate()],
       label: "Bugün",
       selected: false,
     },
+    
     {
       value: [
         moment().subtract(1, "days").startOf("day").toDate(),

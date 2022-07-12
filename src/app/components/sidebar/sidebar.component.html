@@ -86,6 +86,14 @@
       <ul class="navbar-nav mb-md-3">
         <li class="nav-item">
           <a
+          class="nav-link"
+          [routerLink]="['/customer-list']"
+          routerLinkActive="router-link-active"
+          (click)="toggleSide()"
+        >
+          <i class="fas fa-folder-open text-primary"></i> Müşteri Raporu
+        </a>
+          <a
             class="nav-link"
             [routerLink]="['/performance-reports']"
             routerLinkActive="router-link-active"

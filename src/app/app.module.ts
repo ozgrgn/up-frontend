@@ -34,6 +34,7 @@ import { UserFormComponent } from './pages/user-settings/user-form/user-form.com
 import { UserEditComponent } from './pages/user-settings/user-edit/user-edit.component';
 import { ProductReportComponent } from './pages/reports/product-report/product-report.component';
 import { IcmalComponent } from './pages/reports/icmal/icmal.component';
+import { CustomerListComponent } from './pages/reports/customer-list/customer-list.component';
 
 moment.tz.setDefault("Europe/Istanbul");
 
@@ -74,6 +75,7 @@ moment.tz.setDefault("Europe/Istanbul");
     UserEditComponent,
     ProductReportComponent,
     IcmalComponent,
+    CustomerListComponent,
 
   ],
   providers: [

@@ -1,0 +1,290 @@
+<div class="header bg-gradient-primary pb-5 pt-4 pt-md-2">
+    <div class="row title justify-content-center mb-4 mt-3">
+      <h4 class="text-muted text-center">MÜŞTERİ LİSTESİ</h4>
+    </div>
+  
+    <div class="container-fluid">
+      <div class="header-body text-center mb-7">
+        <!-- Card stats -->
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <div class="card h-100 card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <!-- <div class="row justify-content-center">
+                    <button
+                      [ngClass]="page == 'onay' ? 'btn-primary' : 'btn-secondary'"
+                      class="btn btn-sm mb-2"
+                      (click)="
+                        page = 'onay'; status = 'PENDING'; skip = 0; getIcmal()
+                      "
+                    >
+                      ONAY BEKLEYEN FATURALAR
+                    </button>
+                    <button
+                      [ngClass]="page == 'all' ? 'btn-primary' : 'btn-secondary'"
+                      class="btn btn-sm mb-2"
+                      (click)="
+                        page = 'all'; status = undefined; skip = 0; getIcmal()
+                      "
+                    >
+                      TÜM FATURALAR
+                    </button>
+                  </div> -->
+                <div class="row justify-content-center pt-2">
+                  <!-- <input
+                      style="width: 100px"
+                      placeholder="İsim Arama"
+                      type="text"
+                      class="form-control form-control-sm text-justify centered mr-2"
+                      [(ngModel)]="fullName"
+                      (input)="getIcmal()"
+                    /> -->
+                                      
+              <!-- <div *ngIf="perm=='SUPERADMIN'" class="col-2">
+                <select style="width:100%;"
+                class="form-control-sm form-control "
+                [(ngModel)]="noPending"
+                (change)="getIcmal()"
+              >
+              <option [ngValue] ="false" >
+                TÜM FATURALAR
+               </option>
+              <option [ngValue] ="true" >
+               ONAYLI + ONAYSIZ
+              </option>
+                
+              </select>
+              </div> -->
+              <div *ngIf="perm=='SUPERADMIN'" class="col-2">
+                <select style="width:100%;"
+                class="form-control-sm form-control "
+                [(ngModel)]="selectedCompany"
+                (change)="branch=undefined; getIcmal()"
+              >
+              <option [ngValue] ="undefined" >
+                TÜM FİRMALAR
+              </option>
+                <option *ngFor="let u of companies" [value]="u._id">
+                  {{ u.name }}
+                </option>
+              </select>
+              <h3>{{company?.name}}</h3>
+               </div> 
+              <div class="col-2">
+                  <select style="width:100%;" 
+                    class="form-control-sm form-control "
+                    [(ngModel)]="branch"
+                    (change)="getIcmal()"
+                  >
+                  <option [ngValue] ="undefined" >
+                    TÜM ŞUBELER
+                  </option >
+                  <ng-container *ngIf="company.branches">
+                  
+                    <option *ngFor="let u of company.branches" [value]="u.name">
+                      {{ u.name }}
+                    </option>
+                  </ng-container>
+                  </select>
+                </div> 
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="invoiceDate"
+                    (dataEvent)="getIcmal()"
+                    (resetDateBind)="resetDate('invoiceDate')"
+                    placeholder="Fatura Tarihi"
+                  ></app-date-range-picker>
+                </div>
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="approveDate"
+                    (dataEvent)="getIcmal()"
+                    (resetDateBind)="resetDate('approveDate')"
+                    placeholder="Onay Tarihi"
+                  ></app-date-range-picker>
+                </div>
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="deparDate"
+                    (dataEvent)="getIcmal()"
+                    (resetDateBind)="resetDate('deparDate')"
+                    placeholder="Çıkış Tarihi"
+                  ></app-date-range-picker>
+                </div>
+                </div>
+                <input
+                style="width: 350px"
+                type="button"
+                value="Excel"
+                class="btn btn-success mt-0 m-1"
+                (click)="exportexcel()"
+              />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Page content -->
+  <div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+      <div class="col">
+        <div class="card shadow">
+          <!-- <div class="card-header pt-1 border-0">
+              <h3 *ngIf="page == 'all'" class="mb-0">TÜM FATURALAR</h3>
+            </div> -->
+          <div class="table-responsive">
+            <table id="excel-table" *ngIf="!loading" class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-dark" scope="col">Şirket/Şube</th>
+                  <th class="text-dark" scope="col">Fatura No</th>
+                  <th class="text-dark" scope="col">Fatura Tarih</th>
+                  <th class="text-dark" scope="col">Yolcu İsmi</th>
+                  <th class="text-dark" scope="col">Pasaport No</th>
+                  <th class="text-dark" scope="col">Uyruk</th>
+                  <th class="text-dark" scope="col">Gidiş Ülke/Şehir</th>
+                  <th class="text-dark" scope="col">Uçuş Firma</th>
+                  <th class="text-dark" scope="col">Uçuş Zamanı</th>
+                  <th class="text-dark" scope="col">Uçuş Kodu</th>
+                  <th class="text-dark" scope="col">Notlar</th>
+                  <th class="text-dark" scope="col">Kampanya</th>
+                  <th class="text-dark" scope="col">Kdv Matrahı</th>
+                  <th class="text-dark" scope="col">Kdv Tutarı</th>
+                  <th class="text-dark" scope="col">Genel Toplam</th>
+                </tr>
+              </thead>
+              <tbody>
+                 
+                    <ng-container *ngFor="let invoice of invoices; let i=index" >
+                    <tr  >
+                        <td>
+                            {{invoice?.company?.name}}/{{invoice?.branch}}
+                          </td>
+                        <td>
+                          {{invoice?.invoiceSerial}}{{invoice?.invoiceNo}}
+                        </td>
+                        <td>
+                            {{invoice?.invoiceDate | date: "dd.MM.yyyy"}}
+                          </td>
+                          <td>
+                            {{invoice?.fullName}}
+                          </td>
+                          <td>
+                            {{invoice?.client?.passportNo}}
+                          </td>
+                          <td>
+                            {{invoice?.client?.nation | uppercase}}
+                          </td>
+                          <td>
+                            {{invoice?.destCountry | uppercase}}-{{invoice?.destCity}}
+                          </td>
+                          <td>
+                            {{invoice?.airline}}
+                          </td>
+                          <td>
+                            {{invoice?.deparDate | date: "dd.MM.yyyy"}} -   {{invoice?.deparTime}}
+                          </td>
+                          <td>
+                            {{invoice?.flight}}
+                          </td>
+                          <td>
+                            {{invoice?.note}}
+                          </td>
+                          <td>
+                            {{invoice?.campaign}}
+                          </td>
+                          <td>
+                            {{invoice?.productBrut | number:"1.0-2"}}
+                          </td>
+                          <td>
+                            {{(invoice?.productTotal-invoice?.productBrut) | number:"1.0-2"}}
+                          </td>
+                          <td>
+                            {{invoice?.productTotal | number:"1.0-2"}}
+                          </td>
+                    </tr>
+                        
+                  </ng-container>
+                
+                  
+     
+     
+                <!-- <tr *ngFor="let invoice of invoices">
+                    
+                    <td>
+                      <i class="fa fa-building primary"></i> {{ invoice.company }}<br /><br />
+                      <i class="fa fa-store primary"></i> {{ invoice.branch }}
+                    </td>
+                    <td>
+                      <i class="fa fa-file-invoice primary"></i> {{ invoice.invoiceMerged }}
+                      <br /><br />
+                      <i class="fa fa-calendar primary"></i> {{ invoice.invoiceDate | date: "dd.MM.yyyy"  }}
+                    </td>
+                    <td>
+                      <i class="fa fa-user primary"></i> {{ invoice.fullName }} <br /><br />
+                      <i class="fa fa-passport primary"></i> {{ invoice.client.passportNo }}
+                    </td>
+                    <td>
+                      <i class="fa fa-plane-arrival primary"></i>  {{ invoice.destCountry }} <br /><br />
+                      <i class="fa fa-plane-arrival primary"></i> {{ invoice.destCity }}
+                    </td>
+                    <td>
+                      <i class="fa fa-plane-departure primary"></i> {{ invoice.airline }} <br /><br />
+                      <i class="fa fa-plane-departure primary"></i> {{ invoice.flight }}
+                    </td>
+                    <td>
+                      <i class="fa fa-calendar-check primary"></i>  {{ invoice.deparDate | date: "dd.MM.yyyy" }} <br /><br />
+                      <i class="fa fa-clock primary"></i> {{ invoice.deparTime }}
+                    </td>
+                    <td class="note br_zero"> <span *ngIf="invoice.campaign"> {{ invoice.campaign  }} </span><br />
+                      {{ invoice.note }}
+                    </td>
+                    <td  *ngIf="page!='onay'">
+                      <span
+                      (click)="open(changeStatus, '', 'sm', invoice._id)"
+                      style="cursor:pointer;"
+                        class="badge w-100 "
+                        
+                        [ngClass]="invoice.status == 'CONFIRMED'?'badge-success':invoice.status == 'DECLINE'?'badge-danger':'badge-default'"
+                        >{{invoice.status == 'CONFIRMED'?'ONAYLI':invoice.status == 'DECLINE'?'ONAYSIZ':'BEKLEMEDE'}}</span
+                      >
+                    </td>
+                    <td class="br_zero">
+                      <button
+                        class="btn btn-sm btn-secondary w-100 mb-2 mr-0"
+                        [routerLink]="['/invoice-edit', invoice._id]"
+                      >
+                        Düzenle
+                      </button>
+                      <br />
+                      <button
+                        *ngIf="page == 'onay'"
+                        class="btn btn-sm btn-success btn-3"
+                       
+                        (click)="open(approve, '', 'sm', invoice._id)"
+                      >
+                        Onay
+                      </button>
+                      <button *ngIf="page=='onay'"
+                        class="btn btn-sm btn-danger btn-3"
+                     
+                        (click)="open(cancel, '', 'sm', invoice._id)"
+                      >
+                        İptal
+                      </button>
+                    </td>
+                  </tr> -->
+              </tbody>
+            </table>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
