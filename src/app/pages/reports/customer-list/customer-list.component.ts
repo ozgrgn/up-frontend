@@ -12,7 +12,7 @@ import * as XLSX from "xlsx";
   styleUrls: ['./customer-list.component.scss']
 })
 export class CustomerListComponent implements OnInit {
-  fileName = "icmal.xlsx";
+  fileName = "musteri-list.xlsx";
   closeResult: any;
   loading: Boolean = true;
   totalDataCount: number;
