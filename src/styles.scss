@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 .title h4 {
-    color: #fff !important;
-  }
-  .modal-backdrop {
-    z-index: 1040 !important;
+  color: #fff !important;
+}
+.modal-backdrop {
+  z-index: 1040 !important;
 }
 .table td {
   font-size: 0.9rem !important;
@@ -12,8 +12,42 @@
 }
 .form-control {
   font-size: 0.9rem;
-  color:#555657 !important;
+  color: #555657 !important;
 }
 .heading-small {
-  font-size: 0.9rem  !important;
+  font-size: 0.9rem !important;
+}
+.bg-grey {
+  background: #757393;
+}
+.btn-primary {
+  background-color: #fb6340 !important;
+  border-color: #fb6340 !important;
+}
+.primary {
+  color: #fb6340 !important;
+  border-color: #fb6340 !important;
+}
+.page-item.active .page-link {
+  background-color: #fb6340 !important;
+  color: #fff !important;
+  border-color: #fb6340 !important;
+}
+.text-dark {
+  font-weight: 700 !important;
+  font-size: 0.7rem;
+}
+.table {
+  color: black !important;
+}
+
+.input-group-alternative {
+  box-shadow: 0 2px 4px rgb(50 50 93 / 13%), 0 1px 0 rgb(0 0 0 / 15%) !important;
+}
+.table .thead-light th{
+  color:black !important;
+}
+.text-icon {
+  color: #fb6340 !important;
+
 }

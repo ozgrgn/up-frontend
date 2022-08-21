@@ -115,6 +115,36 @@ export class RestService {
     });
   }
 
+  // TERMİNALS
+  getTerminals() {
+    return this.http.get(`${this.apiUrl}/others/terminals`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+  addTerminal(terminal: String) {
+    return this.http.post(
+      `${this.apiUrl}/others/terminal`,
+      {
+        terminal,
+      },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+  deleteTerminal(id: any) {
+    return this.http.delete(`${this.apiUrl}/others/terminal/${id}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
   // Reasons
   getReasons() {
     return this.http.get(`${this.apiUrl}/others/reasons`, {
@@ -238,7 +268,8 @@ export class RestService {
     details?: any[],
     agencyId?: String,
     campaignId?: String,
-    airlineId?: String
+    airlineId?: String,
+    terminalId?: String
   ) {
     return this.http.post(
       `${this.apiUrl}/invoice`,
@@ -267,6 +298,7 @@ export class RestService {
         agencyId,
         campaignId,
         airlineId,
+        terminalId,
       },
       {
         headers: new HttpHeaders({
@@ -435,7 +467,8 @@ console.log(company)
     approveDate1?: String,
     approveDate2?: String,
     deparDate1?: String,
-    deparDate2?: String
+    deparDate2?: String,
+    product?:String
   ) {
     let query: any = {};
     if (noPending) {
@@ -464,6 +497,9 @@ console.log(company)
     }
     if (deparDate2) {
       query.deparDate2 = deparDate2;
+    }
+    if (product) {
+      query.product = product;
     }
 
     return this.http.get(`${this.apiUrl}/invoice/productreports`, {

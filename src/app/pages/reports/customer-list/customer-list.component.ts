@@ -136,8 +136,15 @@ export class CustomerListComponent implements OnInit {
   exportexcel(): void {
     /* table id is passed over here */
     let element = document.getElementById("excel-table");
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element,  {raw:true});
-
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+ws["a1"].s={
+  fill: {
+    type:'pattern',
+    pattern: "solid", // none / solid
+    fgColor: { argb: "FF1c4587" },
+    bgColor: { argb: "FF1c4587" }
+    }
+}
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");

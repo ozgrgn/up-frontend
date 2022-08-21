@@ -1,4 +1,4 @@
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-6">
+<div class="header bg-grey pb-8 pt-5 pt-md-6">
   <div class="row title justify-content-center mb-4 mt-3">
     <h4 class="text-muted text-center">TANIMLAMALAR</h4>
   </div>
@@ -19,6 +19,9 @@
       <button class="btn btn-secondary btn-sm mb-2" (click)="getReasons();page = 'reasons'">
         Onaylanmama Nedenleri
       </button>
+      <button class="btn btn-secondary btn-sm mb-2" (click)="getReasons();page = 'terminals'">
+        Terminaller
+      </button>
     </div>
   </div>
 </div>
@@ -29,7 +32,7 @@
       <div class="col-sm-12 col-md-8 col-lg-6 col-12 order-xl-1">
         <div class="card bg-secondary shadow">
           <div class="card-header bg-white border-0">
-            <div class="row justify-content-center">
+            <div *ngIf="page=='company'" class="row justify-content-center">
             <div class="col-4 ">
                                 
               <div class="form-group mb-0">
@@ -270,6 +273,82 @@
                                 class="btn btn-icon btn-2 btn-danger btn-sm w-100"
                                 type="button"
                                 (click)="deleteCampaign(c._id)"
+                              >
+                                <span class="btn-inner--icon"
+                               
+                                >SİL</span>
+                              </button>
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="page=='terminals'" class="row">
+                <div class="col-12">
+                  <h6 class="heading-small text-muted mb-4 text-center">
+                    TERMİNALLER
+                  </h6>
+                  <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">TERMİNAL İSMİ</th>
+                          <th scope="col">İŞLEM</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="Terminal İsmi"
+                                  type="text"
+                                  name="newTerminal"
+                                  [(ngModel)]="newTerminal.name"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <button
+                              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+                              [class.disabled]="
+                                !newTerminal.name"
+                              type="button"
+                              (click)="addTerminal()"
+                            >
+                              <span class="btn-inner--icon">YENİ KAYIT</span>
+                            </button>
+                          </td>
+                        </tr>
+                        
+                          <tr *ngFor="let c of terminals; let i = index">
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Terminal İsmi"
+                                    type="text"
+                                    name="terminal{{ i }}"
+                                    [(ngModel)]="terminals[i].name"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <button
+                                class="btn btn-icon btn-2 btn-danger btn-sm w-100"
+                                type="button"
+                                (click)="deleteTerminal(c._id)"
                               >
                                 <span class="btn-inner--icon"
                                

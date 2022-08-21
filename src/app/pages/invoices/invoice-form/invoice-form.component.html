@@ -1,4 +1,4 @@
-<div class="header bg-gradient-primary pb-8 pt-4 pt-md-2">
+<div class="header bg-grey pb-8 pt-4 pt-md-2">
   <div class="row title justify-content-center mb-4 mt-3">
     <h4 class="text-muted text-center">FATURA EKLE</h4>
   </div>
@@ -36,7 +36,7 @@
                 </div> -->
               <div class="row">
                 <div class="col-12 col-md-4">
-                  <h6 class="heading-small text-muted mb-4 text-center">
+                  <h6 class="heading-small text-dark mb-4 text-center">
                     GENEL BİLGİLER
                   </h6>
 
@@ -189,7 +189,7 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-4">
-                  <h6 class="heading-small text-muted mb-4 text-center">
+                  <h6 class="heading-small text-dark mb-4 text-center">
                     YOLCU BİLGİLERİ
                   </h6>
                   <div class="row p-0 m-0">
@@ -326,7 +326,7 @@
                 </div>
                 
                 <div class="col-12 col-md-4">
-                  <h6 class="heading-small text-muted mb-4 text-center">
+                  <h6 class="heading-small text-dark mb-4 text-center">
                     YOLCU ÇIKIŞ BİLGİLERİ
                   </h6>
 
@@ -393,7 +393,27 @@
                       </select>
                     </div>
                   </div>
-                  <div class="row p-0 m-0">
+                  <div class="row p-0 m-0">     
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus17 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <select
+                          class="form-control form-control-alternative"
+                          [(ngModel)]="terminalId"
+                          [class.firstColor]="!terminalId"
+                        >
+                          <option [value]="null" disabled="disabled">
+                            Terminal
+                          </option>
+
+                          <option *ngFor="let terminal of terminals" [value]="terminal._id">
+                            {{ terminal.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
                     <div
                       class="form-group col-6"
                       [ngClass]="{ focused: focus16 === true }"
@@ -418,26 +438,7 @@
                         </select>
                       </div>
                     </div>
-                    <div
-                      class="form-group col-6"
-                      [ngClass]="{ focused: focus17 === true }"
-                    >
-                      <div class="input-group input-group-alternative">
-                        <select
-                          class="form-control form-control-alternative"
-                          [(ngModel)]="terminal"
-                          [class.firstColor]="!terminal"
-                        >
-                          <option [value]="undefined" disabled="disabled">
-                            Terminal
-                          </option>
-
-                          <option *ngFor="let t of terminals" [value]="t">
-                            {{ t }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
+               
                   </div>
                   <div class="row p-0 m-0">
                     <div
@@ -595,7 +596,7 @@
           <div class="card-body pt-2">
             <form role="form">
               <div class="col-12 text-left">
-                <h6 class="heading-small text-muted mb-2">ÜRÜN GİRİŞİ</h6>
+                <h6 class="heading-small text-dark mb-2">ÜRÜN GİRİŞİ</h6>
               </div>
               <div class="row">
                 <div class="col-xl-12 mb-xl-0">
@@ -617,10 +618,10 @@
                           <tr>
                             <th scope="col">KATEGORİ</th>
                             <th scope="col">ÜRÜN</th>
-                            <th scope="col">ÜRÜN KODU</th>
                             <th scope="col">BİRİM</th>
                             <th scope="col">MİKTAR</th>
                             <th scope="col">BİRİM FİYATI</th>
+                            <th scope="col">BRÜT TUTAR</th>
                             <th scope="col">KDV</th>
                             <th scope="col">TOPLAM TUTAR</th>
                             <th scope="col">İŞLEM</th>
@@ -705,20 +706,7 @@
                                 Kategori seçilmedi
                               </span>
                             </td>
-                            <td>
-                              <div class="form-group mb-0">
-                                <div
-                                  class="input-group input-group-alternative"
-                                >
-                                  <input
-                                    class="form-control-sm form-control-alternative"
-                                    type="text"
-                                    name="newProductCode"
-                                    [(ngModel)]="newProduct.code"
-                                  />
-                                </div>
-                              </div>
-                            </td>
+            
                             <td>
                               <div class="form-group mb-0">
                                 <div
@@ -763,6 +751,11 @@
                                 </div>
                               </div>
                             </td>
+                            <td>   {{
+                              newProduct.price * newProduct.quantity > 0
+                                ? newProduct.price * newProduct.quantity
+                                : 0
+                            }}</td>
                             <td>%{{ product ? product.kdv : "0" }}</td>
                             <td>
                               {{
@@ -796,15 +789,13 @@
                             </td>
 
                             <td>
-                              {{ detail.productCode }}
-                            </td>
-                            <td>
                               {{ detail.unit }}
                             </td>
                             <td>
                               {{ detail.quantity }}
                             </td>
                             <td>{{ detail.price }} TL</td>
+                            <td>{{ detail.quantity * detail.price }} TL</td>
                             <td>
                               {{ detail.kdv }}
                             </td>
@@ -820,6 +811,16 @@
                                 ></span>
                               </button>
                             </td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Toplam</td>
+                            <td>{{ totalBrut | number: "1.0-1" }} TL</td>
+                            <td>{{ totalKdv | number: "1.0-1" }} TL</td>
+                            <td>{{ totalProduct | number: "1.0-1" }} TL</td>
                           </tr>
                         </tbody>
                       </table>

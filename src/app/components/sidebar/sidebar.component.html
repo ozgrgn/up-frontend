@@ -91,7 +91,8 @@
           routerLinkActive="router-link-active"
           (click)="toggleSide()"
         >
-          <i class="fas fa-folder-open text-primary"></i> Müşteri Raporu
+        
+          <i class="ni ni-satisfied text-icon"></i> Müşteri Raporu
         </a>
           <a
             class="nav-link"
@@ -99,7 +100,7 @@
             routerLinkActive="router-link-active"
             (click)="toggleSide()"
           >
-            <i class="fas fa-folder-open text-primary"></i> Performans Raporu
+            <i class="ni ni-chart-bar-32 text-icon"></i> Performans Raporu
           </a>
           <a
           class="nav-link"
@@ -107,7 +108,7 @@
           routerLinkActive="router-link-active"
           (click)="toggleSide()"
         >
-          <i class="fas fa-folder-open text-primary"></i> Ürün Raporu
+          <i class="ni ni-cart text-icon"></i> Ürün Raporu
         </a>
         <a
         class="nav-link"
@@ -115,7 +116,7 @@
         routerLinkActive="router-link-active"
         (click)="toggleSide()"
       >
-        <i class="fas fa-folder-open text-primary"></i> İcmal
+        <i class="fas fa-folder-open text-icon"></i> İcmal
       </a>
         </li>
       </ul>
@@ -135,7 +136,7 @@
             routerLinkActive="router-link-active"
             (click)="toggleSide()"
           >
-            <i class="ni ni-bag-17 text-primary"></i> Ürünler
+            <i class="ni ni-bag-17 text-icon"></i> Ürünler
           </a>
         </li>
         <li *ngIf="perm=='SUPERADMIN'" class="nav-item">
@@ -145,7 +146,7 @@
             routerLinkActive="router-link-active"
             (click)="toggleSide()"
           >
-            <i class="ni ni-settings-gear-65 text-primary"></i> Genel Ayarlar
+            <i class="ni ni-settings-gear-65 text-icon"></i> Genel Ayarlar
           </a>
         </li>
         <li *ngIf="perm=='SUPERADMIN'" class="nav-item">
@@ -155,7 +156,7 @@
             routerLinkActive="router-link-active"
             
           >
-            <i class="ni ni-settings-gear-65 text-primary"></i> Kullanıcı Ayarları
+            <i class="ni ni-ui-04 text-icon"></i> Kullanıcı Ayarları
           </a>
         </li>
 
@@ -163,7 +164,7 @@
 
         <li class="nav-item">
           <a class="nav-link" (click)="logout()" [routerLink]="['/']">
-            <i class="ni ni-button-power text-primary"></i> Çıkış
+            <i class="ni ni-button-power text-icon"></i> Çıkış
           </a>
         </li>
       </ul>

@@ -1,41 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { RestService } from 'src/app/services/rest.service';
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "src/app/services/auth.service";
+import { RestService } from "src/app/services/rest.service";
 import { DaterangeModel } from "src/app/components/date-range-picker/date-range-picker.component";
 
-
 @Component({
-  selector: 'app-product-report',
-  templateUrl: './product-report.component.html',
-  styleUrls: ['./product-report.component.scss']
+  selector: "app-product-report",
+  templateUrl: "./product-report.component.html",
+  styleUrls: ["./product-report.component.scss"],
 })
 export class ProductReportComponent implements OnInit {
-
   loading: Boolean = true;
   totalDataCount: number;
   limit: number = 10;
   rowSize: number = 10;
   skip: number = 0;
-  company: any ={};
-  selectedCompany:any;
+  company: any = {};
+  selectedCompany: any;
   companies: any;
   branches: any;
   branch: any;
   invoiceNo: any;
   status: any;
-  noPending:Boolean=false;
+  noPending: Boolean = false;
   products: any;
+  allProducts:any=[];
+  selectedProduct:any
+  categories: any;
 
-  total:any;
+  total: any;
   year: any = 2022;
   invoiceDate: DaterangeModel = {} as DaterangeModel;
   approveDate: DaterangeModel = {} as DaterangeModel;
   deparDate: DaterangeModel = {} as DaterangeModel;
   perm: any;
-  constructor(    private restService: RestService,
-    private authService: AuthService) { }
+  constructor(
+    private restService: RestService,
+    private authService: AuthService
+  ) {}
   ngOnInit(): void {
     this.getPermission();
+    this.getCategories();
   }
 
   getPermission() {
@@ -49,15 +53,14 @@ export class ProductReportComponent implements OnInit {
         if (this.perm == "SUPERADMIN") {
           this.company._id = undefined;
           this.getCompanies();
-         this.getData();
-
+          this.getData();
         } else {
           this.restService
             .getUser(localStorage.getItem("userId"))
             .toPromise()
             .then((data) => {
               if (data["status"]) {
-                this.selectedCompany=data["user"].company._id
+                this.selectedCompany = data["user"].company._id;
                 this.company = data["user"].company;
                 console.log(this.company, "company");
                 this.getData();
@@ -90,14 +93,18 @@ export class ProductReportComponent implements OnInit {
           : undefined,
         this.deparDate?.endDate
           ? this.deparDate.endDate.toISOString()
-          : undefined
+          : undefined,
+this.selectedProduct
       )
       .toPromise()
       .then((data) => {
         console.log(data);
-        this.products=data['product']
-        if(this.selectedCompany && this.perm=="SUPERADMIN")
-        this.company = this.companies.find((x) => x._id === this.selectedCompany);
+        this.products = data["product"];
+        console.log(this.products);
+        if (this.selectedCompany && this.perm == "SUPERADMIN")
+          this.company = this.companies.find(
+            (x) => x._id === this.selectedCompany
+          );
         console.log(this.company, "company");
 
         this.loading = false;
@@ -111,9 +118,24 @@ export class ProductReportComponent implements OnInit {
         if (data["status"]) {
           console.log(data);
           this.companies = data["companies"];
-
-
-  
+        }
+      });
+  }
+  getCategories() {
+    this.restService
+      .getCategories()
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          this.categories = data["category"]; 
+          console.log(this.categories)
+          this.categories.map((cat)=>{
+            cat.product.map((product)=>{
+              this.allProducts=[...this.allProducts,product];
+            })
+            
+          })
+          console.log(this.allProducts, "allProducts");
         }
       });
   }

@@ -1,4 +1,4 @@
-<div class="header bg-gradient-primary pb-5 pt-4 pt-md-2">
+<div class="header bg-grey pb-5 pt-4 pt-md-2">
     <div class="row title justify-content-center mb-4 mt-3">
       <h4 class="text-muted text-center">ÜRÜN RAPORU</h4>
     </div>
@@ -7,7 +7,7 @@
       <div class="header-body text-center mb-7">
         <!-- Card stats -->
         <div class="row justify-content-center">
-          <div class="col-9">
+          <div class="col-12">
             <div class="card h-100 card-stats mb-4 mb-xl-0">
               <div class="card-body">
                 <!-- <div class="row justify-content-center">
@@ -88,6 +88,23 @@
                   </select>
                 </div>
                 <div class="col-2">
+                  <select style="width:100%;" 
+                    class="form-control-sm form-control "
+                    [(ngModel)]="selectedProduct"
+                    (change)="getData()"
+                  >
+                  <option [ngValue] ="undefined" >
+                    TÜM ÜRÜNLER
+                  </option >
+                  <ng-container *ngIf="allProducts">
+                  
+                    <option *ngFor="let u of allProducts" [value]="u._id">
+                      {{ u.name }}
+                    </option>
+                  </ng-container>
+                  </select>
+                </div>
+                <div class="col-2">
                   <app-date-range-picker
                     [(value)]="invoiceDate"
                     (dataEvent)="getData()"
@@ -135,10 +152,13 @@
                   <th class="text-dark" scope="col">KATEGORİ</th>
                   <th class="text-dark" scope="col">ÜRÜN</th>
                   <th class="text-dark" scope="col">FATURA SAYISI</th>
+                  <th class="text-dark" scope="col">YÜZDE</th>
                   <th class="text-dark" scope="col">ÜRÜN SAYISI</th>
                   <th class="text-dark" scope="col">MATRAH</th>
                   <th class="text-dark" scope="col">KDV</th>
+                  <th class="text-dark" scope="col">YÜZDE</th>
                   <th class="text-dark" scope="col">TOPLAM</th>
+                  <th class="text-dark" scope="col">YÜZDE</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,19 +173,29 @@
                             {{p.name}}
                           </td>
                           <td>
-                            {{p.count | number}} ADET -   <span> %{{p.count/product.totalcount*100 | number: '1.0-1'  }}</span>
+                            {{p.count | number}} ADET 
+                          </td>
+                      
+                          <td>
+                            <span> %{{p.count/product.totalcount*100 | number: '1.0-1'  }}</span>
                           </td>
                           <td>
-                            {{p.quantity | number}} ADET -   <span> %{{p.quantity/product.quantity*100 | number: '1.0-1'  }}</span>
+                            {{p.quantity | number}} ADET  
                           </td>
                           <td>
-                            {{p.productBrut | number}} TL
+                            <span> %{{p.quantity/product.quantity*100 | number: '1.0-1'  }}</span>
                           </td>
                           <td>
-                            {{(p.productTotal-p.productBrut) | number}} TL
+                            {{p.productBrut | number: '1.0-1' }} TL
                           </td>
                           <td>
-                            {{p.productTotal | number}}  TL -   <span> %{{p.productTotal/product.productTotal*100 | number: '1.0-1'  }}</span>
+                            {{(p.productTotal-p.productBrut) | number: '1.0-1' }} TL
+                          </td>
+                          <td>
+                            {{p.productTotal | number}}  TL 
+                          </td>
+                          <td>
+                            <span> %{{p.productTotal/product.productTotal*100 | number: '1.0-1'  }}</span>
                           </td>
                   </ng-container>
                 
@@ -178,9 +208,11 @@
                       <td>
                         {{product.totalcount | number}} ADET
                       </td>
+                      <td></td>
                       <td>
                         {{product.quantity | number}}  ADET
                       </td>
+                      <td></td>
                       <td>
                         {{product.productBrut | number}} TL
                       </td>
@@ -190,6 +222,7 @@
                       <td>
                         {{product.productTotal | number}} TL
                       </td>
+                      <td></td>
                   </tr>
       </ng-container>
      

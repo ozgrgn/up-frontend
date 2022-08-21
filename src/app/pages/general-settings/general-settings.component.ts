@@ -12,6 +12,8 @@ export class GeneralSettingsComponent implements OnInit {
   page: any = "company";
   campaigns: any;
   newCampaign: any = {};
+  terminals: any;
+  newTerminal: any = {};
   reasons: any;
   newReason: any = {};
   newBranch: any = {};
@@ -28,6 +30,7 @@ export class GeneralSettingsComponent implements OnInit {
     this.loading = false;
     this.getCampaigns();
     this.getCompanies();
+    this.getTerminals();
   }
   //COMPANIES
   getCompanies() {
@@ -85,6 +88,7 @@ export class GeneralSettingsComponent implements OnInit {
         }
       });
   }
+
   addCampaign() {
     console.log(this.newCampaign.name);
     if (!this.newCampaign.name) {
@@ -100,6 +104,60 @@ export class GeneralSettingsComponent implements OnInit {
           this.newCampaign = {};
         }
         this.getCampaigns();
+      });
+  }
+  deleteCampaign(id) {
+    console.log(id);
+    this.restService
+      .deleteCampaign(id)
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Kampanya Silindi");
+          this.newCampaign = {};
+        }
+        this.getCampaigns();
+      });
+  }
+  getTerminals() {
+    this.restService
+      .getTerminals()
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          console.log(data);
+          this.terminals = data["terminals"];
+        }
+      });
+  }
+  addTerminal() {
+    console.log(this.newTerminal.name);
+    if (!this.newTerminal.name) {
+      this.toaster.error("Terminal İsmi Girmelisiniz");
+      return;
+    }
+    this.restService
+      .addTerminal(this.newTerminal.name)
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Yeni Terminal Oluşturuldu");
+          this.newTerminal = {};
+        }
+        this.getTerminals();
+      });
+  }
+  deleteTerminal(id) {
+    console.log(id);
+    this.restService
+      .deleteTerminal(id)
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Terminal Silindi");
+          this.newTerminal = {};
+        }
+        this.getTerminals();
       });
   }
   addBranch() {
@@ -135,19 +193,7 @@ export class GeneralSettingsComponent implements OnInit {
         // this.getReasons();
       });
   }
-  deleteCampaign(id) {
-    console.log(id);
-    this.restService
-      .deleteCampaign(id)
-      .toPromise()
-      .then((data) => {
-        if (data["status"]) {
-          this.toaster.success("Kampanya Silindi");
-          this.newCampaign = {};
-        }
-        this.getCampaigns();
-      });
-  }
+
 
   //ONAYLANMAMA SEBEPLERİ
   getReasons() {

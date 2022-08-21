@@ -24,20 +24,48 @@ export class InvoiceEditComponent implements OnInit {
   airlines: any;
   airports: any;
   ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
-  terminals:any=["AYT-1", "AYT-2"];
+  terminals: any = [];
   countries: any;
   campaigns: any;
-  product: any;
+  product: any ={};
   reasons: any;
-  units: any = ["Adet", "Kilo", "Litre"];
+  units: any = ["Adet", "Kilo", "Gram"];
   selectedInvoiceID: any;
   oldAgencyId: any;
   oldCampaignId: any;
+  oldTerminalId: any;
   oldAirlineId: any;
-  perm:any;
-  companies:any;
+  perm: any;
+  companies: any;
+  totalProduct: any;
+  totalBrut: any;
+  totalKdv: any;
+
   focus;
   focus1;
+  focus2;
+  focus3;
+  focus4;
+  focus5;
+  focus6;
+  focus7;
+  focus8;
+  focus9;
+  focus10;
+  focus11;
+  focus12;
+  focus13;
+  focus14;
+  focus15;
+  focus16;
+  focus17;
+  focus18;
+  focus19;
+  focus20;
+  focus21;
+  focus22;
+  focus23;
+  focus24;
   constructor(
     private activeRoute: ActivatedRoute,
     private router: Router,
@@ -46,23 +74,24 @@ export class InvoiceEditComponent implements OnInit {
     private toaster: ToastrService,
     private config: NgSelectConfig,
 
-   private authService: AuthService,
+    private authService: AuthService
   ) {
     this.config.notFoundText = "Böyle bir ürün yok";
   }
 
   ngOnInit(): void {
     this.authService
-    .getPermission()
-    .toPromise()
-    .then((perm) => {
-      this.perm=perm['userType']
+      .getPermission()
+      .toPromise()
+      .then((perm) => {
+        this.perm = perm["userType"];
       });
     this.getAgencies();
     this.getAirlines();
     this.getCategories();
     this.getCompanies();
     this.getCampaigns();
+    this.getTerminals()
     this.getCountries();
     this.getData();
     this.getAirports();
@@ -90,6 +119,17 @@ export class InvoiceEditComponent implements OnInit {
         }
       });
   }
+  getTerminals() {
+    this.restService
+      .getTerminals()
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          console.log(data);
+          this.terminals = data["terminals"];
+        }
+      });
+  }
   getData() {
     this.restService
       .getInvoice(this.activeRoute.snapshot.params["id"])
@@ -110,8 +150,18 @@ export class InvoiceEditComponent implements OnInit {
         }
         this.oldAgencyId = this.invoice.agencyId;
         this.oldCampaignId = this.invoice.campaignId;
+        this.oldTerminalId = this.invoice.terminalId;
         this.oldAirlineId = this.invoice.airlineId;
-        console.log(data);
+        this.totalProduct = 0;
+        this.totalBrut = 0;
+        this.totalKdv = 0;
+        this.invoice.details.map((product) => {
+          console.log(product, "proooo");
+          this.totalProduct = this.totalProduct + product.productTotal;
+          this.totalBrut = this.totalBrut + product.productBrut;
+          this.totalKdv =
+            this.totalKdv + (product.productTotal - product.productBrut);
+        });
       });
   }
   getCampaigns() {
@@ -217,6 +267,14 @@ export class InvoiceEditComponent implements OnInit {
         (x) => x._id === this.invoice.campaignId
       ).name;
     }
+    if (
+      this.invoice.terminalId &&
+      this.invoice.terminalId != this.oldTerminalId
+    ) {
+      this.invoice.terminal = this.campaigns.find(
+        (x) => x._id === this.invoice.terminalId
+      ).name;
+    }
     if (this.invoice.agencyId && this.invoice.agencyId != this.oldAgencyId) {
       this.invoice.agency = this.agencies.find(
         (x) => x._id === this.invoice.agencyId
@@ -312,6 +370,27 @@ export class InvoiceEditComponent implements OnInit {
         (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
           100,
     });
+  
+    this.totalProduct =
+      this.totalProduct +
+      (this.newProduct.quantity * this.newProduct.price + (
+        (this.newProduct.quantity *
+          this.newProduct.price *
+          this.product.kdv) /
+          100));
+          console.log(this.totalProduct,this.newProduct.quantity,this.newProduct.price,this.product.kdv,"tp")
+    this.totalBrut =
+      this.totalBrut + (this.newProduct.quantity * this.newProduct.price);
+      console.log(this.totalBrut,"tb")
+    this.totalKdv =
+      this.totalKdv +
+      (this.newProduct.quantity * this.newProduct.price +
+        (this.newProduct.quantity *
+          this.newProduct.price *
+          this.product.kdv) /
+          100 -
+        this.newProduct.quantity * this.newProduct.price);
+        console.log(this.totalKdv,"tk")
     console.log(this.invoice.details);
     this.product = {};
     this.selectedCategory = undefined;
@@ -319,14 +398,17 @@ export class InvoiceEditComponent implements OnInit {
     this.newProduct = {};
     this.getCategories();
   }
+
   selectCat(a) {
-    this.cats = this.categories.filter(function (b) {
+    let selCat = this.categories.filter(function (b) {
       console.log(a._id, "test");
       return b._id == a;
     });
-    this.cats = this.cats[0];
+
+    this.cats = selCat[0];
     console.log(this.cats, "CAT");
   }
+
   selectProduct(a) {
     console.log(a);
     this.product = this.cats.product.filter(function (b) {
@@ -355,6 +437,28 @@ export class InvoiceEditComponent implements OnInit {
     }
   }
   removeDetail(index) {
+    this.totalProduct =
+      this.totalProduct -
+      (this.invoice.details[index].quantity *
+        this.invoice.details[index].price +
+        (this.invoice.details[index].quantity *
+          this.invoice.details[index].price *
+          this.invoice.details[index].kdv) /
+          100);
+    this.totalBrut =
+      this.totalBrut -
+      this.invoice.details[index].quantity * this.invoice.details[index].price;
+    this.totalKdv =
+      this.totalKdv -
+      (this.invoice.details[index].quantity *
+        this.invoice.details[index].price +
+        (this.invoice.details[index].quantity *
+          this.invoice.details[index].price *
+          this.invoice.details[index].kdv) /
+          100 -
+        this.invoice.details[index].quantity *
+          this.invoice.details[index].price);
+
     this.invoice.details.splice(index, 1);
   }
 

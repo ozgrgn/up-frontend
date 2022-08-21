@@ -25,7 +25,6 @@ export class InvoiceFormComponent implements OnInit {
   hotel: any;
   cardNo: any;
   gate: any;
-  terminal: any;
   destCountry: any;
   destCity: any;
   deparDate: any;
@@ -41,7 +40,7 @@ export class InvoiceFormComponent implements OnInit {
   categories: any = [];
   product: any = undefined;
   newProduct: any = {};
-  units: any = ["Adet", "Kilo", "Litre"];
+  units: any = ["Adet", "Kilo", "Gram"];
   countries: any;
   airlines: any;
   airlineId: any = undefined;
@@ -57,15 +56,21 @@ export class InvoiceFormComponent implements OnInit {
   campaigns: any;
   campaign: any = undefined;
   campaignId: any = null;
+  terminal: any;
+  terminalId: any = undefined;
+
   ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
   way: any = undefined;
-  terminals:any=["AYT-1", "AYT-2"];
+  terminals: any;
   details: any = [];
   client: any = {};
   companies: any;
   selectedCompany: any = null;
   selectedBranch: any = null;
   perm: any;
+  totalProduct: any=0;
+  totalBrut: any=0;
+  totalKdv: any=0;
 
   focus;
   focus1;
@@ -121,13 +126,14 @@ export class InvoiceFormComponent implements OnInit {
               }
             });
         } else {
-          this.company={}
+          this.company = {};
         }
       });
     this.category._id = null;
     this.getCategories();
     this.getCompanies();
     this.getCampaigns();
+    this.getTerminals();
     this.getCountries();
     this.getAgencies();
     this.getAirports();
@@ -154,6 +160,17 @@ export class InvoiceFormComponent implements OnInit {
         if (data["status"]) {
           console.log(data);
           this.companies = data["companies"];
+        }
+      });
+  }
+  getTerminals() {
+    this.restService
+      .getTerminals()
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          console.log(data);
+          this.terminals = data["terminals"];
         }
       });
   }
@@ -198,6 +215,26 @@ export class InvoiceFormComponent implements OnInit {
         (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
           100,
     });
+    this.totalProduct =
+    this.totalProduct +
+    (this.newProduct.quantity * this.newProduct.price + (
+      (this.newProduct.quantity *
+        this.newProduct.price *
+        this.product.kdv) /
+        100));
+        console.log(this.totalProduct,this.newProduct.quantity,this.newProduct.price,this.product.kdv,"tp")
+  this.totalBrut =
+    this.totalBrut + (this.newProduct.quantity * this.newProduct.price);
+    console.log(this.totalBrut,"tb")
+  this.totalKdv =
+    this.totalKdv +
+    (this.newProduct.quantity * this.newProduct.price +
+      (this.newProduct.quantity *
+        this.newProduct.price *
+        this.product.kdv) /
+        100 -
+      this.newProduct.quantity * this.newProduct.price);
+      console.log(this.totalKdv,"tk")
     console.log(this.details);
     this.product = {};
     this.selectedCategory = undefined;
@@ -207,6 +244,28 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   removeDetail(index) {
+    this.totalProduct =
+    this.totalProduct -
+    (this.details[index].quantity *
+      this.details[index].price +
+      (this.details[index].quantity *
+        this.details[index].price *
+        this.details[index].kdv) /
+        100);
+  this.totalBrut =
+    this.totalBrut -
+    this.details[index].quantity * this.details[index].price;
+  this.totalKdv =
+    this.totalKdv -
+    (this.details[index].quantity *
+      this.details[index].price +
+      (this.details[index].quantity *
+        this.details[index].price *
+        this.details[index].kdv) /
+        100 -
+      this.details[index].quantity *
+        this.details[index].price);
+
     this.details.splice(index, 1);
   }
   selectCat(a) {
@@ -285,7 +344,7 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   send() {
-    console.log(this.company,"0*0*0*")
+    console.log(this.company, "0*0*0*");
     if (!this.company || !this.company._id) {
       this.toaster.error("Lütfen Şirket Seçiniz");
       return;
@@ -379,7 +438,8 @@ export class InvoiceFormComponent implements OnInit {
         this.details,
         this.agencyId,
         this.campaignId,
-        this.airlineId
+        this.airlineId,
+        this.terminalId
       )
       .toPromise()
       .then((data) => {

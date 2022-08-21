@@ -1,4 +1,4 @@
-<div class="header bg-gradient-primary pb-5 pt-4 pt-md-2">
+<div class="header bg-grey pb-5 pt-4 pt-md-2">
   <div class="row title justify-content-center mb-4 mt-3">
     <h4 class="text-muted text-center">PERFORMANS RAPORU</h4>
   </div>
@@ -7,8 +7,8 @@
     <div class="header-body text-center mb-7">
       <!-- Card stats -->
       <div class="row justify-content-center">
-        <div class="col-9">
-          <div class="card h-100 card-stats mb-4 mb-xl-0">
+        <div class="col-12">
+          <div class="card h-100 card-stats mb-4 mb-xl-0 box-shadow shadow-lg">
             <div class="card-body">
               <!-- <div class="row justify-content-center">
                   <button
@@ -133,9 +133,13 @@
               <tr>
                 <th class="text-dark" scope="col">ONAY DURUMU</th>
                 <th class="text-dark" scope="col">FATURA SAYISI</th>
+                <th class="text-dark" scope="col">YÜZDE</th>
                 <th class="text-dark" scope="col">MATRAH</th>
+                <th class="text-dark" scope="col">YÜZDE</th>
                 <th class="text-dark" scope="col">KDV</th>
+                <th class="text-dark" scope="col">YÜZDE</th>
                 <th class="text-dark" scope="col">TOPLAM</th>
+                <th class="text-dark" scope="col">YÜZDE</th>
               </tr>
             </thead>
             <tbody>
@@ -144,16 +148,28 @@
                   ONAY BEKLİYOR
                 </td>
                 <td>
-                  {{pending.invoiceCount}} ADET -   <span> %{{pending.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
+                  {{pending.invoiceCount}} ADET   
                 </td>
                 <td>
-                  {{pending.brutTotal}} TL - <span> %{{pending.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span>
+                  <span> %{{pending.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
                 </td>
                 <td>
-                  {{pending.kdv}} TL - <span> %{{pending.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
+                  {{pending.brutTotal | number: '1.0-1'}} TL  
                 </td>
                 <td>
-                  {{pending.total}}  TL - <span> %{{pending.total/total.total*100 | number: '1.0-1' }}</span>
+                  <span> %{{pending.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span>
+                </td>
+                <td>
+                  {{pending.kdv  | number: '1.0-1'  }} TL 
+                </td>
+                <td>
+                  <span> %{{pending.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
+                </td>
+                <td>
+                  {{pending.total | number: '1.0-1'}}  TL 
+                </td>
+                <td>
+                  <span> %{{pending.total/total.total*100 | number: '1.0-1' }}</span>
                 </td>
               </tr>
               <tr *ngIf="confirmed.invoiceCount>0">
@@ -161,16 +177,28 @@
                   ONAYLANDI
                 </td>
                 <td>
-                  {{confirmed.invoiceCount}} ADET -   <span> %{{confirmed.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
+                  {{confirmed.invoiceCount}} ADET  
                 </td>
                 <td>
-                  {{confirmed.brutTotal}} TL - <span> %{{confirmed.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span>
+                  <span> %{{confirmed.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
                 </td>
                 <td>
-                  {{confirmed.kdv}} TL - <span> %{{confirmed.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
+                  {{confirmed.brutTotal | number: '1.0-1'}} TL
                 </td>
                 <td>
-                  {{confirmed.total | number: '1.0-1'}} TL - <span> %{{confirmed.total/total.total*100 | number: '1.0-1'  }}</span>
+                  <span> %{{confirmed.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span>
+                </td>
+                <td>
+                  {{confirmed.kdv  | number: '1.0-1' }} TL 
+                </td>
+                <td>
+                  <span> %{{confirmed.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
+                </td>
+                <td>
+                  {{confirmed.total | number: '1.0-1'}} TL
+                </td>
+                <td>
+                  <span> %{{confirmed.total/total.total*100 | number: '1.0-1'  }}</span>
                 </td>
               </tr>
 
@@ -179,16 +207,28 @@
                   ONAYLANMADI
                 </td>
                 <td>
-                  {{declined.invoiceCount}} ADET -   <span> %{{declined.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
+                  {{declined.invoiceCount}} ADET
                 </td>
                 <td>
-                  {{declined.brutTotal  | number: '1.0-1' }} TL - <span>%{{declined.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span> 
+                  <span> %{{declined.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
                 </td>
                 <td>
-                  {{declined.kdv  | number: '1.0-1'}} TL - <span> %{{declined.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
+                  {{declined.brutTotal  | number: '1.0-1' }} TL
                 </td>
                 <td>
-                  {{declined.total  | number: '1.0-1'}} TL - <span> %{{declined.total/total.total*100 | number: '1.0-1'  }}</span>
+                  <span>%{{declined.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span> 
+                </td>
+                <td>
+                  {{declined.kdv  | number: '1.0-1'}} TL
+                </td>
+                <td>
+                  <span> %{{declined.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
+                </td>
+                <td>
+                  {{declined.total  | number: '1.0-1'}} TL
+                </td>
+                <td>
+                  <span> %{{declined.total/total.total*100 | number: '1.0-1'  }}</span>
                 </td>
               </tr>
               <tr *ngIf="total.invoiceCount>0" style="font-weight:600">
@@ -198,12 +238,15 @@
                 <td >
                   {{total.invoiceCount}} ADET
                 </td>
+                <td></td>
                 <td>
                   {{total.brutTotal | number: '1.0-1'}} TL
                 </td>
+                <td></td>
                 <td>
                   {{total.kdv | number: '1.0-1'}} TL
                 </td>
+                <td></td>
                 <td>
                   {{total.total | number: '1.0-1'}} TL 
                 </td>

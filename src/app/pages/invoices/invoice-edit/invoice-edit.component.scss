@@ -3,3 +3,14 @@
 ::ng-deep .ng-dropdown-panel .scroll-host {
     background: #fff !important;
 }
+::ng-deep .ng-dropdown-panel  {
+    max-width: 200px !important;
+    padding-left:0 !important
+}
+::ng-deep .input-group-alternative {
+    box-shadow: 0 2px 4px rgb(50 50 93 / 13%), 0 1px 0 rgb(0 0 0 / 15%) !important;
+  
+  }
+  .form-group {
+    margin-bottom:1rem !important
+  }
