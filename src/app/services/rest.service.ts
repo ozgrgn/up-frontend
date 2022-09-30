@@ -468,7 +468,9 @@ console.log(company)
     approveDate2?: String,
     deparDate1?: String,
     deparDate2?: String,
-    product?:String
+    product?:String,
+    limit?: number,
+    skip?: number,
   ) {
     let query: any = {};
     if (noPending) {
@@ -500,6 +502,12 @@ console.log(company)
     }
     if (product) {
       query.product = product;
+    }
+    if (limit) {
+      query.limit = limit;
+    }
+    if (skip) {
+      query.skip = skip;
     }
 
     return this.http.get(`${this.apiUrl}/invoice/productreports`, {
@@ -536,6 +544,9 @@ console.log(company)
     }
     if (company) {
       query.company = company;
+    }
+    if (branch) {
+      query.branch = branch;
     }
     if (fullName) {
       query.fullName = fullName;

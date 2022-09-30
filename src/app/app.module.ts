@@ -13,6 +13,7 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 
 import { NgbModule,NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { TurkishDatePickerI18 } from './pages/invoices/invoice-list/TurkishDatePickerI18.1';
+import { ClickOutsideModule } from "ng-click-outside";
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -43,7 +44,7 @@ moment.tz.setDefault("Europe/Istanbul");
   imports: [
     CommonModule,
     BrowserModule,
-
+    ClickOutsideModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,

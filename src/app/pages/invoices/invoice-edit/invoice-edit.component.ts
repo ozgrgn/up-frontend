@@ -27,7 +27,7 @@ export class InvoiceEditComponent implements OnInit {
   terminals: any = [];
   countries: any;
   campaigns: any;
-  product: any ={};
+  product: any = {};
   reasons: any;
   units: any = ["Adet", "Kilo", "Gram"];
   selectedInvoiceID: any;
@@ -40,7 +40,8 @@ export class InvoiceEditComponent implements OnInit {
   totalProduct: any;
   totalBrut: any;
   totalKdv: any;
-
+  totalKdv8: any = 0;
+  totalKdv18: any = 0;
   focus;
   focus1;
   focus2;
@@ -91,7 +92,7 @@ export class InvoiceEditComponent implements OnInit {
     this.getCategories();
     this.getCompanies();
     this.getCampaigns();
-    this.getTerminals()
+    this.getTerminals();
     this.getCountries();
     this.getData();
     this.getAirports();
@@ -161,6 +162,15 @@ export class InvoiceEditComponent implements OnInit {
           this.totalBrut = this.totalBrut + product.productBrut;
           this.totalKdv =
             this.totalKdv + (product.productTotal - product.productBrut);
+          if (product.kdv == 8) {
+            console.log("88888");
+            this.totalKdv8 =
+              this.totalKdv8 + (product.productTotal - product.productBrut);
+          }
+          if (product.kdv == 18) {
+            this.totalKdv18 =
+              this.totalKdv18 + (product.productTotal - product.productBrut);
+          }
         });
       });
   }
@@ -194,7 +204,6 @@ export class InvoiceEditComponent implements OnInit {
         if (data["status"]) {
           console.log(data);
           this.airlines = data["airlines"];
-          this.getData();
         }
       });
   }
@@ -370,27 +379,49 @@ export class InvoiceEditComponent implements OnInit {
         (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
           100,
     });
-  
+
     this.totalProduct =
       this.totalProduct +
-      (this.newProduct.quantity * this.newProduct.price + (
-        (this.newProduct.quantity *
-          this.newProduct.price *
-          this.product.kdv) /
-          100));
-          console.log(this.totalProduct,this.newProduct.quantity,this.newProduct.price,this.product.kdv,"tp")
+      (this.newProduct.quantity * this.newProduct.price +
+        (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
+          100);
+    console.log(
+      this.totalProduct,
+      this.newProduct.quantity,
+      this.newProduct.price,
+      this.product.kdv,
+      "tp"
+    );
     this.totalBrut =
-      this.totalBrut + (this.newProduct.quantity * this.newProduct.price);
-      console.log(this.totalBrut,"tb")
+      this.totalBrut + this.newProduct.quantity * this.newProduct.price;
+    console.log(this.totalBrut, "tb");
     this.totalKdv =
       this.totalKdv +
       (this.newProduct.quantity * this.newProduct.price +
-        (this.newProduct.quantity *
-          this.newProduct.price *
-          this.product.kdv) /
+        (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
           100 -
         this.newProduct.quantity * this.newProduct.price);
-        console.log(this.totalKdv,"tk")
+    if (this.product.kdv == 8) {
+      this.totalKdv8 =
+        this.totalKdv8 +
+        (this.newProduct.quantity * this.newProduct.price +
+          (this.newProduct.quantity *
+            this.newProduct.price *
+            this.product.kdv) /
+            100 -
+          this.newProduct.quantity * this.newProduct.price);
+    }
+    if (this.product.kdv == 18) {
+      this.totalKdv18 =
+        this.totalKdv18 +
+        (this.newProduct.quantity * this.newProduct.price +
+          (this.newProduct.quantity *
+            this.newProduct.price *
+            this.product.kdv) /
+            100 -
+          this.newProduct.quantity * this.newProduct.price);
+    }
+    console.log(this.totalKdv, "tk");
     console.log(this.invoice.details);
     this.product = {};
     this.selectedCategory = undefined;
@@ -525,7 +556,7 @@ export class InvoiceEditComponent implements OnInit {
         name: "Almanya",
       },
       {
-        name: "Amerika Birleşik Devletleri",
+        name: "ABD",
       },
       {
         name: "Andora",

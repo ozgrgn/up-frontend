@@ -1,5 +1,5 @@
 <div class="header bg-custom-grey pb-8 pt-8 pt-md-2">
-  <div class="row title justify-content-center mb-4 mt-3">
+  <div class="title justify-content-center mb-4 mt-3">
     <h4 class="text-muted text-center">
       {{ invoice.invoiceMerged }} SERİ NOLU FATURAYI DÜZENLE
     </h4>
@@ -269,6 +269,7 @@
                           placeholder="Pasaport No"
                           type="text"
                           name="passportNo"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           [(ngModel)]="invoice.client.passportNo"
                           (changed)="this.value = this.value.toUpperCase()"
                           (focus)="focus1 = true"
@@ -287,6 +288,7 @@
                         placeholder="Adres"
                         type="text"
                         name="address"
+                        onkeyup="this.value = this.value.toUpperCase();"
                         [(ngModel)]="invoice.client.address"
                         (focus)="focus1 = true"
                         (blur)="focus1 = false"
@@ -303,6 +305,7 @@
                         placeholder="Telefon"
                         type="text"
                         name="tel"
+                        onkeyup="this.value = this.value.toUpperCase();"
                         [(ngModel)]="invoice.client.phone"
                         (focus)="focus1 = true"
                         (blur)="focus1 = false"
@@ -319,6 +322,7 @@
                         placeholder="Otel"
                         type="text"
                         name="hotel"
+                        onkeyup="this.value = this.value.toUpperCase();"
                         [(ngModel)]="invoice.client.hotel"
                         (focus)="focus1 = true"
                         (blur)="focus1 = false"
@@ -365,6 +369,7 @@
                           class="form-control form-control-alternative"
                           placeholder="Şehir"
                           type="text"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           name="destCity"
                           [(ngModel)]="invoice.destCity"
                           (focus)="focus1 = true"
@@ -403,6 +408,7 @@
                         <select
                           class="form-control form-control-alternative"
                           [(ngModel)]="invoice.terminalId"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           [class.firstColor]="!invoice.terminalId"
                           name="terminal"
                         >
@@ -454,6 +460,7 @@
                           class="form-control form-control-alternative datepicker"
                           placeholder="Çıkış Tarihi"
                           name="dp4"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           [(ngModel)]="invoice.deparDate"
                           ngbDatepicker
                           #d4="ngbDatepicker"
@@ -515,6 +522,7 @@
                           placeholder="Uçuş No"
                           type="text"
                           name="flight"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           style="text-transform: uppercase"
                           [(ngModel)]="invoice.flight"
                           (focus)="focus1 = true"
@@ -562,6 +570,7 @@
                           placeholder="Rehber"
                           type="text"
                           name="guide"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           [(ngModel)]="invoice.guide"
                           (focus)="focus1 = true"
                           (blur)="focus1 = false"
@@ -848,6 +857,47 @@
                           </tr>
                         </tbody>
                       </table>
+                      <div
+                      class="d-flex flex-col w-100 justify-content-end text-nowrap p-2 text-left text-sm"
+                    >
+                      <table>
+                        <tr class="border-bottom">
+                          <td class="col">Ara Toplam</td>
+                          <td class="col">
+                            {{ totalBrut | number: "1.0-1" }} TL
+                          </td>
+                        </tr>
+                        <tr class="border-bottom">
+                          <td class="col">KDV Turarı (V.A.T) %8</td>
+                          <td class="col">
+                            {{ totalKdv8 | number: "1.0-1" }} TL
+                          </td>
+                        </tr>
+                        <tr class="border-bottom">
+                          <td class="col">KDV Turarı (V.A.T) %18</td>
+                          <td class="col">
+                            {{ totalKdv18 | number: "1.0-1" }} TL
+                          </td>
+                        </tr>
+                        <tr class="border-bottom">
+                          <td class="col">Genel TOPLAM</td>
+                          <td class="col">
+                            {{ totalProduct | number: "1.0-1" }} TL
+                          </td>
+                        </tr>
+                      </table>
+
+                      <!-- <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>Toplam</td>
+                          <td>{{ totalBrut | number: "1.0-1" }} TL</td>
+                          <td>{{ totalKdv | number: "1.0-1" }} TL</td>
+                          <td>{{ totalProduct | number: "1.0-1" }} TL</td>
+                        </tr> -->
+                    </div>
                     </div>
                   </div>
                 </div>

@@ -16,8 +16,8 @@ export class CustomerListComponent implements OnInit {
   closeResult: any;
   loading: Boolean = true;
   totalDataCount: number;
-  limit: number = 1000000;
-  rowSize: number = 1000000;
+  limit: number = 10;
+  rowSize: number = 10;
   skip: number = 0;
   fullName: any;
   company: any = {};
@@ -35,6 +35,7 @@ export class CustomerListComponent implements OnInit {
   approveDate: DaterangeModel = {} as DaterangeModel;
   deparDate: DaterangeModel = {} as DaterangeModel;
   perm: any;
+  full:Boolean=true;
 
   constructor(
     private modalService: NgbModal,
@@ -57,7 +58,7 @@ export class CustomerListComponent implements OnInit {
         if (this.perm == "SUPERADMIN") {
           this.company._id = undefined;
           this.getCompanies()
-          this.getIcmal();
+          this.getData();
         } else {
           this.restService
             .getUser(localStorage.getItem("userId"))
@@ -68,7 +69,7 @@ export class CustomerListComponent implements OnInit {
                 console.log(this.selectedCompany,"selected")
                 this.company = data["user"].company;
                 console.log(this.company, "company");
-                this.getIcmal();
+                this.getData();
               } else return;
             });
         }
@@ -85,8 +86,8 @@ export class CustomerListComponent implements OnInit {
         }
       });
   }
-  getIcmal() {
-    console.log(this.company._id);
+  getData() {
+    console.log(this.selectedCompany);
     this.restService
       .getIcmal(
         this.limit,
@@ -122,6 +123,9 @@ export class CustomerListComponent implements OnInit {
         console.log(data);
         this.totalDataCount = data["count"];
         this.invoices = data["invoices"];
+        if(this.selectedCompany && this.perm=="SUPERADMIN")
+        this.company = this.companies.find((x) => x._id === this.selectedCompany);
+        console.log(this.company, "company");
         this.loading = false;
       });
   }
@@ -133,6 +137,29 @@ export class CustomerListComponent implements OnInit {
       return new Date(`${date.year}-${date.month}-${date.day}`).toISOString();
     }
   }
+
+  pages(): any[] {
+    if (this.totalDataCount >= this.limit) {
+      return new Array(Math.ceil(this.totalDataCount / this.limit));
+    } else {
+      return [1];
+    }
+  }
+
+  ceilAndCalculate() {
+    if (
+      Math.ceil(this.skip / this.limit) !=
+      Math.ceil(this.totalDataCount / this.limit) - 1
+    ) {
+      this.skip = this.skip + this.limit;
+      this.getData();
+    }
+  }
+  changeRowSize() {
+    this.limit = this.rowSize;
+    this.getData();
+  }
+
   exportexcel(): void {
     /* table id is passed over here */
     let element = document.getElementById("excel-table");

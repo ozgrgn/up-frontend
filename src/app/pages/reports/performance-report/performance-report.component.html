@@ -1,5 +1,5 @@
 <div class="header bg-custom-grey pb-5 pt-4 pt-md-2">
-  <div class="row title justify-content-center mb-4 mt-3">
+  <div class="title justify-content-center mb-4 mt-3">
     <h4 class="text-muted text-center">PERFORMANS RAPORU</h4>
   </div>
 
@@ -39,77 +39,73 @@
                     [(ngModel)]="fullName"
                     (input)="getData()"
                   /> -->
-                                    
-            <div class="col-2">
-              <select style="width:100%;" 
-              class="form-control-sm form-control "
-              [(ngModel)]="noPending"
-              (change)="getData()"
-            >
-            <option [ngValue] ="false" >
-              TÜM FATURALAR
-             </option>
-            <option [ngValue] ="true" >
-             ONAYLI + ONAYSIZ
-            </option>
-              
-            </select>
-            </div>
-            <div class="col-2" *ngIf="perm=='SUPERADMIN'">
-              <select style="width:100%;" 
-              class="form-control-sm form-control "
-              [(ngModel)]="selectedCompany"
-              (change)="getData()"
-            >
-            <option [ngValue] ="undefined" >
-              TÜM FİRMALAR
-            </option>
-              <option *ngFor="let u of companies" [value]="u._id">
-                {{ u.name }}
-              </option>
-            </select>
-            </div>
-            <div class="col-2">
-                <select style="width:100%;" 
-                  class="form-control-sm form-control "
-                  [(ngModel)]="branch"
-                  (change)="getData()"
-                >
-                <option [ngValue] ="undefined" >
-                  TÜM ŞUBELER
-                </option >
-                <ng-container *ngIf="company.branches">
-                
-                  <option *ngFor="let u of company.branches" [value]="u.name">
-                    {{ u.name }}
-                  </option>
-                </ng-container>
-                </select>
-              </div>
-              <div class="col-2">
-                <app-date-range-picker
-                  [(value)]="invoiceDate"
-                  (dataEvent)="getData()"
-                  (resetDateBind)="resetDate('invoiceDate')"
-                  placeholder="Fatura Tarihi"
-                ></app-date-range-picker>
-              </div>
-              <div class="col-2">
-                <app-date-range-picker
-                  [(value)]="approveDate"
-                  (dataEvent)="getData()"
-                  (resetDateBind)="resetDate('approveDate')"
-                  placeholder="Onay Tarihi"
-                ></app-date-range-picker>
-              </div>
-              <div class="col-2">
-                <app-date-range-picker
-                  [(value)]="deparDate"
-                  (dataEvent)="getData()"
-                  (resetDateBind)="resetDate('deparDate')"
-                  placeholder="Çıkış Tarihi"
-                ></app-date-range-picker>
-              </div>
+
+                <div class="col-2">
+                  <select
+                    style="width: 100%"
+                    class="form-control-sm form-control"
+                    [(ngModel)]="noPending"
+                    (change)="getData()"
+                  >
+                    <option [ngValue]="false">TÜM FATURALAR</option>
+                    <option [ngValue]="true">ONAYLI + ONAYSIZ</option>
+                  </select>
+                </div>
+                <div class="col-2" *ngIf="perm == 'SUPERADMIN'">
+                  <select
+                    style="width: 100%"
+                    class="form-control-sm form-control"
+                    [(ngModel)]="selectedCompany"
+                    (change)="getData()"
+                  >
+                    <option [ngValue]="undefined">TÜM FİRMALAR</option>
+                    <option *ngFor="let u of companies" [value]="u._id">
+                      {{ u.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  <select
+                    style="width: 100%"
+                    class="form-control-sm form-control"
+                    [(ngModel)]="branch"
+                    (change)="getData()"
+                  >
+                    <option [ngValue]="undefined">TÜM ŞUBELER</option>
+                    <ng-container *ngIf="company.branches">
+                      <option
+                        *ngFor="let u of company.branches"
+                        [value]="u.name"
+                      >
+                        {{ u.name }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="invoiceDate"
+                    (dataEvent)="getData()"
+                    (resetDateBind)="resetDate('invoiceDate')"
+                    placeholder="Fatura Tarihi"
+                  ></app-date-range-picker>
+                </div>
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="approveDate"
+                    (dataEvent)="getData()"
+                    (resetDateBind)="resetDate('approveDate')"
+                    placeholder="Onay Tarihi"
+                  ></app-date-range-picker>
+                </div>
+                <div class="col-2">
+                  <app-date-range-picker
+                    [(value)]="deparDate"
+                    (dataEvent)="getData()"
+                    (resetDateBind)="resetDate('deparDate')"
+                    placeholder="Çıkış Tarihi"
+                  ></app-date-range-picker>
+                </div>
               </div>
             </div>
           </div>
@@ -143,113 +139,127 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngIf="pending.invoiceCount>0">
+              <tr *ngIf="pending.invoiceCount > 0">
+                <td>ONAY BEKLİYOR</td>
+                <td>{{ pending.invoiceCount }} ADET</td>
                 <td>
-                  ONAY BEKLİYOR
+                  <span>
+                    %{{
+                      (pending.invoiceCount / total.invoiceCount) * 100
+                        | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ pending.brutTotal | number: "1.0-1" }} TL</td>
                 <td>
-                  {{pending.invoiceCount}} ADET   
+                  <span>
+                    %{{
+                      (pending.brutTotal / total.brutTotal) * 100
+                        | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ pending.kdv | number: "1.0-1" }} TL</td>
                 <td>
-                  <span> %{{pending.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
+                  <span>
+                    %{{
+                      (pending.kdv / total.kdv) * 100 | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ pending.total | number: "1.0-1" }} TL</td>
                 <td>
-                  {{pending.brutTotal | number: '1.0-1'}} TL  
-                </td>
-                <td>
-                  <span> %{{pending.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span>
-                </td>
-                <td>
-                  {{pending.kdv  | number: '1.0-1'  }} TL 
-                </td>
-                <td>
-                  <span> %{{pending.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
-                </td>
-                <td>
-                  {{pending.total | number: '1.0-1'}}  TL 
-                </td>
-                <td>
-                  <span> %{{pending.total/total.total*100 | number: '1.0-1' }}</span>
+                  <span>
+                    %{{
+                      (pending.total / total.total) * 100 | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
               </tr>
-              <tr *ngIf="confirmed.invoiceCount>0">
+              <tr *ngIf="confirmed.invoiceCount > 0">
+                <td>ONAYLANDI</td>
+                <td>{{ confirmed.invoiceCount }} ADET</td>
                 <td>
-                  ONAYLANDI
+                  <span>
+                    %{{
+                      (confirmed.invoiceCount / total.invoiceCount) * 100
+                        | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ confirmed.brutTotal | number: "1.0-1" }} TL</td>
                 <td>
-                  {{confirmed.invoiceCount}} ADET  
+                  <span>
+                    %{{
+                      (confirmed.brutTotal / total.brutTotal) * 100
+                        | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ confirmed.kdv | number: "1.0-1" }} TL</td>
                 <td>
-                  <span> %{{confirmed.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
+                  <span>
+                    %{{
+                      (confirmed.kdv / total.kdv) * 100 | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ confirmed.total | number: "1.0-1" }} TL</td>
                 <td>
-                  {{confirmed.brutTotal | number: '1.0-1'}} TL
-                </td>
-                <td>
-                  <span> %{{confirmed.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span>
-                </td>
-                <td>
-                  {{confirmed.kdv  | number: '1.0-1' }} TL 
-                </td>
-                <td>
-                  <span> %{{confirmed.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
-                </td>
-                <td>
-                  {{confirmed.total | number: '1.0-1'}} TL
-                </td>
-                <td>
-                  <span> %{{confirmed.total/total.total*100 | number: '1.0-1'  }}</span>
+                  <span>
+                    %{{
+                      (confirmed.total / total.total) * 100 | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
               </tr>
 
-              <tr *ngIf="declined.invoiceCount>0">
+              <tr *ngIf="declined.invoiceCount > 0">
+                <td>ONAYLANMADI</td>
+                <td>{{ declined.invoiceCount }} ADET</td>
                 <td>
-                  ONAYLANMADI
+                  <span>
+                    %{{
+                      (declined.invoiceCount / total.invoiceCount) * 100
+                        | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ declined.brutTotal | number: "1.0-1" }} TL</td>
                 <td>
-                  {{declined.invoiceCount}} ADET
+                  <span
+                    >%{{
+                      (declined.brutTotal / total.brutTotal) * 100
+                        | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ declined.kdv | number: "1.0-1" }} TL</td>
                 <td>
-                  <span> %{{declined.invoiceCount/total.invoiceCount*100 | number: '1.0-1'  }}</span>
+                  <span>
+                    %{{
+                      (declined.kdv / total.kdv) * 100 | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
+                <td>{{ declined.total | number: "1.0-1" }} TL</td>
                 <td>
-                  {{declined.brutTotal  | number: '1.0-1' }} TL
-                </td>
-                <td>
-                  <span>%{{declined.brutTotal/total.brutTotal*100 | number: '1.0-1'  }}</span> 
-                </td>
-                <td>
-                  {{declined.kdv  | number: '1.0-1'}} TL
-                </td>
-                <td>
-                  <span> %{{declined.kdv/total.kdv*100 | number: '1.0-1'  }}</span>
-                </td>
-                <td>
-                  {{declined.total  | number: '1.0-1'}} TL
-                </td>
-                <td>
-                  <span> %{{declined.total/total.total*100 | number: '1.0-1'  }}</span>
+                  <span>
+                    %{{
+                      (declined.total / total.total) * 100 | number: "1.0-1"
+                    }}</span
+                  >
                 </td>
               </tr>
-              <tr *ngIf="total.invoiceCount>0" style="font-weight:600">
-                <td>
-                  TOPLAM
-                </td>
-                <td >
-                  {{total.invoiceCount}} ADET
-                </td>
+              <tr *ngIf="total.invoiceCount > 0" style="font-weight: 600">
+                <td>TOPLAM</td>
+                <td>{{ total.invoiceCount }} ADET</td>
                 <td></td>
-                <td>
-                  {{total.brutTotal | number: '1.0-1'}} TL
-                </td>
+                <td>{{ total.brutTotal | number: "1.0-1" }} TL</td>
                 <td></td>
-                <td>
-                  {{total.kdv | number: '1.0-1'}} TL
-                </td>
+                <td>{{ total.kdv | number: "1.0-1" }} TL</td>
                 <td></td>
-                <td>
-                  {{total.total | number: '1.0-1'}} TL 
-                </td>
+                <td>{{ total.total | number: "1.0-1" }} TL</td>
               </tr>
               <!-- <tr *ngFor="let invoice of invoices">
                   
@@ -365,5 +375,3 @@
     </div>
   </div>
 </div>
-
-

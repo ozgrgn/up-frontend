@@ -1,8 +1,9 @@
-<div class="header bg-custom-grey pb-5 pt-4 pt-md-2">
-    <div class="row title justify-content-center mb-4 mt-3">
+<div class="page-container d-flex flex-column justify-content-between">
+  <div class="header bg-custom-grey pb-5 pt-4 pt-md-2">
+    <div class="title justify-content-center mb-4 mt-3">
       <h4 class="text-muted text-center">MÜŞTERİ LİSTESİ</h4>
     </div>
-  
+
     <div class="container-fluid">
       <div class="header-body text-center mb-7">
         <!-- Card stats -->
@@ -15,7 +16,7 @@
                       [ngClass]="page == 'onay' ? 'btn-primary' : 'btn-secondary'"
                       class="btn btn-sm mb-2"
                       (click)="
-                        page = 'onay'; status = 'PENDING'; skip = 0; getIcmal()
+                        page = 'onay'; status = 'PENDING'; skip = 0; getData()
                       "
                     >
                       ONAY BEKLEYEN FATURALAR
@@ -24,7 +25,7 @@
                       [ngClass]="page == 'all' ? 'btn-primary' : 'btn-secondary'"
                       class="btn btn-sm mb-2"
                       (click)="
-                        page = 'all'; status = undefined; skip = 0; getIcmal()
+                        page = 'all'; status = undefined; skip = 0; getData()
                       "
                     >
                       TÜM FATURALAR
@@ -37,14 +38,14 @@
                       type="text"
                       class="form-control form-control-sm text-justify centered mr-2"
                       [(ngModel)]="fullName"
-                      (input)="getIcmal()"
+                      (input)="getData()"
                     /> -->
-                                      
-              <!-- <div *ngIf="perm=='SUPERADMIN'" class="col-2">
+
+                  <!-- <div *ngIf="perm=='SUPERADMIN'" class="col-2">
                 <select style="width:100%;"
                 class="form-control-sm form-control "
                 [(ngModel)]="noPending"
-                (change)="getIcmal()"
+                (change)="getData()"
               >
               <option [ngValue] ="false" >
                 TÜM FATURALAR
@@ -55,70 +56,70 @@
                 
               </select>
               </div> -->
-              <div *ngIf="perm=='SUPERADMIN'" class="col-2">
-                <select style="width:100%;"
-                class="form-control-sm form-control "
-                [(ngModel)]="selectedCompany"
-                (change)="branch=undefined; getIcmal()"
-              >
-              <option [ngValue] ="undefined" >
-                TÜM FİRMALAR
-              </option>
-                <option *ngFor="let u of companies" [value]="u._id">
-                  {{ u.name }}
-                </option>
-              </select>
-              <h3>{{company?.name}}</h3>
-               </div> 
-              <div class="col-2">
-                  <select style="width:100%;" 
-                    class="form-control-sm form-control "
-                    [(ngModel)]="branch"
-                    (change)="getIcmal()"
-                  >
-                  <option [ngValue] ="undefined" >
-                    TÜM ŞUBELER
-                  </option >
-                  <ng-container *ngIf="company.branches">
-                  
-                    <option *ngFor="let u of company.branches" [value]="u.name">
-                      {{ u.name }}
-                    </option>
-                  </ng-container>
-                  </select>
-                </div> 
-                <div class="col-2">
-                  <app-date-range-picker
-                    [(value)]="invoiceDate"
-                    (dataEvent)="getIcmal()"
-                    (resetDateBind)="resetDate('invoiceDate')"
-                    placeholder="Fatura Tarihi"
-                  ></app-date-range-picker>
-                </div>
-                <div class="col-2">
-                  <app-date-range-picker
-                    [(value)]="approveDate"
-                    (dataEvent)="getIcmal()"
-                    (resetDateBind)="resetDate('approveDate')"
-                    placeholder="Onay Tarihi"
-                  ></app-date-range-picker>
-                </div>
-                <div class="col-2">
-                  <app-date-range-picker
-                    [(value)]="deparDate"
-                    (dataEvent)="getIcmal()"
-                    (resetDateBind)="resetDate('deparDate')"
-                    placeholder="Çıkış Tarihi"
-                  ></app-date-range-picker>
-                </div>
+                  <div *ngIf="perm == 'SUPERADMIN'" class="col-2">
+                    <select
+                      style="width: 100%"
+                      class="form-control-sm form-control"
+                      [(ngModel)]="selectedCompany"
+                      (change)="branch = undefined; getData()"
+                    >
+                      <option [ngValue]="undefined">TÜM FİRMALAR</option>
+                      <option *ngFor="let u of companies" [value]="u._id">
+                        {{ u.name }}
+                      </option>
+                    </select>
+                   
+                  </div>
+                  <div class="col-2">
+                    <select
+                      style="width: 100%"
+                      class="form-control-sm form-control"
+                      [(ngModel)]="branch"
+                      (change)="getData()"
+                    >
+                      <option [ngValue]="undefined">TÜM ŞUBELER</option>
+                      <ng-container *ngIf="company.branches">
+                        <option
+                          *ngFor="let u of company.branches"
+                          [value]="u.name"
+                        >
+                          {{ u.name }}
+                        </option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <app-date-range-picker
+                      [(value)]="invoiceDate"
+                      (dataEvent)="getData()"
+                      (resetDateBind)="resetDate('invoiceDate')"
+                      placeholder="Fatura Tarihi"
+                    ></app-date-range-picker>
+                  </div>
+                  <div class="col-2">
+                    <app-date-range-picker
+                      [(value)]="approveDate"
+                      (dataEvent)="getData()"
+                      (resetDateBind)="resetDate('approveDate')"
+                      placeholder="Onay Tarihi"
+                    ></app-date-range-picker>
+                  </div>
+                  <div class="col-2">
+                    <app-date-range-picker
+                      [(value)]="deparDate"
+                      (dataEvent)="getData()"
+                      (resetDateBind)="resetDate('deparDate')"
+                      placeholder="Çıkış Tarihi"
+                    ></app-date-range-picker>
+                  </div>
                 </div>
                 <input
-                style="width: 350px"
-                type="button"
-                value="Excel"
-                class="btn btn-success mt-0 m-1"
-                (click)="exportexcel()"
-              />
+                  style="width: 350px"
+                  type="button"
+                  value="Excel"
+                  class="btn btn-success mt-0 m-1"
+                  (click)="exportexcel()"
+                />
               </div>
             </div>
           </div>
@@ -136,7 +137,11 @@
               <h3 *ngIf="page == 'all'" class="mb-0">TÜM FATURALAR</h3>
             </div> -->
           <div class="table-responsive">
-            <table id="excel-table" *ngIf="!loading" class="table align-items-center table-flush">
+            <table
+              id="excel-table"
+              *ngIf="!loading"
+              class="table align-items-center table-flush"
+            >
               <thead class="thead-light">
                 <tr>
                   <th class="text-dark" scope="col">Şirket/Şube</th>
@@ -157,61 +162,60 @@
                 </tr>
               </thead>
               <tbody>
-                 
-                    <ng-container *ngFor="let invoice of invoices; let i=index" >
-                    <tr  >
-                        <td>
-                            {{invoice?.company?.name}}/{{invoice?.branch}}
-                          </td>
-                        <td>
-                          {{invoice?.invoiceSerial}}{{invoice?.invoiceNo}}
-                        </td>
-                        <td>
-                            {{invoice?.invoiceDate | date: "dd.MM.yyyy"}}
-                          </td>
-                          <td>
-                            {{invoice?.fullName}}
-                          </td>
-                          <td>
-                            {{invoice?.client?.passportNo}}
-                          </td>
-                          <td>
-                            {{invoice?.client?.nation | uppercase}}
-                          </td>
-                          <td>
-                            {{invoice?.destCountry | uppercase}}-{{invoice?.destCity}}
-                          </td>
-                          <td>
-                            {{invoice?.airline}}
-                          </td>
-                          <td>
-                            {{invoice?.deparDate | date: "dd.MM.yyyy"}} -   {{invoice?.deparTime}}
-                          </td>
-                          <td>
-                            {{invoice?.flight}}
-                          </td>
-                          <td>
-                            {{invoice?.note}}
-                          </td>
-                          <td>
-                            {{invoice?.campaign}}
-                          </td>
-                          <td>
-                            {{invoice?.productBrut | number:"1.0-2"}}
-                          </td>
-                          <td>
-                            {{(invoice?.productTotal-invoice?.productBrut) | number:"1.0-2"}}
-                          </td>
-                          <td>
-                            {{invoice?.productTotal | number:"1.0-2"}}
-                          </td>
-                    </tr>
-                        
-                  </ng-container>
-                
-                  
-     
-     
+                <ng-container *ngFor="let invoice of invoices; let i = index">
+                  <tr>
+                    <td>{{ invoice?.company?.name }}/{{ invoice?.branch }}</td>
+                    <td>
+                      {{ invoice?.invoiceSerial }}{{ invoice?.invoiceNo }}
+                    </td>
+                    <td>
+                      {{ invoice?.invoiceDate | date: "dd.MM.yyyy" }}
+                    </td>
+                    <td>
+                      {{ invoice?.fullName }}
+                    </td>
+                    <td>
+                      {{ invoice?.client?.passportNo }}
+                    </td>
+                    <td>
+                      {{ invoice?.client?.nation | uppercase }}
+                    </td>
+                    <td>
+                      {{ invoice?.destCountry | uppercase }}-{{
+                        invoice?.destCity
+                      }}
+                    </td>
+                    <td>
+                      {{ invoice?.airline }}
+                    </td>
+                    <td>
+                      {{ invoice?.deparDate | date: "dd.MM.yyyy" }} -
+                      {{ invoice?.deparTime }}
+                    </td>
+                    <td>
+                      {{ invoice?.flight }}
+                    </td>
+                    <td>
+                      {{ invoice?.note }}
+                    </td>
+                    <td>
+                      {{ invoice?.campaign }}
+                    </td>
+                    <td>
+                      {{ invoice?.productBrut | number: "1.0-2" }}
+                    </td>
+                    <td>
+                      {{
+                        invoice?.productTotal - invoice?.productBrut
+                          | number: "1.0-2"
+                      }}
+                    </td>
+                    <td>
+                      {{ invoice?.productTotal | number: "1.0-2" }}
+                    </td>
+                  </tr>
+                </ng-container>
+
                 <!-- <tr *ngFor="let invoice of invoices">
                     
                     <td>
@@ -280,11 +284,51 @@
               </tbody>
             </table>
           </div>
-      
+          <div class="card-footer py-4">
+            <nav>
+              <ul class="pagination float-right">
+                <td class="mr-2" scope="col">
+                  <select
+                    class="form-control form-control-sm mt-1"
+                    [(ngModel)]="rowSize"
+                    (ngModelChange)="changeRowSize()"
+                    name="rowSize"
+                  >
+                    <option [value]="10">10</option>
+                    <option [value]="50">50</option>
+                    <option [value]="100">100</option>
+                    <option [value]="99999999">Tümü</option>
+                  </select>
+                </td>
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    (click)="
+                      skip != 0 ? (skip = skip - limit) : (skip = skip);
+                      getData()
+                    "
+                    ><i class="fa fa-angle-left"></i
+                  ></a>
+                </li>
+                <li
+                  *ngFor="let page of pages(); let i = index"
+                  [class.active]="skip == limit * i"
+                  (click)="skip = limit * i; getData()"
+                  class="page-item"
+                >
+                  <a class="page-link">{{ i + 1 }}</a>
+                </li>
+
+                <li class="page-item">
+                  <a class="page-link" (click)="ceilAndCalculate()"
+                    ><i class="fa fa-angle-right"></i
+                  ></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  
-
-  
+</div>

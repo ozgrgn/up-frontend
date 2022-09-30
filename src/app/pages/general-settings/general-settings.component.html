@@ -1,9 +1,9 @@
 <div class="header bg-custom-grey pb-8 pt-5 pt-md-6">
-  <div class="row title justify-content-center mb-4 mt-3">
+  <div class="title justify-content-center mb-4 mt-3">
     <h4 class="text-muted text-center">TANIMLAMALAR</h4>
   </div>
-  <div class="row align-items-center">
-    <div class="col-12 text-center">
+  <div class="align-items-center">
+    <div class=" text-center">
       <button
         class="btn btn-secondary btn-sm mb-2"
         (click)="page = 'company'"
@@ -79,6 +79,7 @@
                             <div class="form-group mb-0">
                               <div class="input-group input-group-alternative">
                                 <input
+                                onkeyup="this.value = this.value.toUpperCase();"
                                   class="form-control form-control-alternative"
                                   placeholder="Firma Adı"
                                   type="text"
@@ -135,7 +136,7 @@
                   <ng-container *ngIf="selectedCompany._id">
                   
                   <h6 class="heading-small text-muted mb-4 text-center">
-                   Şubeler
+                   
                   </h6>
                   <div class="table-responsive">
                     <!-- Projects table -->
@@ -152,6 +153,7 @@
                             <div class="form-group mb-0">
                               <div class="input-group input-group-alternative">
                                 <input
+                                onkeyup="this.value = this.value.toUpperCase();"
                                   class="form-control form-control-alternative"
                                   placeholder="Yeni Şube Ekle"
                                   type="text"

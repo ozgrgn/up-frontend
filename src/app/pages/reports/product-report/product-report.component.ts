@@ -23,8 +23,8 @@ export class ProductReportComponent implements OnInit {
   status: any;
   noPending: Boolean = false;
   products: any;
-  allProducts:any=[];
-  selectedProduct:any
+  allProducts: any = [];
+  selectedProduct: any;
   categories: any;
 
   total: any;
@@ -94,7 +94,9 @@ export class ProductReportComponent implements OnInit {
         this.deparDate?.endDate
           ? this.deparDate.endDate.toISOString()
           : undefined,
-this.selectedProduct
+        this.selectedProduct,
+        this.limit,
+        this.skip
       )
       .toPromise()
       .then((data) => {
@@ -127,14 +129,13 @@ this.selectedProduct
       .toPromise()
       .then((data) => {
         if (data["status"]) {
-          this.categories = data["category"]; 
-          console.log(this.categories)
-          this.categories.map((cat)=>{
-            cat.product.map((product)=>{
-              this.allProducts=[...this.allProducts,product];
-            })
-            
-          })
+          this.categories = data["category"];
+          console.log(this.categories);
+          this.categories.map((cat) => {
+            cat.product.map((product) => {
+              this.allProducts = [...this.allProducts, product];
+            });
+          });
           console.log(this.allProducts, "allProducts");
         }
       });

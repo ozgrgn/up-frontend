@@ -18,8 +18,8 @@ export class IcmalComponent implements OnInit {
   closeResult: any;
   loading: Boolean = true;
   totalDataCount: number;
-  limit: number = 1000000;
-  rowSize: number = 1000000;
+  limit: number = 10;
+  rowSize: number = 10;
   skip: number = 0;
   fullName: any;
   company: any = {};
@@ -135,6 +135,29 @@ export class IcmalComponent implements OnInit {
       return new Date(`${date.year}-${date.month}-${date.day}`).toISOString();
     }
   }
+
+  pages(): any[] {
+    if (this.totalDataCount >= this.limit) {
+      return new Array(Math.ceil(this.totalDataCount / this.limit));
+    } else {
+      return [1];
+    }
+  }
+
+  ceilAndCalculate() {
+    if (
+      Math.ceil(this.skip / this.limit) !=
+      Math.ceil(this.totalDataCount / this.limit) - 1
+    ) {
+      this.skip = this.skip + this.limit;
+      this.getIcmal();
+    }
+  }
+  changeRowSize() {
+    this.limit = this.rowSize;
+    this.getIcmal();
+  }
+
   exportexcel(): void {
     /* table id is passed over here */
     let element = document.getElementById("excel-table");

@@ -6,10 +6,14 @@
   z-index: 1040 !important;
 }
 .table td {
-  font-size: 0.9rem !important;
+  overflow:hidden;
+  font-size: 0.8rem !important;
   max-width: 250px;
-  overflow: auto;
+  width: fit-content;
+  padding:0.7rem !important;
+  text-transform: uppercase;
 }
+
 .form-control {
   font-size: 0.9rem;
   color: #555657 !important;
@@ -18,7 +22,7 @@
   font-size: 0.9rem !important;
 }
 .bg-custom-grey {
-  background: #757393 !important;
+  background: #888c96 !important;
 }
 .btn-primary {
   background-color: #fb6340 !important;

@@ -1,5 +1,5 @@
 <div class="header bg-custom-grey pb-8 pt-4 pt-md-2">
-  <div class="row title justify-content-center mb-4 mt-3">
+  <div class="title justify-content-center mb-4 mt-3">
     <h4 class="text-muted text-center">FATURA EKLE</h4>
   </div>
 </div>
@@ -180,6 +180,7 @@
                         class="form-control form-control-alternative"
                         placeholder="Tezgahtar"
                         type="text"
+                        onkeyup="this.value = this.value.toUpperCase();"
                         name="tezgahtar"
                         [(ngModel)]="shopman"
                         (focus)="focus5 = true"
@@ -201,6 +202,7 @@
                         <input
                           class="form-control form-control-alternative"
                           placeholder="Yolcu Adı"
+                          onkeyup="this.value = this.value.toUpperCase();"
                           type="text"
                           name="name"
                           [(ngModel)]="name"
@@ -286,6 +288,7 @@
                         type="text"
                         name="address"
                         [(ngModel)]="address"
+                        onkeyup="this.value = this.value.toUpperCase();"
                         (focus)="focus10 = true"
                         (blur)="focus10 = false"
                       />
@@ -302,6 +305,7 @@
                         type="text"
                         name="tel"
                         [(ngModel)]="phone"
+                        onkeyup="this.value = this.value.toUpperCase();"
                         (focus)="focus11 = true"
                         (blur)="focus11 = false"
                       />
@@ -317,6 +321,7 @@
                         placeholder="Otel"
                         type="text"
                         name="hotel"
+                        onkeyup="this.value = this.value.toUpperCase();"
                         [(ngModel)]="hotel"
                         (focus)="focus12 = true"
                         (blur)="focus12 = false"
@@ -324,7 +329,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="col-12 col-md-4">
                   <h6 class="heading-small text-dark mb-4 text-center">
                     YOLCU ÇIKIŞ BİLGİLERİ
@@ -393,7 +398,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="row p-0 m-0">     
+                  <div class="row p-0 m-0">
                     <div
                       class="form-group col-6"
                       [ngClass]="{ focused: focus17 === true }"
@@ -408,7 +413,10 @@
                             Terminal
                           </option>
 
-                          <option *ngFor="let terminal of terminals" [value]="terminal._id">
+                          <option
+                            *ngFor="let terminal of terminals"
+                            [value]="terminal._id"
+                          >
                             {{ terminal.name }}
                           </option>
                         </select>
@@ -438,7 +446,6 @@
                         </select>
                       </div>
                     </div>
-               
                   </div>
                   <div class="row p-0 m-0">
                     <div
@@ -523,74 +530,73 @@
                   </div>
                 </div>
               </div>
-                <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="row p-0 m-0">
-                      <div
-                        class="form-group col-6"
-                        [ngClass]="{ focused: focus22 === true }"
-                      >
-                        <div class="input-group input-group-alternative">
-                          <select
-                            class="form-control form-control-alternative"
-                            [(ngModel)]="agencyId"
-                            [class.firstColor]="!agencyId"
-                            onkeyup="this.value = this.value.toUpperCase();"
-                          >
-                            <option value="null" disabled="disabled">
-                              Acente
-                            </option>
-
-                            <option
-                              *ngFor="let agency of agencies"
-                              [value]="agency._id"
-                            >
-                              {{ agency.name }}
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div
-                        class="form-group col-6"
-                        [ngClass]="{ focused: focus23 === true }"
-                      >
-                        <div class="input-group input-group-alternative">
-                          <input
-                            class="form-control form-control-alternative"
-                            placeholder="Rehber"
-                            type="text"
-                            name="guide"
-                            [(ngModel)]="guide"
-                            onkeyup="this.value = this.value.toUpperCase();"
-                            (focus)="focus23 = true"
-                            (blur)="focus23 = false"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-8">
+              <div class="row">
+                <div class="col-12 col-md-4">
+                  <div class="row p-0 m-0">
                     <div
-                      class="form-group col-12"
-                      [ngClass]="{ focused: focus24 === true }"
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus22 === true }"
                     >
                       <div class="input-group input-group-alternative">
-                        <textarea
+                        <select
                           class="form-control form-control-alternative"
-                          placeholder="Notlar"
-                          type=""
-                          name="notes"
-                          rows="1"
-                          [(ngModel)]="note"
-                          (focus)="focus24 = true"
-                          (blur)="focus24 = false"
-                        ></textarea>
+                          [(ngModel)]="agencyId"
+                          [class.firstColor]="!agencyId"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                        >
+                          <option value="null" disabled="disabled">
+                            Acente
+                          </option>
+
+                          <option
+                            *ngFor="let agency of agencies"
+                            [value]="agency._id"
+                          >
+                            {{ agency.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div
+                      class="form-group col-6"
+                      [ngClass]="{ focused: focus23 === true }"
+                    >
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Rehber"
+                          type="text"
+                          name="guide"
+                          [(ngModel)]="guide"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                          (focus)="focus23 = true"
+                          (blur)="focus23 = false"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
-              
+                <div class="col-8">
+                  <div
+                    class="form-group col-12"
+                    [ngClass]="{ focused: focus24 === true }"
+                  >
+                    <div class="input-group input-group-alternative">
+                      <textarea
+                        class="form-control form-control-alternative"
+                        placeholder="Notlar"
+                        type=""
+                        name="notes"
+                        rows="1"
+                        [(ngModel)]="note"
+                        (focus)="focus24 = true"
+                        (blur)="focus24 = false"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </form>
           </div>
           <div class="card-body pt-2">
@@ -638,11 +644,10 @@
                                     class="form-control-sm form-control-alternative"
                                     [class.firstColor]="!selectedCategory"
                                     style="min-width: 82px"
-                                    [(ngModel)]="selectedCategory"
-                                    (change)="selectCat(selectedCategory)"
+                                    (change)="selectCat($event)"
                                   >
                                     <option
-                                      [value]="undefined"
+                                      [selected]="selectedCategory == null"
                                       disabled="disabled"
                                       style="
                                         background: white;
@@ -654,7 +659,7 @@
 
                                     <option
                                       *ngFor="let cat of categories"
-                                      [value]="cat._id"
+                                      value="{{ cat._id }}"
                                     >
                                       {{ cat.category }}
                                     </option>
@@ -706,7 +711,7 @@
                                 Kategori seçilmedi
                               </span>
                             </td>
-            
+
                             <td>
                               <div class="form-group mb-0">
                                 <div
@@ -751,11 +756,13 @@
                                 </div>
                               </div>
                             </td>
-                            <td>   {{
-                              newProduct.price * newProduct.quantity > 0
-                                ? newProduct.price * newProduct.quantity
-                                : 0
-                            }}</td>
+                            <td>
+                              {{
+                                newProduct.price * newProduct.quantity > 0
+                                  ? newProduct.price * newProduct.quantity
+                                  : 0
+                              }}
+                            </td>
                             <td>%{{ product ? product.kdv : "0" }}</td>
                             <td>
                               {{
@@ -812,7 +819,39 @@
                               </button>
                             </td>
                           </tr>
-                          <tr>
+                        </tbody>
+                      </table>
+                      <div
+                        class="d-flex flex-col w-100 justify-content-end text-nowrap p-2 text-left text-sm"
+                      >
+                        <table>
+                          <tr class="border-bottom">
+                            <td class="col">Ara Toplam</td>
+                            <td class="col">
+                              {{ totalBrut | number: "1.0-1" }} TL
+                            </td>
+                          </tr>
+                          <tr class="border-bottom">
+                            <td class="col">KDV Turarı (V.A.T) %8</td>
+                            <td class="col">
+                              {{ totalKdv8 | number: "1.0-1" }} TL
+                            </td>
+                          </tr>
+                          <tr class="border-bottom">
+                            <td class="col">KDV Turarı (V.A.T) %18</td>
+                            <td class="col">
+                              {{ totalKdv18 | number: "1.0-1" }} TL
+                            </td>
+                          </tr>
+                          <tr class="border-bottom">
+                            <td class="col">Genel TOPLAM</td>
+                            <td class="col">
+                              {{ totalProduct | number: "1.0-1" }} TL
+                            </td>
+                          </tr>
+                        </table>
+
+                        <!-- <tr>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -821,9 +860,8 @@
                             <td>{{ totalBrut | number: "1.0-1" }} TL</td>
                             <td>{{ totalKdv | number: "1.0-1" }} TL</td>
                             <td>{{ totalProduct | number: "1.0-1" }} TL</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                          </tr> -->
+                      </div>
                     </div>
                   </div>
                 </div>

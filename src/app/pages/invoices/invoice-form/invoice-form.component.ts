@@ -33,7 +33,7 @@ export class InvoiceFormComponent implements OnInit {
   guide: any;
   note: any;
   passportNo: any;
-  selectedCategory: any;
+  selectedCategory: any = null;
   selectedProduct: any;
   cats: any;
   category: any = {};
@@ -68,9 +68,11 @@ export class InvoiceFormComponent implements OnInit {
   selectedCompany: any = null;
   selectedBranch: any = null;
   perm: any;
-  totalProduct: any=0;
-  totalBrut: any=0;
-  totalKdv: any=0;
+  totalProduct: any = 0;
+  totalBrut: any = 0;
+  totalKdv: any = 0;
+  totalKdv8: any = 0;
+  totalKdv18: any = 0;
 
   focus;
   focus1;
@@ -216,25 +218,48 @@ export class InvoiceFormComponent implements OnInit {
           100,
     });
     this.totalProduct =
-    this.totalProduct +
-    (this.newProduct.quantity * this.newProduct.price + (
-      (this.newProduct.quantity *
-        this.newProduct.price *
-        this.product.kdv) /
-        100));
-        console.log(this.totalProduct,this.newProduct.quantity,this.newProduct.price,this.product.kdv,"tp")
-  this.totalBrut =
-    this.totalBrut + (this.newProduct.quantity * this.newProduct.price);
-    console.log(this.totalBrut,"tb")
-  this.totalKdv =
-    this.totalKdv +
-    (this.newProduct.quantity * this.newProduct.price +
-      (this.newProduct.quantity *
-        this.newProduct.price *
-        this.product.kdv) /
-        100 -
-      this.newProduct.quantity * this.newProduct.price);
-      console.log(this.totalKdv,"tk")
+      this.totalProduct +
+      (this.newProduct.quantity * this.newProduct.price +
+        (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
+          100);
+    console.log(
+      this.totalProduct,
+      this.newProduct.quantity,
+      this.newProduct.price,
+      this.product.kdv,
+      "tp"
+    );
+    this.totalBrut =
+      this.totalBrut + this.newProduct.quantity * this.newProduct.price;
+    console.log(this.totalBrut, "tb");
+    this.totalKdv =
+      this.totalKdv +
+      (this.newProduct.quantity * this.newProduct.price +
+        (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
+          100 -
+        this.newProduct.quantity * this.newProduct.price);
+    if (this.product.kdv == 8) {
+      this.totalKdv8 =
+        this.totalKdv8 +
+        (this.newProduct.quantity * this.newProduct.price +
+          (this.newProduct.quantity *
+            this.newProduct.price *
+            this.product.kdv) /
+            100 -
+          this.newProduct.quantity * this.newProduct.price);
+    }
+    if (this.product.kdv == 18) {
+      this.totalKdv18 =
+        this.totalKdv18 +
+        (this.newProduct.quantity * this.newProduct.price +
+          (this.newProduct.quantity *
+            this.newProduct.price *
+            this.product.kdv) /
+            100 -
+          this.newProduct.quantity * this.newProduct.price);
+    }
+
+    console.log(this.totalKdv, "tk");
     console.log(this.details);
     this.product = {};
     this.selectedCategory = undefined;
@@ -245,34 +270,33 @@ export class InvoiceFormComponent implements OnInit {
 
   removeDetail(index) {
     this.totalProduct =
-    this.totalProduct -
-    (this.details[index].quantity *
-      this.details[index].price +
-      (this.details[index].quantity *
-        this.details[index].price *
-        this.details[index].kdv) /
-        100);
-  this.totalBrut =
-    this.totalBrut -
-    this.details[index].quantity * this.details[index].price;
-  this.totalKdv =
-    this.totalKdv -
-    (this.details[index].quantity *
-      this.details[index].price +
-      (this.details[index].quantity *
-        this.details[index].price *
-        this.details[index].kdv) /
-        100 -
-      this.details[index].quantity *
-        this.details[index].price);
+      this.totalProduct -
+      (this.details[index].quantity * this.details[index].price +
+        (this.details[index].quantity *
+          this.details[index].price *
+          this.details[index].kdv) /
+          100);
+    this.totalBrut =
+      this.totalBrut - this.details[index].quantity * this.details[index].price;
+    this.totalKdv =
+      this.totalKdv -
+      (this.details[index].quantity * this.details[index].price +
+        (this.details[index].quantity *
+          this.details[index].price *
+          this.details[index].kdv) /
+          100 -
+        this.details[index].quantity * this.details[index].price);
 
     this.details.splice(index, 1);
   }
-  selectCat(a) {
-    this.cats = this.categories.filter(function (b) {
-      console.log(a._id, "test");
-      return b._id == a;
-    });
+  selectCat(event: any) {
+    this.selectedCategory = event.target.value;
+    this.cats = [
+      ...this.categories.filter((b) => {
+        console.log(this.selectedCategory, "test");
+        return b._id == this.selectedCategory;
+      }),
+    ];
     this.cats = this.cats[0];
     console.log(this.cats, "CAT");
   }
@@ -473,7 +497,7 @@ export class InvoiceFormComponent implements OnInit {
         name: "Almanya",
       },
       {
-        name: "Amerika Birleşik Devletleri",
+        name: "ABD",
       },
       {
         name: "Andora",
