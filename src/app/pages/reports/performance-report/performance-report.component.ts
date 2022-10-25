@@ -2,6 +2,7 @@ import { Component, OnInit, Output } from "@angular/core";
 import { RestService } from "src/app/services/rest.service";
 import { DaterangeModel } from "src/app/components/date-range-picker/date-range-picker.component";
 import { AuthService } from "src/app/services/auth.service";
+import * as XLSX from "xlsx";
 
 @Component({
   selector: "app-performance-report",
@@ -10,6 +11,7 @@ import { AuthService } from "src/app/services/auth.service";
 })
 export class PerformanceReportComponent implements OnInit {
 
+  fileName = "performans.xlsx";
 
   loading: Boolean = true;
   totalDataCount: number;
@@ -145,5 +147,17 @@ export class PerformanceReportComponent implements OnInit {
   }
   resetDate(valueName: string) {
     this[valueName] = undefined;
+  }
+  exportexcel(): void {
+    /* table id is passed over here */
+    let element = document.getElementById("excel-table");
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element,  {raw:true});
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
   }
 }

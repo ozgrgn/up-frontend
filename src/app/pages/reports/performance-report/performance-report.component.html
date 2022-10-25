@@ -107,6 +107,16 @@
                   ></app-date-range-picker>
                 </div>
               </div>
+
+              <div class="flex flex-col justify-center mt-3">
+                <input
+                  style="width: 350px"
+                  type="button"
+                  value="Excel"
+                  class="btn btn-success mt-0 m-1"
+                  (click)="exportexcel()"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -124,7 +134,11 @@
             <h3 *ngIf="page == 'all'" class="mb-0">TÜM FATURALAR</h3>
           </div> -->
         <div class="table-responsive">
-          <table *ngIf="!loading" class="table align-items-center table-flush">
+          <table
+            id="excel-table"
+            *ngIf="!loading"
+            class="table align-items-center table-flush"
+          >
             <thead class="thead-light">
               <tr>
                 <th class="text-dark" scope="col">ONAY DURUMU</th>

@@ -4,11 +4,11 @@
 
 export const environment = {
   apiUrl: 'http://localhost:3000',
-  production: false
+  production: false,
 };
 
-
 //WTPBxiTdWQhNiCf2
+// apiUrl: 'http://localhost:3000',
 // apiUrl: "https://upartner.herokuapp.com",
 /*
  * For easier debugging in development mode, you can import the following file

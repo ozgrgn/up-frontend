@@ -138,7 +138,6 @@ export class InvoiceFormComponent implements OnInit {
     this.getTerminals();
     this.getCountries();
     this.getAgencies();
-    this.getAirports();
     this.getAirlines();
     console.log(this.ways, "ways");
   }
@@ -344,17 +343,17 @@ export class InvoiceFormComponent implements OnInit {
         }
       });
   }
-  getAirports() {
-    this.restService
-      .getAirports()
-      .toPromise()
-      .then((data) => {
-        if (data["status"]) {
-          console.log(data);
-          this.airports = data["airports"];
-        }
-      });
-  }
+  // getAirports() {
+  //   this.restService
+  //     .getAirports()
+  //     .toPromise()
+  //     .then((data) => {
+  //       if (data["status"]) {
+  //         console.log(data);
+  //         this.airports = data["airports"];
+  //       }
+  //     });
+  // }
   getAgencies() {
     this.restService
       .getAgencies()
@@ -402,6 +401,10 @@ export class InvoiceFormComponent implements OnInit {
       this.toaster.error("Lütfen Pasaport No Giriniz");
       return;
     }
+    if (!this.airport) {
+      this.toaster.error("Lütfen Havaalanı Giriniz");
+      return;
+    }
 
     if (this.airlineId) {
       this.airline = this.airlines.find((x) => x._id === this.airlineId).name;
@@ -430,6 +433,7 @@ export class InvoiceFormComponent implements OnInit {
     this.client.hotel = this.hotel;
 
     if (this.destCity) this.destCity = this.destCity.toUpperCase();
+    if (this.airport) this.airport = this.airport.toUpperCase();
     if (this.invoiceSerial)
       this.invoiceSerial = this.invoiceSerial.toUpperCase();
     if (this.passportNo) this.passportNo = this.passportNo.toUpperCase();

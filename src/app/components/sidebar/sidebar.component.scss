@@ -5,7 +5,12 @@
     color:black !important;
     font-weight: 600 !important;
 }
-
+.nav-link {
+    color: rgba(0, 0, 0, 0.8) !important;
+}
+.active, .router-link-active{
+    color:#f5365c !important
+}
 .brand {
     max-height: 6rem !important;
 }

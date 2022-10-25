@@ -253,7 +253,7 @@ export class RestService {
     destCountry?: String,
     destCity?: String,
     way?: String,
-    airport?: Number,
+    airport?: String,
     terminal?: String,
     deparDate?: any,
     deparTime?: any,

@@ -95,7 +95,6 @@ export class InvoiceEditComponent implements OnInit {
     this.getTerminals();
     this.getCountries();
     this.getData();
-    this.getAirports();
   }
   getCategories() {
     this.restService
@@ -207,17 +206,7 @@ export class InvoiceEditComponent implements OnInit {
         }
       });
   }
-  getAirports() {
-    this.restService
-      .getAirports()
-      .toPromise()
-      .then((data) => {
-        if (data["status"]) {
-          console.log(data);
-          this.airports = data["airports"];
-        }
-      });
-  }
+
   getAgencies() {
     this.restService
       .getAgencies()
@@ -262,7 +251,10 @@ export class InvoiceEditComponent implements OnInit {
       this.toaster.error("Lütfen Pasaport No Giriniz");
       return;
     }
-
+    if (!this.invoice.airport) {
+      this.toaster.error("Lütfen Varış Havaalanı Giriniz");
+      return;
+    }
     if (this.invoice.airlineId && this.invoice.airlineId != this.oldAirlineId) {
       this.invoice.airline = this.airlines.find(
         (x) => x._id === this.invoice.airlineId
@@ -310,6 +302,8 @@ export class InvoiceEditComponent implements OnInit {
 
     if (this.invoice.flight)
       this.invoice.flight = this.invoice.flight.toUpperCase();
+      if (this.invoice.airport)
+      this.invoice.airport = this.invoice.airport.toUpperCase();
     if (this.invoice.guide)
       this.invoice.guide = this.invoice.guide.toUpperCase();
     this.restService

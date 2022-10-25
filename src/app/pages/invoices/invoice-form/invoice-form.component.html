@@ -427,23 +427,16 @@
                       [ngClass]="{ focused: focus16 === true }"
                     >
                       <div class="input-group input-group-alternative">
-                        <select
+                        <input
                           class="form-control form-control-alternative"
-                          [(ngModel)]="airport"
-                          [class.firstColor]="!airport"
+                          placeholder="Varış Havaalanı"
                           onkeyup="this.value = this.value.toUpperCase();"
-                        >
-                          <option [value]="null" disabled="disabled">
-                            Varış H.alanı
-                          </option>
-
-                          <option
-                            *ngFor="let airport of airports"
-                            [value]="airport.name"
-                          >
-                            {{ airport.name }}
-                          </option>
-                        </select>
+                          type="text"
+                          name="airport"
+                          [(ngModel)]="airport"
+                          (focus)="focus15 = true"
+                          (blur)="focus15 = false"
+                        />
                       </div>
                     </div>
                   </div>
@@ -782,7 +775,7 @@
                                 (click)="addDetail()"
                               >
                                 <span class="btn-inner--icon"
-                                  ><i class="ni ni-fat-add"></i
+                                  ><i class="ni ni-check-bold"></i
                                 ></span>
                               </button>
                             </td>
@@ -824,7 +817,7 @@
                       <div
                         class="d-flex flex-col w-100 justify-content-end text-nowrap p-2 text-left text-sm"
                       >
-                        <table>
+                        <table style="color: black">
                           <tr class="border-bottom">
                             <td class="col">Ara Toplam</td>
                             <td class="col">

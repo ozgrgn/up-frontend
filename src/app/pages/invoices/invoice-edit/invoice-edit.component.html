@@ -132,8 +132,9 @@
                         <select
                           class="form-control form-control-alternative firstColor"
                           [(ngModel)]="invoice.branch"
-                          onkeyup="this.value = this.value.toUpperCase();"
+                         
                         >
+                        
                           <option value="undefined" disabled="disabled">
                             Şube Seçin
                           </option>
@@ -142,9 +143,8 @@
                           >
                             <option
                               *ngFor="let u of invoice.company.branches"
-                              [attr.selected]="
-                                u.name == invoice.branch ? true : null
-                              "
+                              [attr.selected]="u.name == invoice.branch ? true : null"
+                              [ngValue]="u.name"
                             >
                               {{ u.name }}
                             </option>
@@ -429,24 +429,18 @@
                       class="form-group col-6"
                       [ngClass]="{ focused: focus1 === true }"
                     >
-                      <div class="input-group input-group-alternative">
-                        <select
-                          class="form-control form-control-alternative"
-                          [(ngModel)]="invoice.airport"
-                          name="airport"
-                        >
-                          <option [value]="undefined" disabled="disabled">
-                            Varış H.alanı
-                          </option>
-
-                          <option
-                            *ngFor="let airport of airports"
-                            [value]="airport.name"
-                          >
-                            {{ airport.name }}
-                          </option>
-                        </select>
-                      </div>
+                    <div class="input-group input-group-alternative">
+                      <input
+                        class="form-control form-control-alternative"
+                        placeholder="Varış Havaalanı"
+                        onkeyup="this.value = this.value.toUpperCase();"
+                        type="text"
+                        name="airport"
+                        [(ngModel)]="invoice.airport"
+                        (focus)="focus15 = true"
+                        (blur)="focus15 = false"
+                      />
+                    </div>
                     </div>
                   </div>
 
@@ -804,7 +798,7 @@
                                 (click)="addDetail()"
                               >
                                 <span class="btn-inner--icon"
-                                  ><i class="ni ni-fat-add"></i
+                                  ><i class="ni ni-check-bold"></i
                                 ></span>
                               </button>
                             </td>
@@ -845,7 +839,7 @@
                             </td>
                           </tr>
 
-                          <tr>
+                          <!-- <tr>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -854,13 +848,14 @@
                             <td>{{ totalBrut | number: "1.0-1" }} TL</td>
                             <td>{{ totalKdv | number: "1.0-1" }} TL</td>
                             <td>{{ totalProduct | number: "1.0-1" }} TL</td>
-                          </tr>
+                          </tr> -->
                         </tbody>
                       </table>
                       <div
                       class="d-flex flex-col w-100 justify-content-end text-nowrap p-2 text-left text-sm"
+                      
                     >
-                      <table>
+                      <table style="color:black">
                         <tr class="border-bottom">
                           <td class="col">Ara Toplam</td>
                           <td class="col">
