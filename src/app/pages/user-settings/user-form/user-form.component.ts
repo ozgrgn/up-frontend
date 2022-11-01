@@ -21,7 +21,7 @@ export class UserFormComponent implements OnInit {
   airlineId: any = null;
   destCountry: any = null;
   selectedCompany: any = null;
-  selectedBranch: any = null;
+  selectedBranch: any = "all";
   branch: any;
   userType: any;
   companies: any;
@@ -69,7 +69,9 @@ export class UserFormComponent implements OnInit {
       .toPromise()
       .then((res) => {
         if (res["status"]) {
-          this.router.navigate(["/login"]);
+          this.toaster.success("Yeni Kullanıcı Oluşturuldu");
+          this.router.navigate(["/user-list"]);
+          
         } else {
           this.toaster.error(res["message"]);
         }

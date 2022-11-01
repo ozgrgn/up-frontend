@@ -73,7 +73,10 @@
                   />
                 </div>
               </div>
-              <div class="form-group">
+              <div
+                *ngIf="user._id != '616dcf9ffbebe5234ca7c8e6'"
+                class="form-group"
+              >
                 <div class="input-group input-group-alternative">
                   <select
                     class="form-control form-control-alternative"
@@ -90,33 +93,36 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group">
+              <div
+              *ngIf="user._id != '616dcf9ffbebe5234ca7c8e6'"
+                class="form-group"
+              >
                 <div class="input-group input-group-alternative">
                   <select
                     class="form-control form-control-alternative"
                     [(ngModel)]="user.branch"
                   >
-                    <option value="all" >
-                      Tüm Şubeler
-                    </option>
-<ng-container *ngIf="company && company.branches">
-
-
-                    <option *ngFor="let u of company.branches" 
-                    [attr.selected]="u.name == user.branch ? true : null">
-                      {{ u.name }}
-                    </option>
-                  </ng-container>
+                    <option value="all">Tüm Şubeler</option>
+                    <ng-container *ngIf="company && company.branches">
+                      <option
+                        *ngFor="let u of company.branches"
+                        [attr.selected]="u.name == user.branch ? true : null"
+                      >
+                        {{ u.name }}
+                      </option>
+                    </ng-container>
                   </select>
                 </div>
               </div>
-              <div class="form-group">
+              <div 
+              *ngIf="user._id != '616dcf9ffbebe5234ca7c8e6'"
+              class="form-group">
                 <div class="input-group input-group-alternative">
                   <select
                     class="form-control form-control-alternative"
                     [(ngModel)]="user.userType"
                   >
-                    <option value=undefined disabled="disabled">
+                    <option value="undefined" disabled="disabled">
                       Yetki Seçin
                     </option>
                     <option value="USER">KULLANICI</option>
@@ -129,17 +135,24 @@
                 <button
                   type="button"
                   (click)="send()"
-                  class="btn btn-primary my-4"
+                  class="btn btn-success my-4"
                 >
                   DÜZENLE
                 </button>
                 <button
-                type="button"
-                (click)="delete()"
-                class="btn btn-danger my-4"
-              >
-                SİL
-              </button>
+                  type="button"
+                  [routerLink]="['/user-list']"
+                  class="btn btn-secondary my-4"
+                >
+                  GERİ
+                </button>
+                <button
+                  type="button"
+                  (click)="delete()"
+                  class="btn btn-danger my-4"
+                >
+                  SİL
+                </button>
                 <!-- </a> -->
               </div>
             </form>
