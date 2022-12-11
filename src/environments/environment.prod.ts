@@ -1,5 +1,5 @@
 export const environment = {
-  apiUrl: "https://upartner.herokuapp.com",
+  apiUrl: 'https://up-backend-d6ydevoyqq-ew.a.run.app',
   production: true,
 }; 
 
