@@ -197,7 +197,6 @@ export class RestService {
     });
   }
 
-
   getCompanies() {
     return this.http.get(`${this.apiUrl}/companies`, {
       headers: new HttpHeaders({
@@ -205,7 +204,6 @@ export class RestService {
       }),
     });
   }
-
 
   addCompany(name: String) {
     return this.http.post(
@@ -239,10 +237,6 @@ export class RestService {
       }
     );
   }
-
-
-
-
 
   addInvoice(
     invoiceDate?: String,
@@ -357,7 +351,7 @@ export class RestService {
     if (creator) {
       query.creator = creator;
     }
-console.log(company)
+    console.log(company);
     return this.http.get(`${this.apiUrl}/invoice`, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem("token"),
@@ -374,11 +368,17 @@ console.log(company)
     });
   }
 
-  approveInvoice(invoiceId?: string, status?: String, reasonId?: any, declineDate?:any, approveDate?:any, approveNo?:any) {
-
+  approveInvoice(
+    invoiceId?: string,
+    status?: String,
+    reasonId?: any,
+    declineDate?: any,
+    approveDate?: any,
+    approveNo?: any
+  ) {
     return this.http.post(
       `${this.apiUrl}/invoice/approved/${invoiceId}`,
-      { status, reasonId,declineDate,approveDate,approveNo },
+      { status, reasonId, declineDate, approveDate, approveNo },
 
       {
         headers: new HttpHeaders({
@@ -406,6 +406,30 @@ console.log(company)
         Authorization: localStorage.getItem("token"),
       }),
     });
+  }
+
+  syncInvoices() {
+    return this.http.post(
+      `${this.apiUrl}/services/syncInvoices/f990528b0bdc9b9066d81a14eeba392c`,
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+
+  getOutsideInvoicesWithFaturaNos(faturaNos: any) {
+    console.log(faturaNos,"faturanos restttttt")
+    return this.http.post(
+      `${this.apiUrl}/services/getOutsideInvoicesWithFaturaNos`,
+      { faturaNos : [...faturaNos] },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
   }
 
   getPerformance(
@@ -468,9 +492,9 @@ console.log(company)
     approveDate2?: String,
     deparDate1?: String,
     deparDate2?: String,
-    product?:String,
+    product?: String,
     limit?: number,
-    skip?: number,
+    skip?: number
   ) {
     let query: any = {};
     if (noPending) {
@@ -576,7 +600,7 @@ console.log(company)
       query.sort = JSON.stringify(sort);
     }
 
-console.log(company)
+    console.log(company);
     return this.http.get(`${this.apiUrl}/invoice/icmal`, {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem("token"),
@@ -591,8 +615,7 @@ console.log(company)
     fullName?: String,
     company?: Object,
     status?: Boolean,
-    userType?:String
-   
+    userType?: String
   ) {
     let query: any = {};
     if (limit) {
@@ -631,22 +654,6 @@ console.log(company)
       }),
     });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   updateLawsuit(lawsuit: any) {
     return this.http.put(

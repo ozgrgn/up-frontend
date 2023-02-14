@@ -149,15 +149,20 @@
                   <th class="text-dark" scope="col">Fatura No</th>
                   <th class="text-dark" scope="col">Fatura Tarih</th>
                   <th class="text-dark" scope="col">Yolcu İsmi</th>
+                  <th class="text-dark" scope="col">Yolcu Telefon</th>
                   <th class="text-dark" scope="col">Pasaport No</th>
                   <th class="text-dark" scope="col">Uyruk</th>
+                  <th class="text-dark" scope="col">Acente</th>
+                  <th class="text-dark" scope="col">Rehber</th>
                   <th class="text-dark" scope="col">Gidiş Ülke/Şehir</th>
+                  <th class="text-dark" scope="col">Terminal</th>
                   <th class="text-dark" scope="col">Uçuş Firma</th>
-                  <th class="text-dark" scope="col">Uçuş Zamanı</th>
+                  <th class="text-dark" scope="col">Uçuş Tarihi</th>
+                  <th class="text-dark" scope="col">Uçuş Saati</th>
                   <th class="text-dark" scope="col">Uçuş Kodu</th>
                   <th class="text-dark" scope="col">Notlar</th>
                   <th class="text-dark" scope="col">Kampanya</th>
-                  <th class="text-dark" scope="col">Kdv Matrahı</th>
+                  <th class="text-dark" scope="col">Matrah</th>
                   <th class="text-dark" scope="col">Kdv Tutarı</th>
                   <th class="text-dark" scope="col">Genel Toplam</th>
                 </tr>
@@ -176,21 +181,37 @@
                       {{ invoice?.fullName }}
                     </td>
                     <td>
+                      {{ invoice?.client?.phone }}
+                    </td>
+                    <td>
                       {{ invoice?.client?.passportNo }}
                     </td>
                     <td>
                       {{ invoice?.client?.nation | uppercase }}
                     </td>
                     <td>
+                      {{ invoice?.agency }}
+                    </td>
+                    <td>
+                      {{ invoice?.guide }}
+                    </td>
+                 
+                    <td>
                       {{ invoice?.destCountry | uppercase }}-{{
                         invoice?.destCity
+                      }}
+                    </td>
+                    <td>
+                      {{ invoice?.terminalId.name
                       }}
                     </td>
                     <td>
                       {{ invoice?.airline }}
                     </td>
                     <td>
-                      {{ invoice?.deparDate | date: "dd.MM.yyyy" }} -
+                      {{ invoice?.deparDate | date: "dd.MM.yyyy" }}
+                    </td>
+                    <td>
                       {{ invoice?.deparTime }}
                     </td>
                     <td>

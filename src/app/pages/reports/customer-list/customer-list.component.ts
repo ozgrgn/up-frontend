@@ -123,6 +123,7 @@ export class CustomerListComponent implements OnInit {
         console.log(data);
         this.totalDataCount = data["count"];
         this.invoices = data["invoices"];
+        console.log(this.invoices,"müşteri invoices")
         if(this.selectedCompany && this.perm=="SUPERADMIN")
         this.company = this.companies.find((x) => x._id === this.selectedCompany);
         console.log(this.company, "company");

@@ -112,7 +112,6 @@ export class PerformanceReportComponent implements OnInit {
       )
       .toPromise()
       .then((data) => {
-        console.log(data);
         this.pending=data['pending']
         this.confirmed=data['confirmed']
         this.declined=data['declined']

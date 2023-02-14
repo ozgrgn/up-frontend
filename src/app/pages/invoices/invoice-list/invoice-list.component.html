@@ -30,7 +30,7 @@
                   TÜM FATURALAR
                 </button>
               </div>
-              <div class="row justify-content-center pt-2 ">
+              <div class="row justify-content-center pt-2">
                 <input
                   style="width: 100px"
                   placeholder="İsim Arama"
@@ -40,11 +40,11 @@
                   (input)="getData()"
                 />
                 <app-date-range-picker
-                [(value)]="invoiceDate"
-                (dataEvent)="getData()"
-                (resetDateBind)="resetDate('invoiceDate')"
-                placeholder="Fatura Tarihi"
-              ></app-date-range-picker>
+                  [(value)]="invoiceDate"
+                  (dataEvent)="getData()"
+                  (resetDateBind)="resetDate('invoiceDate')"
+                  placeholder="Fatura Tarihi"
+                ></app-date-range-picker>
               </div>
             </div>
           </div>
@@ -63,7 +63,10 @@
           <h3 *ngIf="page == 'all'" class="mb-0">TÜM FATURALAR</h3>
         </div> -->
         <div class="table-responsive uppercase">
-          <table *ngIf="!loading" class="table align-items-center table-flush uppercase">
+          <table
+            *ngIf="!loading"
+            class="table align-items-center table-flush uppercase"
+          >
             <thead class="thead-light">
               <tr>
                 <th class="text-dark" scope="col">ŞİRKET BİLGİLERİ</th>
@@ -81,43 +84,64 @@
             </thead>
             <tbody>
               <tr *ngFor="let invoice of invoices">
-                
                 <td>
-                  <i class="fa fa-building primary"></i> {{ invoice?.company?.name }}<br /><br />
+                  <i class="fa fa-building primary"></i>
+                  {{ invoice?.company?.name }}<br /><br />
                   <i class="fa fa-store primary"></i> {{ invoice?.branch }}
                 </td>
                 <td>
-                  <i class="fa fa-file-invoice primary"></i> {{ invoice?.invoiceMerged }}
+                  <i class="fa fa-file-invoice primary"></i>
+                  {{ invoice?.invoiceMerged }} <br /><br />
+                  <i class="fa fa-calendar primary"></i>
+                  {{ invoice?.invoiceDate | date : "dd/MM/yyyy" }}
+                </td>
+                <td>
+                  <i class="fa fa-user primary"></i> {{ invoice?.fullName }}
                   <br /><br />
-                  <i class="fa fa-calendar primary"></i> {{ invoice?.invoiceDate | date: "dd/MM/yyyy"  }}
+                  <i class="fa fa-passport primary"></i>
+                  {{ invoice?.client?.passportNo }}
                 </td>
                 <td>
-                  <i class="fa fa-user primary"></i> {{ invoice?.fullName }} <br /><br />
-                  <i class="fa fa-passport primary"></i> {{ invoice?.client?.passportNo }}
+                  <i class="fa fa-plane-arrival primary"></i>
+                  {{ invoice?.destCountry }} <br /><br />
+                  <i class="fa fa-plane-arrival primary"></i>
+                  {{ invoice?.destCity }}
                 </td>
                 <td>
-                  <i class="fa fa-plane-arrival primary"></i>  {{ invoice?.destCountry }} <br /><br />
-                  <i class="fa fa-plane-arrival primary"></i> {{ invoice?.destCity }}
+                  <i class="fa fa-plane-departure primary"></i>
+                  {{ invoice?.airline }} <br /><br />
+                  <i class="fa fa-plane-departure primary"></i>
+                  {{ invoice?.flight }}
                 </td>
                 <td>
-                  <i class="fa fa-plane-departure primary"></i> {{ invoice?.airline }} <br /><br />
-                  <i class="fa fa-plane-departure primary"></i> {{ invoice?.flight }}
-                </td>
-                <td>
-                  <i class="fa fa-calendar-check primary"></i>  {{ invoice?.deparDate | date: "dd/MM/yyyy" }} <br /><br />
+                  <i class="fa fa-calendar-check primary"></i>
+                  {{ invoice?.deparDate | date : "dd/MM/yyyy" }} <br /><br />
                   <i class="fa fa-clock primary"></i> {{ invoice?.deparTime }}
                 </td>
-                <td class="note br_zero"> <span *ngIf="invoice.campaign"> {{ invoice?.campaign  }} </span><br />
+                <td class="note br_zero">
+                  <span *ngIf="invoice.campaign"> {{ invoice?.campaign }} </span
+                  ><br />
                   {{ invoice?.note }}
                 </td>
-                <td  *ngIf="page!='onay'">
+                <td *ngIf="page != 'onay'">
                   <span
-                  (click)="open(changeStatus, '', 'sm', invoice._id)"
-                  style="cursor:pointer;"
-                    class="badge w-100 "
-                    
-                    [ngClass]="invoice.status == 'CONFIRMED'?'badge-success':invoice.status == 'DECLINED'?'badge-danger':'badge-default'"
-                    >{{invoice.status == 'CONFIRMED'?'ONAYLI':invoice.status == 'DECLINED'?'ONAYSIZ':'BEKLEMEDE'}}</span
+                    (click)="open(changeStatus, '', 'sm', invoice._id)"
+                    style="cursor: pointer"
+                    class="badge w-100"
+                    [ngClass]="
+                      invoice.status == 'CONFIRMED'
+                        ? 'badge-success'
+                        : invoice.status == 'DECLINED'
+                        ? 'badge-danger'
+                        : 'badge-default'
+                    "
+                    >{{
+                      invoice.status == "CONFIRMED"
+                        ? "ONAYLI"
+                        : invoice.status == "DECLINED"
+                        ? "ONAYSIZ"
+                        : "BEKLEMEDE"
+                    }}</span
                   >
                 </td>
                 <td class="br_zero">
@@ -131,14 +155,13 @@
                   <button
                     *ngIf="page == 'onay'"
                     class="btn btn-sm btn-success btn-3"
-                   
                     (click)="open(approve, '', 'sm', invoice._id)"
                   >
                     Onay
                   </button>
-                  <button *ngIf="page=='onay'"
+                  <button
+                    *ngIf="page == 'onay'"
                     class="btn btn-sm btn-danger btn-3"
-                 
                     (click)="open(cancel, '', 'sm', invoice._id)"
                   >
                     İptal
@@ -209,12 +232,10 @@
       </button>
     </div>
     <div class="modal-body text-center">
-      <div class="form-group centerli ">
-        <label class="form-control-label "
-          >Onaylanma Tarihi</label
-        >
+      <div class="form-group centerli">
+        <label class="form-control-label">Onaylanma Tarihi</label>
         <input
-          class="form-control form-control-alternative datepicker w-50 "
+          class="form-control form-control-alternative datepicker w-50"
           placeholder="Tarih Seçiniz"
           name="dp4"
           [(ngModel)]="approveDate"
@@ -226,22 +247,18 @@
           (focus)="focus = true"
           (blur)="focus = false"
         />
-        
       </div>
-      <div class="form-group centerli ">
-        <label class="form-control-label "
-          >Onay No</label
-        >
+      <div class="form-group centerli">
+        <label class="form-control-label">Onay No</label>
         <input
-        class="form-control form-control-alternative w-50"
-        placeholder="Onay No"
-        type="text"
-        name="onayno"
-        [(ngModel)]="approveNo"
-        (focus)="focus5 = true"
-        (blur)="focus5 = false"
-      />
-        
+          class="form-control form-control-alternative w-50"
+          placeholder="Onay No"
+          type="text"
+          name="onayno"
+          [(ngModel)]="approveNo"
+          (focus)="focus5 = true"
+          (blur)="focus5 = false"
+        />
       </div>
     </div>
 
@@ -278,12 +295,10 @@
       </button>
     </div>
     <div class="modal-body text-center">
-      <div  class="form-group centerli mt-3">
-        <label class="form-control-label "
-          >Onaylanmama Tarihi</label
-        >
+      <div class="form-group centerli mt-3">
+        <label class="form-control-label">Onaylanmama Tarihi</label>
         <input
-          class="form-control form-control-alternative datepicker w-50 "
+          class="form-control form-control-alternative datepicker w-50"
           placeholder="Tarih Seçiniz"
           name="dp6"
           [(ngModel)]="declineDate"
@@ -296,28 +311,23 @@
           (blur)="focus = false"
         />
       </div>
-      <div  class="form-group centerli ">
-        <label class="form-control-label "
-          >Onaylanmama Sebebi</label
-        >
+      <div class="form-group centerli">
+        <label class="form-control-label">Onaylanmama Sebebi</label>
         <select
-        class="form-control form-control-alternative w-50"
-       [(ngModel)]="newReason"
-        name="newReason"
-      >
-        <option value=undefined disabled="disabled">
-          Onaylanmama Sebebi
-        </option>
+          class="form-control form-control-alternative w-50"
+          [(ngModel)]="newReason"
+          name="newReason"
+        >
+          <option value="undefined" disabled="disabled">
+            Onaylanmama Sebebi
+          </option>
 
-        <option *ngFor="let reason of reasons" [value]="reason._id">
-          {{reason.name}}
-        </option>
-
-      </select>
-        
+          <option *ngFor="let reason of reasons" [value]="reason._id">
+            {{ reason.name }}
+          </option>
+        </select>
       </div>
     </div>
-
 
     <div class="modal-footer">
       <button
@@ -356,31 +366,20 @@
       <div class="input-group input-group-alternative w-50">
         <select
           class="form-control form-control-alternative"
-         [(ngModel)]="newStatus"
+          [(ngModel)]="newStatus"
           name="newstatuss"
         >
-          <option [value]="undefined" disabled="disabled">
-            Durum
-          </option>
+          <option [value]="undefined" disabled="disabled">Durum</option>
 
-          <option  value="CONFIRMED">
-            ONAYLI
-          </option>
-          <option  value="DECLINED">
-            ONAYSIZ
-          </option>
-          <option  value="PENDING">
-            BEKLEMEDE
-          </option>
+          <option value="CONFIRMED">ONAYLI</option>
+          <option value="DECLINED">ONAYSIZ</option>
+          <option value="PENDING">BEKLEMEDE</option>
         </select>
-
       </div>
-      <div *ngIf="newStatus=='CONFIRMED'" class="form-group centerli mt-3">
-        <label class="form-control-label "
-          >Onaylanma Tarihi</label
-        >
+      <div *ngIf="newStatus == 'CONFIRMED'" class="form-group centerli mt-3">
+        <label class="form-control-label">Onaylanma Tarihi</label>
         <input
-          class="form-control form-control-alternative datepicker w-50 "
+          class="form-control form-control-alternative datepicker w-50"
           placeholder="Tarih Seçiniz"
           name="dp4"
           [(ngModel)]="approveDate"
@@ -393,27 +392,22 @@
           (blur)="focus = false"
         />
       </div>
-      <div *ngIf="newStatus=='CONFIRMED'" class="form-group centerli ">
-        <label class="form-control-label "
-          >Onay No</label
-        >
+      <div *ngIf="newStatus == 'CONFIRMED'" class="form-group centerli">
+        <label class="form-control-label">Onay No</label>
         <input
-        class="form-control form-control-alternative w-50"
-        placeholder="Onay No"
-        type="text"
-        name="onayno"
-        [(ngModel)]="approveNo"
-        (focus)="focus5 = true"
-        (blur)="focus5 = false"
-      />
-        
+          class="form-control form-control-alternative w-50"
+          placeholder="Onay No"
+          type="text"
+          name="onayno"
+          [(ngModel)]="approveNo"
+          (focus)="focus5 = true"
+          (blur)="focus5 = false"
+        />
       </div>
-      <div *ngIf="newStatus=='DECLINED'" class="form-group centerli mt-3">
-        <label class="form-control-label "
-          >Onaylanmama Tarihi</label
-        >
+      <div *ngIf="newStatus == 'DECLINED'" class="form-group centerli mt-3">
+        <label class="form-control-label">Onaylanmama Tarihi</label>
         <input
-          class="form-control form-control-alternative datepicker w-50 "
+          class="form-control form-control-alternative datepicker w-50"
           placeholder="Tarih Seçiniz"
           name="dp6"
           [(ngModel)]="declineDate"
@@ -426,34 +420,26 @@
           (blur)="focus = false"
         />
       </div>
-      <div *ngIf="newStatus=='DECLINED'" class="form-group centerli ">
-        <label class="form-control-label "
-          >Onaylanmama Sebebi</label
-        >
+      <div *ngIf="newStatus == 'DECLINED'" class="form-group centerli">
+        <label class="form-control-label">Onaylanmama Sebebi</label>
         <select
-        class="form-control form-control-alternative w-50"
-       [(ngModel)]="newReason"
-        name="newReason"
-      >
-        <option value=undefined disabled="disabled">
-          Onaylanmama Sebebi
-        </option>
+          class="form-control form-control-alternative w-50"
+          [(ngModel)]="newReason"
+          name="newReason"
+        >
+          <option value="undefined" disabled="disabled">
+            Onaylanmama Sebebi
+          </option>
 
-        <option *ngFor="let reason of reasons" [value]="reason._id">
-          {{reason.name}}
-        </option>
-
-      </select>
-        
+          <option *ngFor="let reason of reasons" [value]="reason._id">
+            {{ reason.name }}
+          </option>
+        </select>
       </div>
     </div>
 
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-success"
-        (click)="changeInvStatus();"
-      >
+      <button type="button" class="btn btn-success" (click)="changeInvStatus()">
         DEĞİŞTİR
       </button>
       <button
@@ -467,6 +453,3 @@
     </div>
   </div>
 </ng-template>
-
-
-
