@@ -23,7 +23,7 @@ export class InvoiceEditComponent implements OnInit {
   agencies: any;
   airlines: any;
   airports: any;
-  ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
+  ways: any = ["Havayolu", "Karayolu", "DenizYolu"];
   terminals: any = [];
   countries: any;
   campaigns: any;
@@ -219,6 +219,10 @@ export class InvoiceEditComponent implements OnInit {
       });
   }
   send() {
+    if(this.invoice.status=='CONFIRMED') {
+      this.toaster.error("Onaylanmış Faturayı Düzenleyemezsiniz");
+      return;
+    }
     if (!this.invoice.company || !this.invoice.company._id) {
       this.toaster.error("Lütfen Şirket Seçiniz");
       return;
@@ -276,6 +280,12 @@ export class InvoiceEditComponent implements OnInit {
         (x) => x._id === this.invoice.terminalId
       ).name;
     }
+    console.log(this.invoice.agencyId, "sdsssdds");
+    if (this.invoice.agencyId == "null") {
+      this.invoice.agencyId = null;
+      this.invoice.agency =null;
+      console.log(this.invoice.agencyId, "sdsssdds undefined ");
+    }
     if (this.invoice.agencyId && this.invoice.agencyId != this.oldAgencyId) {
       this.invoice.agency = this.agencies.find(
         (x) => x._id === this.invoice.agencyId
@@ -302,7 +312,7 @@ export class InvoiceEditComponent implements OnInit {
 
     if (this.invoice.flight)
       this.invoice.flight = this.invoice.flight.toUpperCase();
-      if (this.invoice.airport)
+    if (this.invoice.airport)
       this.invoice.airport = this.invoice.airport.toUpperCase();
     if (this.invoice.guide)
       this.invoice.guide = this.invoice.guide.toUpperCase();
@@ -460,6 +470,12 @@ export class InvoiceEditComponent implements OnInit {
     } else {
       return undefined;
     }
+  }
+  numberBeautify(number) {
+    return number.toLocaleString("tr-TR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   }
   removeDetail(index) {
     this.totalProduct =

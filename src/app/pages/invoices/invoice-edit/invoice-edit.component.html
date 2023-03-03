@@ -109,7 +109,7 @@
                           [(ngModel)]="invoice.company._id"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option [value]="undefined">
                             Firma
                           </option>
 
@@ -135,7 +135,7 @@
                          
                         >
                         
-                          <option value="undefined" disabled="disabled">
+                          <option value="undefined">
                             Şube Seçin
                           </option>
                           <ng-container
@@ -163,7 +163,7 @@
                         [(ngModel)]="invoice.campaignId"
                         name="campaign"
                       >
-                        <option [value]="undefined" disabled="disabled">
+                        <option [value]="undefined">
                           Kampanya Seç
                         </option>
 
@@ -246,7 +246,7 @@
                           [(ngModel)]="invoice.client.nation"
                           name="waefag"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option [value]="undefined">
                             Uyruk
                           </option>
 
@@ -346,7 +346,7 @@
                           [(ngModel)]="invoice.destCountry"
                           name="destCountry"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option [value]="undefined">
                             Ülke
                           </option>
 
@@ -389,7 +389,7 @@
                         [(ngModel)]="invoice.way"
                         name="way"
                       >
-                        <option [value]="undefined" disabled="disabled">
+                        <option [value]="undefined">
                           Ulaşım Şekli
                         </option>
 
@@ -412,7 +412,7 @@
                           [class.firstColor]="!invoice.terminalId"
                           name="terminal"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option [value]="undefined">
                             Terminal
                           </option>
 
@@ -494,7 +494,7 @@
                           [(ngModel)]="invoice.airlineId"
                           name="airline"
                         >
-                        <option [value]="undefined" disabled="disabled">
+                        <option [value]="undefined">
                           Uçak Şirketi
                         </option>
                           <option
@@ -540,7 +540,7 @@
                           [(ngModel)]="invoice.agencyId"
                           name="agency"
                         >
-                          <option [value]="undefined" disabled="disabled">
+                          <option [value]="null">
                             Acente
                           </option>
 
@@ -643,7 +643,6 @@
                                   >
                                     <option
                                       [value]="undefined"
-                                      disabled="disabled"
                                     >
                                       Kategorisi
                                     </option>
@@ -732,7 +731,6 @@
                                   >
                                     <option
                                       [value]="undefined"
-                                      disabled="disabled"
                                     >
                                       Birim
                                     </option>
@@ -822,10 +820,10 @@
                             <td>
                               {{ detail.quantity }}
                             </td>
-                            <td>{{ detail.price }} TL</td>
-                            <td>{{ detail.quantity * detail.price }} TL</td>
+                            <td>{{ numberBeautify(detail.price) }} TL</td>
+                            <td>{{ numberBeautify(detail.quantity * detail.price) }} TL</td>
                             <td>%{{ detail.kdv }}</td>
-                            <td>{{ detail.productTotal }} TL</td>
+                            <td>{{ numberBeautify(detail.productTotal) }} TL</td>
                             <td>
                               <button
                                 class="btn btn-icon btn-2 btn-danger btn-sm"
@@ -859,25 +857,25 @@
                         <tr class="border-bottom">
                           <td class="col">Ara Toplam</td>
                           <td class="col">
-                            {{ totalBrut | number: "1.0-1" }} TL
+                            {{ numberBeautify(totalBrut) }} TL
                           </td>
                         </tr>
                         <tr class="border-bottom">
                           <td class="col">KDV Turarı (V.A.T) %8</td>
                           <td class="col">
-                            {{ totalKdv8 | number: "1.0-1" }} TL
+                            {{ numberBeautify(totalKdv8) }} TL
                           </td>
                         </tr>
                         <tr class="border-bottom">
                           <td class="col">KDV Turarı (V.A.T) %18</td>
                           <td class="col">
-                            {{ totalKdv18 | number: "1.0-1" }} TL
+                            {{ numberBeautify(totalKdv18) }} TL
                           </td>
                         </tr>
                         <tr class="border-bottom">
                           <td class="col">Genel TOPLAM</td>
                           <td class="col">
-                            {{ totalProduct | number: "1.0-1" }} TL
+                            {{ numberBeautify(totalProduct) }} TL
                           </td>
                         </tr>
                       </table>

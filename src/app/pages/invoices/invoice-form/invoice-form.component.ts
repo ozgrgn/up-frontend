@@ -59,7 +59,7 @@ export class InvoiceFormComponent implements OnInit {
   terminal: any;
   terminalId: any = undefined;
 
-  ways: any = ["Havayolu", "Karayolu", "DenizYolu", "Koşarak"];
+  ways: any = ["Havayolu", "Karayolu", "DenizYolu"];
   way: any = undefined;
   terminals: any;
   details: any = [];
@@ -285,6 +285,26 @@ export class InvoiceFormComponent implements OnInit {
           this.details[index].kdv) /
           100 -
         this.details[index].quantity * this.details[index].price);
+    if (this.details[index].kdv == 8) {
+      this.totalKdv8 =
+        this.totalKdv8 -
+        (this.details[index].quantity * this.details[index].price +
+          (this.details[index].quantity *
+            this.details[index].price *
+            this.details[index].kdv) /
+            100 -
+          this.details[index].quantity * this.details[index].price);
+    }
+    if (this.details[index].kdv == 18) {
+      this.totalKdv18 =
+        this.totalKdv18 -
+        (this.details[index].quantity * this.details[index].price +
+          (this.details[index].quantity *
+            this.details[index].price *
+            this.details[index].kdv) /
+            100 -
+          this.details[index].quantity * this.details[index].price);
+    }
 
     this.details.splice(index, 1);
   }
@@ -342,6 +362,13 @@ export class InvoiceFormComponent implements OnInit {
           this.airlines = data["airlines"];
         }
       });
+  }
+
+  numberBeautify(number) {
+    return number.toLocaleString("tr-TR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   }
   // getAirports() {
   //   this.restService

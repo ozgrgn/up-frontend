@@ -53,7 +53,7 @@
               <option [ngValue] ="true" >
                ONAYLI + ONAYSIZ
               </option>
-                
+
               </select>
               </div> -->
                   <div *ngIf="perm == 'SUPERADMIN'" class="col-2">
@@ -145,49 +145,68 @@
             >
               <thead class="thead-light">
                 <tr>
-                  <th class="text-dark" scope="col">Şirket/Şube</th>
+                  <th class="text-dark" scope="col">Fatura Seri</th>
                   <th class="text-dark" scope="col">Fatura No</th>
-                  <th class="text-dark" scope="col">Fatura Tarih</th>
                   <th class="text-dark" scope="col">Yolcu İsmi</th>
-                  <th class="text-dark" scope="col">Yolcu Telefon</th>
                   <th class="text-dark" scope="col">Pasaport No</th>
-                  <th class="text-dark" scope="col">Uyruk</th>
-                  <th class="text-dark" scope="col">Acente</th>
-                  <th class="text-dark" scope="col">Rehber</th>
-                  <th class="text-dark" scope="col">Gidiş Ülke/Şehir</th>
-                  <th class="text-dark" scope="col">Terminal</th>
-                  <th class="text-dark" scope="col">Uçuş Firma</th>
+                  <th class="text-dark" scope="col">Yolcu Telefon</th>
+                  <th class="text-dark" scope="col">Fatura Tarih</th>
                   <th class="text-dark" scope="col">Uçuş Tarihi</th>
                   <th class="text-dark" scope="col">Uçuş Saati</th>
+                  <th class="text-dark" scope="col">Uçuş Firma</th>
                   <th class="text-dark" scope="col">Uçuş Kodu</th>
+                  <th class="text-dark" scope="col">Gidiş Ülke/Şehir</th>
+                  <th class="text-dark" scope="col">Acente</th>
+                  <th class="text-dark" scope="col">Rehber</th>
                   <th class="text-dark" scope="col">Notlar</th>
-                  <th class="text-dark" scope="col">Kampanya</th>
                   <th class="text-dark" scope="col">Matrah</th>
                   <th class="text-dark" scope="col">Kdv Tutarı</th>
                   <th class="text-dark" scope="col">Genel Toplam</th>
+                  <th class="text-dark" scope="col">Terminal</th>
+
+                  <!-- <th class="text-dark" scope="col">Şirket/Şube</th>
+                  <th class="text-dark" scope="col">Uyruk</th>
+                  <th class="text-dark" scope="col">Kampanya</th> -->
                 </tr>
               </thead>
+             
               <tbody>
                 <ng-container *ngFor="let invoice of invoices; let i = index">
                   <tr>
-                    <td>{{ invoice?.company?.name }}/{{ invoice?.branch }}</td>
                     <td>
-                      {{ invoice?.invoiceSerial }}{{ invoice?.invoiceNo }}
+                      {{ invoice?.invoiceSerial }}
                     </td>
                     <td>
-                      {{ invoice?.invoiceDate | date: "dd.MM.yyyy" }}
+                      {{ invoice?.invoiceNo }}
                     </td>
                     <td>
                       {{ invoice?.fullName }}
                     </td>
                     <td>
-                      {{ invoice?.client?.phone }}
-                    </td>
-                    <td>
                       {{ invoice?.client?.passportNo }}
                     </td>
                     <td>
-                      {{ invoice?.client?.nation | uppercase }}
+                      {{ invoice?.client?.phone }}
+                    </td>
+                    <td>
+                      {{ invoice?.invoiceDate | date : "dd.MM.yyyy" }}
+                    </td>
+                    <td>
+                      {{ invoice?.deparDate | date : "dd.MM.yyyy" }}
+                    </td>
+                    <td>
+                      {{ invoice?.deparTime }}
+                    </td>
+                    <td>
+                      {{ invoice?.airline }}
+                    </td>
+                    <td>
+                      {{ invoice?.flight }}
+                    </td>
+                    <td>
+                      {{ invoice?.destCountry | uppercase }}-{{
+                        invoice?.destCity
+                      }}
                     </td>
                     <td>
                       {{ invoice?.agency }}
@@ -195,51 +214,39 @@
                     <td>
                       {{ invoice?.guide }}
                     </td>
-                 
-                    <td>
-                      {{ invoice?.destCountry | uppercase }}-{{
-                        invoice?.destCity
-                      }}
-                    </td>
-                    <td>
-                      {{ invoice?.terminalId.name
-                      }}
-                    </td>
-                    <td>
-                      {{ invoice?.airline }}
-                    </td>
-                    <td>
-                      {{ invoice?.deparDate | date: "dd.MM.yyyy" }}
-                    </td>
-                    <td>
-                      {{ invoice?.deparTime }}
-                    </td>
-                    <td>
-                      {{ invoice?.flight }}
-                    </td>
                     <td>
                       {{ invoice?.note }}
                     </td>
                     <td>
-                      {{ invoice?.campaign }}
-                    </td>
-                    <td>
-                      {{ invoice?.productBrut | number: "1.0-2" }}
+                      {{ numberBeautify(invoice?.productBrut) }}
                     </td>
                     <td>
                       {{
-                        invoice?.productTotal - invoice?.productBrut
-                          | number: "1.0-2"
+                        numberBeautify(
+                          invoice?.productTotal - invoice?.productBrut
+                        )
                       }}
                     </td>
                     <td>
-                      {{ invoice?.productTotal | number: "1.0-2" }}
+                      {{ numberBeautify(invoice?.productTotal) }}
                     </td>
+                    <td>
+                      {{ invoice?.terminalId.name }}
+                    </td>
+
+                    <!-- <td>{{ invoice?.company?.name }}/{{ invoice?.branch }}</td>
+                    <td>
+                      {{ invoice?.client?.nation | uppercase }}
+                    </td>
+                   
+                    <td>
+                      {{ invoice?.campaign }}
+                    </td> -->
                   </tr>
                 </ng-container>
 
                 <!-- <tr *ngFor="let invoice of invoices">
-                    
+
                     <td>
                       <i class="fa fa-building primary"></i> {{ invoice.company }}<br /><br />
                       <i class="fa fa-store primary"></i> {{ invoice.branch }}
@@ -273,7 +280,7 @@
                       (click)="open(changeStatus, '', 'sm', invoice._id)"
                       style="cursor:pointer;"
                         class="badge w-100 "
-                        
+
                         [ngClass]="invoice.status == 'CONFIRMED'?'badge-success':invoice.status == 'DECLINE'?'badge-danger':'badge-default'"
                         >{{invoice.status == 'CONFIRMED'?'ONAYLI':invoice.status == 'DECLINE'?'ONAYSIZ':'BEKLEMEDE'}}</span
                       >
@@ -289,14 +296,14 @@
                       <button
                         *ngIf="page == 'onay'"
                         class="btn btn-sm btn-success btn-3"
-                       
+
                         (click)="open(approve, '', 'sm', invoice._id)"
                       >
                         Onay
                       </button>
                       <button *ngIf="page=='onay'"
                         class="btn btn-sm btn-danger btn-3"
-                     
+
                         (click)="open(cancel, '', 'sm', invoice._id)"
                       >
                         İptal

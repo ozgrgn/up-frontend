@@ -160,7 +160,12 @@ export class CustomerListComponent implements OnInit {
     this.limit = this.rowSize;
     this.getData();
   }
-
+  numberBeautify(number) {
+    return number.toLocaleString("tr-TR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }
   exportexcel(): void {
     /* table id is passed over here */
     let element = document.getElementById("excel-table");

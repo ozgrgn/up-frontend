@@ -164,7 +164,7 @@
                     }}</span
                   >
                 </td>
-                <td>{{ pending.brutTotal | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(pending.brutTotal) }} TL</td>
                 <td>
                   <span>
                     %{{
@@ -173,7 +173,7 @@
                     }}</span
                   >
                 </td>
-                <td>{{ pending.kdv | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(pending.kdv) }} TL</td>
                 <td>
                   <span>
                     %{{
@@ -181,7 +181,7 @@
                     }}</span
                   >
                 </td>
-                <td>{{ pending.total | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(pending.total) }} TL</td>
                 <td>
                   <span>
                     %{{
@@ -201,7 +201,7 @@
                     }}</span
                   >
                 </td>
-                <td>{{ confirmed.brutTotal | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(confirmed.brutTotal)}} TL</td>
                 <td>
                   <span>
                     %{{
@@ -218,7 +218,7 @@
                     }}</span
                   >
                 </td>
-                <td>{{ confirmed.total | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(confirmed.total) }} TL</td>
                 <td>
                   <span>
                     %{{
@@ -239,7 +239,7 @@
                     }}</span
                   >
                 </td>
-                <td>{{ declined.brutTotal | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(declined.brutTotal) }} TL</td>
                 <td>
                   <span
                     >%{{
@@ -256,7 +256,7 @@
                     }}</span
                   >
                 </td>
-                <td>{{ declined.total | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(declined.total) }} TL</td>
                 <td>
                   <span>
                     %{{
@@ -269,11 +269,11 @@
                 <td>TOPLAM</td>
                 <td>{{ total.invoiceCount }} ADET</td>
                 <td></td>
-                <td>{{ total.brutTotal | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(total.brutTotal) }} TL</td>
                 <td></td>
-                <td>{{ total.kdv | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(total.kdv)}} TL</td>
                 <td></td>
-                <td>{{ total.total | number: "1.0-1" }} TL</td>
+                <td>{{ numberBeautify(total.total) }} TL</td>
               </tr>
               <!-- <tr *ngFor="let invoice of invoices">
                   

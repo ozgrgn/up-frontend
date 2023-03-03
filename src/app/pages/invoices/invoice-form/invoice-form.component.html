@@ -108,7 +108,7 @@
                           (change)="selectCompany()"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option value="null" disabled="disabled">
+                          <option value="null">
                             Firma
                           </option>
 
@@ -157,7 +157,7 @@
                         onkeyup="this.value = this.value.toUpperCase();"
                         [class.firstColor]="!campaignId"
                       >
-                        <option value="null" disabled="disabled">
+                        <option value="null">
                           Kampanya Seç
                         </option>
 
@@ -246,7 +246,7 @@
                           [(ngModel)]="nation"
                           [class.firstColor]="!nation"
                         >
-                          <option value="null" disabled="disabled">
+                          <option value="null">
                             Uyruk
                           </option>
 
@@ -346,7 +346,7 @@
                           [(ngModel)]="destCountry"
                           [class.firstColor]="!destCountry"
                         >
-                          <option value="null" disabled="disabled">Ülke</option>
+                          <option value="null">Ülke</option>
 
                           <option
                             *ngFor="let country of countries"
@@ -388,7 +388,7 @@
                         [class.firstColor]="!way"
                         onkeyup="this.value = this.value.toUpperCase();"
                       >
-                        <option [value]="null" disabled="disabled">
+                        <option [value]="null">
                           Ulaşım Şekli
                         </option>
 
@@ -409,7 +409,7 @@
                           [(ngModel)]="terminalId"
                           [class.firstColor]="!terminalId"
                         >
-                          <option [value]="null" disabled="disabled">
+                          <option [value]="null">
                             Terminal
                           </option>
 
@@ -490,7 +490,7 @@
                           [class.firstColor]="!airlineId"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="null" disabled="disabled">
+                          <option [value]="null">
                             Uçak Şirketi
                           </option>
 
@@ -537,7 +537,7 @@
                           [class.firstColor]="!agencyId"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option value="null" disabled="disabled">
+                          <option value="null">
                             Acente
                           </option>
 
@@ -641,7 +641,7 @@
                                   >
                                     <option
                                       [selected]="selectedCategory == null"
-                                      disabled="disabled"
+                                      
                                       style="
                                         background: white;
                                         color: rgb(209, 28, 28);
@@ -750,22 +750,22 @@
                               </div>
                             </td>
                             <td>
-                              {{
+                             {{ numberBeautify(
                                 newProduct.price * newProduct.quantity > 0
                                   ? newProduct.price * newProduct.quantity
-                                  : 0
+                                  : 0)
                               }}
                             </td>
                             <td>%{{ product ? product.kdv : "0" }}</td>
                             <td>
-                              {{
+                              {{numberBeautify(
                                 newProduct.price * newProduct.quantity > 0
                                   ? newProduct.price * newProduct.quantity +
                                     (newProduct.price *
                                       newProduct.quantity *
                                       product.kdv) /
                                       100
-                                  : 0
+                                  : 0)
                               }}TL
                             </td>
                             <td>
@@ -794,12 +794,12 @@
                             <td>
                               {{ detail.quantity }}
                             </td>
-                            <td>{{ detail.price }} TL</td>
-                            <td>{{ detail.quantity * detail.price }} TL</td>
+                            <td>{{numberBeautify( detail.price )}} TL</td>
+                            <td>{{ numberBeautify(detail.quantity * detail.price) }} TL</td>
                             <td>
                               {{ detail.kdv }}
                             </td>
-                            <td>{{ detail.productTotal }} TL</td>
+                            <td>{{ numberBeautify(detail.productTotal) }} TL</td>
                             <td>
                               <button
                                 class="btn btn-icon btn-2 btn-danger btn-sm"
@@ -821,25 +821,25 @@
                           <tr class="border-bottom">
                             <td class="col">Ara Toplam</td>
                             <td class="col">
-                              {{ totalBrut | number: "1.0-1" }} TL
+                              {{ numberBeautify(totalBrut) }} TL
                             </td>
                           </tr>
                           <tr class="border-bottom">
                             <td class="col">KDV Turarı (V.A.T) %8</td>
                             <td class="col">
-                              {{ totalKdv8 | number: "1.0-1" }} TL
+                              {{numberBeautify(totalKdv8) }} TL
                             </td>
                           </tr>
                           <tr class="border-bottom">
                             <td class="col">KDV Turarı (V.A.T) %18</td>
                             <td class="col">
-                              {{ totalKdv18 | number: "1.0-1" }} TL
+                              {{ numberBeautify(totalKdv18) }} TL
                             </td>
                           </tr>
                           <tr class="border-bottom">
                             <td class="col">Genel TOPLAM</td>
                             <td class="col">
-                              {{ totalProduct | number: "1.0-1" }} TL
+                              {{ numberBeautify(totalProduct) }} TL
                             </td>
                           </tr>
                         </table>

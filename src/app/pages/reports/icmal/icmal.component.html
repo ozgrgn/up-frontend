@@ -139,19 +139,20 @@
             <table id="excel-table" *ngIf="!loading" class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
-                  <th class="text-dark" scope="col">Sıra</th>
-                  <th class="text-dark" scope="col">Seri</th>
-                  <th class="text-dark" scope="col">Fatura No</th>
-                  <th class="text-dark" scope="col">Fatura Tarih</th>
-                  <th class="text-dark" scope="col">İade Tarihi</th>
-                  <th class="text-dark" scope="col">Ülkesi</th>
-                  <th class="text-dark" scope="col">Turist Adı</th>
-                  <th class="text-dark" scope="col">Antalya Hava Limanı Gümrük Md.</th>
-                  <th class="text-dark" scope="col">Onay Tarihi</th>
-                  <th class="text-dark" scope="col">Onay No</th>
-                  <th class="text-dark" scope="col">Kdv Matrahı</th>
-                  <th class="text-dark" scope="col">Kdv Tutarı</th>
-                  <th class="text-dark" scope="col">Genel Toplam</th>
+                  <th class="text-dark" scope="col">SIRA</th>
+                  <th class="text-dark" scope="col">SERİ</th>
+                  <th class="text-dark" scope="col">FATURA NO</th>
+                  <th class="text-dark" scope="col">FATURA TARİHİ</th>
+                  <th class="text-dark" scope="col">İADE TARİHİ</th>
+                  <th class="text-dark" scope="col">ÜLKESİ</th>
+                  <th class="text-dark" scope="col">TURİST ADI</th>
+                  <th class="text-dark" scope="col">PASAPORT NO</th>
+                  <th class="text-dark" scope="col">GÜMRÜK MÜD.</th>
+                  <th class="text-dark" scope="col">ONAY NO</th>
+                  <th class="text-dark" scope="col">ONAY TARİHİ</th>
+                  <th class="text-dark" scope="col">MATRAH</th>
+                  <th class="text-dark" scope="col">KDV TUTARI</th>
+                  <th class="text-dark" scope="col">GENEL TOPLAM</th>
                 </tr>
               </thead>
               <tbody>
@@ -180,22 +181,26 @@
                             {{invoice?.client?.name}} {{invoice?.client?.surname}}
                           </td>
                           <td>
-                            {{invoice?.terminal}}
+                            {{invoice?.client?.passportNo}}
                           </td>
                           <td>
-                            {{invoice?.approveDate | date: "dd.MM.yyyy"}}
+                            {{invoice?.terminalId.name}}
                           </td>
                           <td>
                             {{invoice?.approveNo}}
                           </td>
                           <td>
-                            {{invoice?.productBrut}}
+                            {{invoice?.approveDate | date: "dd.MM.yyyy"}}
+                          </td>
+                        
+                          <td>
+                            {{(invoice?.productBrut.toLocaleString('tr-TR',{ minimumFractionDigits: 2,maximumFractionDigits: 2}))}}
                           </td>
                           <td>
-                            {{(invoice?.productTotal-invoice?.productBrut) | number:"1.0-2"}}
+                            {{((invoice?.productTotal-invoice?.productBrut).toLocaleString('tr-TR',{ minimumFractionDigits: 2,maximumFractionDigits: 2}))}}
                           </td>
                           <td>
-                            {{invoice?.productTotal}}
+                            {{(invoice?.productTotal.toLocaleString('tr-TR',{ minimumFractionDigits: 2,maximumFractionDigits: 2}))}}
                           </td>
                     </tr>
                         

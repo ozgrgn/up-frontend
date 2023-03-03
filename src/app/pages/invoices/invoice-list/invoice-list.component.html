@@ -123,7 +123,7 @@
                   ><br />
                   {{ invoice?.note }}
                 </td>
-                <td *ngIf="page != 'onay'">
+                <td *ngIf="page != 'onay' && perm == 'SUPERADMIN'">
                   <span
                     (click)="open(changeStatus, '', 'sm', invoice._id)"
                     style="cursor: pointer"
@@ -144,12 +144,15 @@
                     }}</span
                   >
                 </td>
-                <td class="br_zero">
+                <td  *ngIf="invoice.status!='CONFIRMED'" class="br_zero">
                   <button
+                 
                     class="btn btn-sm btn-secondary w-100 mb-2 mr-0"
                     [routerLink]="['/invoice-edit', invoice._id]"
+                  
                   >
                     Düzenle
+                   
                   </button>
                   <br />
                   <button
