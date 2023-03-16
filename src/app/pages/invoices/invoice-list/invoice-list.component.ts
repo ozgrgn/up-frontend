@@ -62,7 +62,8 @@ export class InvoiceListComponent implements OnInit {
 
         if (this.perm == "SUPERADMIN") {
           this.company._id = undefined;
-          this.syncInvoices();
+          this.getData()
+          // this.syncInvoices();
         } else {
           this.restService
             .getUser(localStorage.getItem("userId"))
@@ -70,7 +71,8 @@ export class InvoiceListComponent implements OnInit {
             .then((data) => {
               if (data["status"]) {
                 this.company = data["user"].company;
-                this.syncInvoices();
+                this.getData()
+                // this.syncInvoices();
               } else return;
             });
         }
@@ -105,7 +107,6 @@ export class InvoiceListComponent implements OnInit {
         this.invoices.map((invoice, i) => {
           this.invoiceNos = [...this.invoiceNos, invoice.invoiceMerged];
         });
-        this.getSyncInvoices();
         this.loading = false;
       });
   }
@@ -120,25 +121,18 @@ export class InvoiceListComponent implements OnInit {
         }
       });
   }
-  syncInvoices() {
-    this.restService
-      .syncInvoices()
-      .toPromise()
-      .then((data) => {
-        if (data["status"]) {
-          this.getInvoices();
-        }
-      });
-  }
-  getSyncInvoices() {
-    this.restService
-      .getOutsideInvoicesWithFaturaNos(this.invoiceNos)
-      .toPromise()
-      .then((data) => {
-        if (data["status"]) {
-        }
-      });
-  }
+  // syncInvoices() {
+  //   this.restService
+  //     .syncInvoices()
+  //     .toPromise()
+  //     .then((data) => {
+  //       if (data["status"]) {
+  //         console.log(data)
+  //         this.getInvoices();
+  //       }
+  //     });
+  // }
+ 
   pages(): any[] {
     if (this.totalDataCount >= this.limit) {
       return new Array(Math.ceil(this.totalDataCount / this.limit));

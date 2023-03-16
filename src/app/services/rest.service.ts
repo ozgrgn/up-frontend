@@ -410,7 +410,7 @@ export class RestService {
 
   syncInvoices() {
     return this.http.post(
-      `${this.apiUrl}/services/syncInvoices/f990528b0bdc9b9066d81a14eeba392c`,
+      `${this.apiUrl}/services/syncInvoices`,
       {
         headers: new HttpHeaders({
           Authorization: localStorage.getItem("token"),
@@ -419,18 +419,6 @@ export class RestService {
     );
   }
 
-  getOutsideInvoicesWithFaturaNos(faturaNos: any) {
-    console.log(faturaNos,"faturanos restttttt")
-    return this.http.post(
-      `${this.apiUrl}/services/getOutsideInvoicesWithFaturaNos`,
-      { faturaNos : [...faturaNos] },
-      {
-        headers: new HttpHeaders({
-          Authorization: localStorage.getItem("token"),
-        }),
-      }
-    );
-  }
 
   getPerformance(
     company?: String,

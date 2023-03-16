@@ -79,7 +79,7 @@
                 <th *ngIf="page != 'onay'" class="text-dark" scope="col">
                   DURUM
                 </th>
-                <th class="text-dark text-center" scope="col">İŞLEM</th>
+                <th *ngIf="page == 'onay'" class="text-dark text-center" scope="col">İŞLEM</th>
               </tr>
             </thead>
             <tbody>
@@ -125,7 +125,6 @@
                 </td>
                 <td *ngIf="page != 'onay' && perm == 'SUPERADMIN'">
                   <span
-                    (click)="open(changeStatus, '', 'sm', invoice._id)"
                     style="cursor: pointer"
                     class="badge w-100"
                     [ngClass]="
@@ -155,7 +154,7 @@
                    
                   </button>
                   <br />
-                  <button
+                  <!-- <button
                     *ngIf="page == 'onay'"
                     class="btn btn-sm btn-success btn-3"
                     (click)="open(approve, '', 'sm', invoice._id)"
@@ -168,7 +167,7 @@
                     (click)="open(cancel, '', 'sm', invoice._id)"
                   >
                     İptal
-                  </button>
+                  </button> -->
                 </td>
               </tr>
             </tbody>
@@ -221,7 +220,7 @@
   </div>
 </div>
 
-<ng-template #approve let-c="close" let-d="dismiss">
+<!-- <ng-template #approve let-c="close" let-d="dismiss">
   <div class="modal-content">
     <div class="modal-header text-muted text-center pt-3">
       <button
@@ -455,4 +454,4 @@
       </button>
     </div>
   </div>
-</ng-template>
+</ng-template> -->
