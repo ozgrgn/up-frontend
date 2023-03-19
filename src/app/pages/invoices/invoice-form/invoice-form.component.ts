@@ -40,7 +40,7 @@ export class InvoiceFormComponent implements OnInit {
   categories: any = [];
   product: any = undefined;
   newProduct: any = {};
-  units: any = ["Adet", "Kilo", "Gram"];
+  units: any = ["Adet", "Kilo", "Gram","Karat"];
   countries: any;
   airlines: any;
   airlineId: any = undefined;

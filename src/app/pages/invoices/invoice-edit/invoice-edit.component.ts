@@ -29,7 +29,7 @@ export class InvoiceEditComponent implements OnInit {
   campaigns: any;
   product: any = {};
   reasons: any;
-  units: any = ["Adet", "Kilo", "Gram"];
+  units: any = ["Adet", "Kilo", "Gram","Karat"];
   selectedInvoiceID: any;
   oldAgencyId: any;
   oldCampaignId: any;
