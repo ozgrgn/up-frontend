@@ -363,10 +363,10 @@ export class InvoiceEditComponent implements OnInit {
       this.toaster.error("Lütfen Fiyat Giriniz");
       return;
     }
-    if (!this.product.kdv) {
-      this.toaster.error("Kdv ile ilgili bir hata var.");
-      return;
-    }
+    // if (!this.product.kdv) {
+    //   this.toaster.error("Kdv ile ilgili bir hata var.");
+    //   return;
+    // }
 
     this.invoice.details.push({
       productCategory: this.cats.category,

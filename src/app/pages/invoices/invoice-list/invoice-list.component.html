@@ -79,7 +79,7 @@
                 <th *ngIf="page != 'onay'" class="text-dark" scope="col">
                   DURUM
                 </th>
-                <th *ngIf="page == 'onay'" class="text-dark text-center" scope="col">İŞLEM</th>
+                <th *ngIf="page == 'onay' || this.perm == 'SUPERADMIN'" class="text-dark text-center" scope="col">İŞLEM</th>
               </tr>
             </thead>
             <tbody>
@@ -143,7 +143,7 @@
                     }}</span
                   >
                 </td>
-                <td  *ngIf="invoice.status!='CONFIRMED'" class="br_zero">
+                <td  *ngIf="invoice.status!='CONFIRMED' || this.perm == 'SUPERADMIN'" class="br_zero">
                   <button
                  
                     class="btn btn-sm btn-secondary w-100 mb-2 mr-0"

@@ -71,6 +71,7 @@ export class InvoiceFormComponent implements OnInit {
   totalProduct: any = 0;
   totalBrut: any = 0;
   totalKdv: any = 0;
+  totalKdv0: any = 0;
   totalKdv8: any = 0;
   totalKdv18: any = 0;
 
@@ -196,10 +197,10 @@ export class InvoiceFormComponent implements OnInit {
       this.toaster.error("Lütfen Fiyat Giriniz");
       return;
     }
-    if (!this.product.kdv) {
-      this.toaster.error("Kdv ile ilgili bir hata var.");
-      return;
-    }
+    // if (!this.product.kdv) {
+    //   this.toaster.error("Kdv ile ilgili bir hata var.");
+    //   return;
+    // }
 
     this.details.push({
       productCategory: this.cats.category,
@@ -231,12 +232,14 @@ export class InvoiceFormComponent implements OnInit {
     this.totalBrut =
       this.totalBrut + this.newProduct.quantity * this.newProduct.price;
     console.log(this.totalBrut, "tb");
+    if (this.product.kdv>0) {
     this.totalKdv =
       this.totalKdv +
       (this.newProduct.quantity * this.newProduct.price +
         (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
           100 -
         this.newProduct.quantity * this.newProduct.price);
+      }
     if (this.product.kdv == 8) {
       this.totalKdv8 =
         this.totalKdv8 +
@@ -250,6 +253,16 @@ export class InvoiceFormComponent implements OnInit {
     if (this.product.kdv == 18) {
       this.totalKdv18 =
         this.totalKdv18 +
+        (this.newProduct.quantity * this.newProduct.price +
+          (this.newProduct.quantity *
+            this.newProduct.price *
+            this.product.kdv) /
+            100 -
+          this.newProduct.quantity * this.newProduct.price);
+    }
+    if (this.product.kdv == 0) {
+      this.totalKdv0 =
+        this.totalKdv0 +
         (this.newProduct.quantity * this.newProduct.price +
           (this.newProduct.quantity *
             this.newProduct.price *
