@@ -162,6 +162,7 @@
                 </li>
                 <li
                   *ngFor="let page of pages(); let i = index"
+                  [class.hidden]="i - skip / limit > 5 || skip / limit - i > 5"
                   [class.active]="skip == limit * i"
                   (click)="skip = limit * i; getData()"
                   class="page-item"

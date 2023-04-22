@@ -873,7 +873,8 @@
         >
           GERİ
         </button>
-        <button type="button" (click)="send()" class="btn btn-success my-4">
+        <button type="button" (click)="send()" class="btn btn-success my-4"
+        [class.disabled]="loading">
           Kaydet
         </button>
       </div>

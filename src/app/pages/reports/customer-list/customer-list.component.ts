@@ -55,7 +55,7 @@ export class CustomerListComponent implements OnInit {
         this.perm = perm["userType"];
 
         console.log(perm, "perm");
-        if (this.perm == "SUPERADMIN") {
+        if (this.perm == "SUPERADMIN" || this.perm=="EXIT") {
           this.company._id = undefined;
           this.getCompanies()
           this.getData();
@@ -124,7 +124,7 @@ export class CustomerListComponent implements OnInit {
         this.totalDataCount = data["count"];
         this.invoices = data["invoices"];
         console.log(this.invoices,"müşteri invoices")
-        if(this.selectedCompany && this.perm=="SUPERADMIN")
+        if(this.selectedCompany && (this.perm=="SUPERADMIN"||this.perm=="EXIT"))
         this.company = this.companies.find((x) => x._id === this.selectedCompany);
         console.log(this.company, "company");
         this.loading = false;

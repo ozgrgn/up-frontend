@@ -4,6 +4,7 @@ import { ToastrService } from "ngx-toastr";
 import { RestService } from "src/app/services/rest.service";
 import { DaterangeModel } from "src/app/components/date-range-picker/date-range-picker.component";
 import { AuthService } from "src/app/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-invoice-list",
@@ -20,6 +21,7 @@ export class InvoiceListComponent implements OnInit {
   skip: number = 0;
   fullName: any;
   company: any = {};
+  selectedCompany:any=null
   branch: any;
   invoiceNo: any;
   invoices: any;
@@ -32,6 +34,7 @@ export class InvoiceListComponent implements OnInit {
   newReason: any;
   approveDate: any;
   invoiceNos: any = [];
+companies:any;
 
   approveNo: any;
   invoiceDate: DaterangeModel = {} as DaterangeModel;
@@ -43,12 +46,15 @@ export class InvoiceListComponent implements OnInit {
     private modalService: NgbModal,
     private restService: RestService,
     private toaster: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
+
   ) {}
 
   ngOnInit(): void {
     this.getPermission();
     this.getReasons();
+    this.getCompanies();
   }
   getData() {
     this.getInvoices();
@@ -59,7 +65,9 @@ export class InvoiceListComponent implements OnInit {
       .toPromise()
       .then((perm) => {
         this.perm = perm["userType"];
-
+        if (this.perm == "EXIT") {
+          this.router.navigate(["/customer-list"]);
+        }
         if (this.perm == "SUPERADMIN") {
           this.company._id = undefined;
           this.getData()
@@ -81,8 +89,15 @@ export class InvoiceListComponent implements OnInit {
 
   getInvoices() {
     this.invoiceNos = [];
-
+if(this.status=="undefined") {
+  this.status=undefined
+}
+if(this.company._id=="undefined") {
+  this.company._id=undefined
+}
+    console.log(this.invoiceNo)
     this.restService
+   
       .getInvoices(
         this.limit,
         this.skip,
@@ -118,6 +133,17 @@ export class InvoiceListComponent implements OnInit {
       .then((data) => {
         if (data["status"]) {
           this.reasons = data["reasons"];
+        }
+      });
+  }
+  getCompanies() {
+    this.restService
+      .getCompanies()
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          console.log(data);
+          this.companies = data["companies"];
         }
       });
   }

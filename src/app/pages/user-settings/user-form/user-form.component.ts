@@ -57,6 +57,10 @@ export class UserFormComponent implements OnInit {
       this.toaster.error("Lütfen İsim Soyisim Bölümünü Boş Bırakmayın");
       return;
     }
+    // if (!this.selectedCompany) {
+    //   this.toaster.error("Lütfen Şirket Bölümünü Boş Bırakmayın");
+    //   return;
+    // }
     this.authService
       .addUser(
         this.username,
@@ -73,7 +77,7 @@ export class UserFormComponent implements OnInit {
           this.router.navigate(["/user-list"]);
           
         } else {
-          this.toaster.error(res["message"]);
+          this.toaster.error("Bir şeyler ters gitti");
         }
         console.log(res);
       });

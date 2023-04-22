@@ -194,7 +194,21 @@ export class GeneralSettingsComponent implements OnInit {
       });
   }
 
+  deleteCompany(id) {
+    console.log(id);
+    this.restService
+      .deleteCompany(id)
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Firma Silindi");
+          this.selectedCompany = {};
+          this.getCompanies()
+        } else 
+        this.toaster.error("Bu Firmaya Kayıtlı Fatura Var.");
 
+      });
+  }
   //ONAYLANMAMA SEBEPLERİ
   getReasons() {
     this.restService

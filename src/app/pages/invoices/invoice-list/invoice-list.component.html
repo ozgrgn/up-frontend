@@ -30,10 +30,10 @@
                   TÜM FATURALAR
                 </button>
               </div>
-              <div class="row justify-content-center pt-2">
+              <div class="row flex justify-content-center pt-2">
                 <input
-                  style="width: 100px"
-                  placeholder="İsim Arama"
+                  style="width: 120px"
+                  placeholder="İsim-No Arama"
                   type="text"
                   class="form-control form-control-sm text-justify centered mr-2"
                   [(ngModel)]="fullName"
@@ -45,6 +45,40 @@
                   (resetDateBind)="resetDate('invoiceDate')"
                   placeholder="Fatura Tarihi"
                 ></app-date-range-picker>
+                <div *ngIf="this.perm == 'SUPERADMIN'" class="ml-2">
+                  <select
+                  style="width: 120px"
+                  class="form-control form-control-sm firstColor"
+                  [(ngModel)]="company._id"
+                  (change)="getData()"
+                >
+                  <option [value]="undefined">
+                    Firma
+                  </option>
+
+                  <option
+                    *ngFor="let com of companies"
+                    [value]="com._id"
+                  >
+                    {{ com.name }}
+                  </option>
+                </select>
+                </div>
+                <div *ngIf="page != 'onay'" class="ml-2">
+                  <select
+                    class="form-control form-control-sm"
+                    [(ngModel)]="status"
+                    (ngModelChange)="getData()"
+                    name="status"
+                  >
+                    <option [value]="undefined" >
+                      Durum
+                    </option>
+                    <option value="CONFIRMED">ONAYLI</option>
+                    <option value="DECLINED">ONAYSIZ</option>
+                    <option value="PENDING">BEKLEMEDE</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -79,7 +113,13 @@
                 <th *ngIf="page != 'onay'" class="text-dark" scope="col">
                   DURUM
                 </th>
-                <th *ngIf="page == 'onay' || this.perm == 'SUPERADMIN'" class="text-dark text-center" scope="col">İŞLEM</th>
+                <th
+                  *ngIf="page == 'onay' || this.perm == 'SUPERADMIN'"
+                  class="text-dark text-center"
+                  scope="col"
+                >
+                  İŞLEM
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -123,8 +163,10 @@
                   ><br />
                   {{ invoice?.note }}
                 </td>
-                <td *ngIf="page != 'onay' && perm == 'SUPERADMIN'"
-                  (click)="open(changeStatus, '', 'sm', invoice._id)">
+                <td
+                  *ngIf="page != 'onay' && perm == 'SUPERADMIN'"
+                  (click)="open(changeStatus, '', 'sm', invoice._id)"
+                >
                   <span
                     style="cursor: pointer"
                     class="badge w-100"
@@ -144,15 +186,17 @@
                     }}</span
                   >
                 </td>
-                <td  *ngIf="invoice.status!='CONFIRMED' || this.perm == 'SUPERADMIN'" class="br_zero">
+                <td
+                  *ngIf="
+                    invoice.status != 'CONFIRMED' || this.perm == 'SUPERADMIN'
+                  "
+                  class="br_zero"
+                >
                   <button
-                 
                     class="btn btn-sm btn-secondary w-100 mt-2 mr-0"
                     [routerLink]="['/invoice-edit', invoice._id]"
-                  
                   >
                     Düzenle
-                   
                   </button>
                   <br />
                   <!-- <button
@@ -202,7 +246,6 @@
               <li
                 *ngFor="let page of pages(); let i = index"
                 [class.hidden]="i - skip / limit > 5 || skip / limit - i > 5"
-
                 [class.active]="skip == limit * i"
                 (click)="skip = limit * i; getData()"
                 class="page-item"

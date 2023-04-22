@@ -153,7 +153,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngIf="pending.invoiceCount > 0">
+              <tr *ngIf="pending && pending.invoiceCount > 0">
                 <td>ONAY BEKLİYOR</td>
                 <td>{{ pending.invoiceCount }} ADET</td>
                 <td>
@@ -190,7 +190,7 @@
                   >
                 </td>
               </tr>
-              <tr *ngIf="confirmed.invoiceCount > 0">
+              <tr *ngIf="confirmed && confirmed.invoiceCount > 0">
                 <td>ONAYLANDI</td>
                 <td>{{ confirmed.invoiceCount }} ADET</td>
                 <td>
@@ -228,7 +228,7 @@
                 </td>
               </tr>
 
-              <tr *ngIf="declined.invoiceCount > 0">
+              <tr *ngIf="declined && declined.invoiceCount > 0">
                 <td>ONAYLANMADI</td>
                 <td>{{ declined.invoiceCount }} ADET</td>
                 <td>
@@ -265,7 +265,7 @@
                   >
                 </td>
               </tr>
-              <tr *ngIf="total.invoiceCount > 0" style="font-weight: 600">
+              <tr *ngIf="total && total.invoiceCount > 0" style="font-weight: 600">
                 <td>TOPLAM</td>
                 <td>{{ total.invoiceCount }} ADET</td>
                 <td></td>

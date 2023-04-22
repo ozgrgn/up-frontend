@@ -225,7 +225,13 @@ export class RestService {
       }),
     });
   }
-
+  deleteCompany(id: any) {
+    return this.http.delete(`${this.apiUrl}/companies/company/${id}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
   updateCompany(company: any) {
     return this.http.put(
       `${this.apiUrl}/companies/company`,

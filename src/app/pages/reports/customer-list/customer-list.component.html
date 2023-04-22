@@ -31,7 +31,7 @@
                       TÜM FATURALAR
                     </button>
                   </div> -->
-                <div class="row justify-content-center pt-2">
+                <div class="row sm:flex justify-content-center pt-2">
                   <!-- <input
                       style="width: 100px"
                       placeholder="İsim Arama"
@@ -56,7 +56,7 @@
 
               </select>
               </div> -->
-                  <div *ngIf="perm == 'SUPERADMIN'" class="col-2">
+                  <div *ngIf="perm == 'SUPERADMIN' || perm == 'EXIT'" class="col-md-2">
                     <select
                       style="width: 100%"
                       class="form-control-sm form-control"
@@ -69,7 +69,7 @@
                       </option>
                     </select>
                   </div>
-                  <div class="col-2">
+                  <div class="col-md-2">
                     <select
                       style="width: 100%"
                       class="form-control-sm form-control"
@@ -87,7 +87,7 @@
                       </ng-container>
                     </select>
                   </div>
-                  <div class="col-2">
+                  <div class="col-md-2">
                     <app-date-range-picker
                       [(value)]="invoiceDate"
                       (dataEvent)="getData()"
@@ -95,7 +95,7 @@
                       placeholder="Fatura Tarihi"
                     ></app-date-range-picker>
                   </div>
-                  <div class="col-2">
+                  <div class="col-md-2">
                     <app-date-range-picker
                       [(value)]="approveDate"
                       (dataEvent)="getData()"
@@ -103,7 +103,7 @@
                       placeholder="Onay Tarihi"
                     ></app-date-range-picker>
                   </div>
-                  <div class="col-2">
+                  <div class="col-md-2">
                     <app-date-range-picker
                       [(value)]="deparDate"
                       (dataEvent)="getData()"
@@ -112,7 +112,7 @@
                     ></app-date-range-picker>
                   </div>
                 </div>
-                <div class="flex flex-col justify-center mt-3">
+                <div *ngIf="perm!='EXIT'" class="flex flex-col justify-center mt-3">
                   <input
                     style="width: 350px"
                     type="button"
@@ -341,6 +341,7 @@
                 </li>
                 <li
                   *ngFor="let page of pages(); let i = index"
+                  [class.hidden]="i - skip / limit > 1 || skip / limit - i > 1"
                   [class.active]="skip == limit * i"
                   (click)="skip = limit * i; getData()"
                   class="page-item"

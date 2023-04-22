@@ -52,7 +52,7 @@ export class PerformanceReportComponent implements OnInit {
         this.perm = perm["userType"];
 
         console.log(perm, "perm");
-        if (this.perm == "SUPERADMIN") {
+        if (this.perm == "SUPERADMIN"&&"EXIT") {
           this.company._id = undefined;
           this.getCompanies()
           this.getData();
@@ -116,7 +116,7 @@ export class PerformanceReportComponent implements OnInit {
         this.confirmed=data['confirmed']
         this.declined=data['declined']
         this.total=data['total']
-        if(this.selectedCompany && this.perm=="SUPERADMIN")
+        if(this.selectedCompany && (this.perm=="SUPERADMIN"|| this.perm=="EXIT"))
         this.company = this.companies.find((x) => x._id === this.selectedCompany);
         console.log(this.company, "company");
         this.loading = false;

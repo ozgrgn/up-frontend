@@ -7,3 +7,9 @@ page-container {
     width: 100vw !important;
     overflow: hidden;
 }
+.hidden {
+    display:none
+  }
+  .page-item {
+    cursor:pointer;
+  }

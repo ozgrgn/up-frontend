@@ -118,12 +118,20 @@
                           </td>
                           <td>
                             <button 
-                              class="btn btn-icon btn-2 btn-warning btn-sm w-100"
+                              class="btn btn-icon btn-2 btn-warning btn-sm w-50"
                               
                               type="button"
                               (click)="updateCompany()"
                             >
                               <span class="btn-inner--icon">DÜZENLE</span>
+                            </button>
+                            <button 
+                              class="btn btn-icon btn-2 btn-warning btn-sm w-50"
+                              
+                              type="button"
+                              (click)="deleteCompany(selectedCompany._id)"
+                            >
+                              <span class="btn-inner--icon">Sil</span>
                             </button>
               
                           </td>

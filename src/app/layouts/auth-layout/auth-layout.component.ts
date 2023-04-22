@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AuthLayoutComponent implements OnInit, OnDestroy {
   test: Date = new Date();
-  public isCollapsed = true;
+  public isCollapsed = false;
 
   constructor(private router: Router) { }
 
@@ -18,7 +18,7 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-default");
     this.router.events.subscribe((event) => {
-      this.isCollapsed = true;
+      this.isCollapsed = false;
    });
 
   }

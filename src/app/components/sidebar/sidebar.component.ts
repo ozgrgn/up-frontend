@@ -126,6 +126,7 @@ export class SidebarComponent implements OnInit {
             this.permission = this.permission.userType;
             this.fullName = localStorage.getItem("fullName");
             this.userId = localStorage.getItem("userId");
+            console.log(this.permission,"perm")
           });
 
         this.location.subscribe((ev: PopStateEvent) => {
@@ -144,4 +145,5 @@ export class SidebarComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
+
 }

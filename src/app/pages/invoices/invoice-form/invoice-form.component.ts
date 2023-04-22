@@ -40,7 +40,7 @@ export class InvoiceFormComponent implements OnInit {
   categories: any = [];
   product: any = undefined;
   newProduct: any = {};
-  units: any = ["Adet", "Kilo", "Gram","Karat"];
+  units: any = ["Adet", "Kilo", "Gram", "Karat"];
   countries: any;
   airlines: any;
   airlineId: any = undefined;
@@ -74,7 +74,7 @@ export class InvoiceFormComponent implements OnInit {
   totalKdv0: any = 0;
   totalKdv8: any = 0;
   totalKdv18: any = 0;
-
+  loading = false;
   focus;
   focus1;
   focus2;
@@ -232,14 +232,16 @@ export class InvoiceFormComponent implements OnInit {
     this.totalBrut =
       this.totalBrut + this.newProduct.quantity * this.newProduct.price;
     console.log(this.totalBrut, "tb");
-    if (this.product.kdv>0) {
-    this.totalKdv =
-      this.totalKdv +
-      (this.newProduct.quantity * this.newProduct.price +
-        (this.newProduct.quantity * this.newProduct.price * this.product.kdv) /
-          100 -
-        this.newProduct.quantity * this.newProduct.price);
-      }
+    if (this.product.kdv > 0) {
+      this.totalKdv =
+        this.totalKdv +
+        (this.newProduct.quantity * this.newProduct.price +
+          (this.newProduct.quantity *
+            this.newProduct.price *
+            this.product.kdv) /
+            100 -
+          this.newProduct.quantity * this.newProduct.price);
+    }
     if (this.product.kdv == 8) {
       this.totalKdv8 =
         this.totalKdv8 +
@@ -407,6 +409,7 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   send() {
+ 
     console.log(this.company, "0*0*0*");
     if (!this.company || !this.company._id) {
       this.toaster.error("Lütfen Şirket Seçiniz");
@@ -480,7 +483,7 @@ export class InvoiceFormComponent implements OnInit {
     if (this.terminal) this.terminal = this.terminal.toUpperCase();
     if (this.flight) this.flight = this.flight.toUpperCase();
     if (this.guide) this.guide = this.guide.toUpperCase();
-
+    this.loading=true
     this.restService
       .addInvoice(
         this.convertIsoString(this.invoiceDate),
@@ -516,7 +519,11 @@ export class InvoiceFormComponent implements OnInit {
         if (data["status"]) {
           this.toaster.success("Yeni Fatura Oluşturuldu");
           this.router.navigate(["/invoice-list"]);
-        }
+         
+        } else
+        this.toaster.error(data["message"]);
+
+        this.loading=false
       });
   }
 
