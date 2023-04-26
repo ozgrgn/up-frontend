@@ -219,10 +219,7 @@ export class InvoiceEditComponent implements OnInit {
       });
   }
   send() {
-    if(this.invoice.status=='CONFIRMED') {
-      this.toaster.error("Onaylanmış Faturayı Düzenleyemezsiniz");
-      return;
-    }
+
     if (!this.invoice.company || !this.invoice.company._id) {
       this.toaster.error("Lütfen Şirket Seçiniz");
       return;
