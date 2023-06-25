@@ -13,6 +13,7 @@ import { UserEditComponent } from 'src/app/pages/user-settings/user-edit/user-ed
 import { ProductReportComponent } from 'src/app/pages/reports/product-report/product-report.component';
 import { IcmalComponent } from 'src/app/pages/reports/icmal/icmal.component';
 import { CustomerListComponent } from 'src/app/pages/reports/customer-list/customer-list.component';
+import { IcmalKuyumComponent } from 'src/app/pages/reports/icmal-kuyum/icmal-kuyum.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -24,6 +25,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'performance-reports',   component: PerformanceReportComponent },
     { path: 'product-reports',   component: ProductReportComponent },
     { path: 'icmal',   component: IcmalComponent },
+    { path: 'icmal-kuyum',   component: IcmalKuyumComponent },
     { path: 'user-list',   component: UserListComponent },
     { path: 'user-form',   component: UserFormComponent },
     { path: 'user-edit/:id',   component: UserEditComponent },

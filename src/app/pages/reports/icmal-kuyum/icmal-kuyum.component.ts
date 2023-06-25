@@ -6,13 +6,12 @@ import { RestService } from 'src/app/services/rest.service';
 import { DaterangeModel } from "src/app/components/date-range-picker/date-range-picker.component";
 import * as XLSX from "xlsx";
 
-
 @Component({
-  selector: 'app-icmal',
-  templateUrl: './icmal.component.html',
-  styleUrls: ['./icmal.component.scss']
+  selector: 'app-icmal-kuyum',
+  templateUrl: './icmal-kuyum.component.html',
+  styleUrls: ['./icmal-kuyum.component.scss']
 })
-export class IcmalComponent implements OnInit {
+export class IcmalKuyumComponent implements OnInit {
   fileName = "icmal.xlsx";
   page: any = "onay";
   closeResult: any;

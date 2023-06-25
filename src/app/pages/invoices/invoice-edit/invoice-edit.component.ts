@@ -273,7 +273,7 @@ export class InvoiceEditComponent implements OnInit {
       this.invoice.terminalId &&
       this.invoice.terminalId != this.oldTerminalId
     ) {
-      this.invoice.terminal = this.campaigns.find(
+      this.invoice.terminal = this.terminals.find(
         (x) => x._id === this.invoice.terminalId
       ).name;
     }

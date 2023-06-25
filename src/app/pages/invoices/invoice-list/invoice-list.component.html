@@ -45,24 +45,27 @@
                   (resetDateBind)="resetDate('invoiceDate')"
                   placeholder="Fatura Tarihi"
                 ></app-date-range-picker>
+                <div class="col-md-2">
+                  <app-date-range-picker
+                    [(value)]="deparDate"
+                    (dataEvent)="getData()"
+                    (resetDateBind)="resetDate('deparDate')"
+                    placeholder="Çıkış Tarihi"
+                  ></app-date-range-picker>
+                </div>
                 <div *ngIf="this.perm == 'SUPERADMIN'" class="ml-2">
                   <select
-                  style="width: 120px"
-                  class="form-control form-control-sm firstColor"
-                  [(ngModel)]="company._id"
-                  (change)="getData()"
-                >
-                  <option [value]="undefined">
-                    Firma
-                  </option>
-
-                  <option
-                    *ngFor="let com of companies"
-                    [value]="com._id"
+                    style="width: 120px"
+                    class="form-control form-control-sm firstColor"
+                    [(ngModel)]="company._id"
+                    (change)="getData()"
                   >
-                    {{ com.name }}
-                  </option>
-                </select>
+                    <option [value]="undefined">Firma</option>
+
+                    <option *ngFor="let com of companies" [value]="com._id">
+                      {{ com.name }}
+                    </option>
+                  </select>
                 </div>
                 <div *ngIf="page != 'onay'" class="ml-2">
                   <select
@@ -71,9 +74,7 @@
                     (ngModelChange)="getData()"
                     name="status"
                   >
-                    <option [value]="undefined" >
-                      Durum
-                    </option>
+                    <option [value]="undefined">Durum</option>
                     <option value="CONFIRMED">ONAYLI</option>
                     <option value="DECLINED">ONAYSIZ</option>
                     <option value="PENDING">BEKLEMEDE</option>
@@ -109,8 +110,13 @@
                 <th class="text-dark" scope="col">GİDECEĞİ YER</th>
                 <th class="text-dark" scope="col">BİLET BİLGİLERİ</th>
                 <th class="text-dark" scope="col">UÇUŞ ZAMANI</th>
+                <th class="text-dark" scope="col">TUTARLAR</th>
                 <th class="text-dark" scope="col">NOTLAR</th>
-                <th *ngIf="page != 'onay'" class="text-dark" scope="col">
+                <th
+                  *ngIf="page != 'onay' && this.perm == 'SUPERADMIN'"
+                  class="text-dark"
+                  scope="col"
+                >
                   DURUM
                 </th>
                 <th
@@ -158,11 +164,28 @@
                   {{ invoice?.deparDate | date : "dd/MM/yyyy" }} <br /><br />
                   <i class="fa fa-clock primary"></i> {{ invoice?.deparTime }}
                 </td>
+                <td>
+                  <i class="fa fa-tag primary"></i>
+                  {{
+                    invoice?.invoiceTotal.toLocaleString("tr-TR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })
+                  }}
+                  <br /><br />
+                  <i class="fa fa-file-invoice primary"></i>                  {{
+                    invoice?.invoiceBrutTotal.toLocaleString("tr-TR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })
+                  }}
+                </td>
                 <td class="note br_zero">
                   <span *ngIf="invoice.campaign"> {{ invoice?.campaign }} </span
                   ><br />
                   {{ invoice?.note }}
                 </td>
+
                 <td
                   *ngIf="page != 'onay' && perm == 'SUPERADMIN'"
                   (click)="open(changeStatus, '', 'sm', invoice._id)"

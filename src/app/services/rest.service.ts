@@ -320,9 +320,10 @@ export class RestService {
     deparDate2?: String,
     invoiceDate1?: String,
     invoiceDate2?: String,
-    sort?: Object,
+    sort?: String,
     creator?: String
   ) {
+    console.log(deparDate2,"deparDate2 rent")
     let query: any = {};
     if (limit) {
       query.limit = limit;

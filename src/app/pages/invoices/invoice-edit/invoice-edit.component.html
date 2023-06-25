@@ -109,9 +109,7 @@
                           [(ngModel)]="invoice.company._id"
                           onkeyup="this.value = this.value.toUpperCase();"
                         >
-                          <option [value]="undefined">
-                            Firma
-                          </option>
+                          <option [value]="undefined">Firma</option>
 
                           <option
                             *ngFor="let com of companies"
@@ -132,18 +130,16 @@
                         <select
                           class="form-control form-control-alternative firstColor"
                           [(ngModel)]="invoice.branch"
-                         
                         >
-                        
-                          <option value="undefined">
-                            Şube Seçin
-                          </option>
+                          <option value="undefined">Şube Seçin</option>
                           <ng-container
                             *ngIf="invoice.company && invoice.company.branches"
                           >
                             <option
                               *ngFor="let u of invoice.company.branches"
-                              [attr.selected]="u.name == invoice.branch ? true : null"
+                              [attr.selected]="
+                                u.name == invoice.branch ? true : null
+                              "
                               [ngValue]="u.name"
                             >
                               {{ u.name }}
@@ -163,9 +159,7 @@
                         [(ngModel)]="invoice.campaignId"
                         name="campaign"
                       >
-                        <option [value]="undefined">
-                          Kampanya Seç
-                        </option>
+                        <option [value]="undefined">Kampanya Seç</option>
 
                         <option
                           *ngFor="let campaign of campaigns"
@@ -246,9 +240,7 @@
                           [(ngModel)]="invoice.client.nation"
                           name="waefag"
                         >
-                          <option [value]="undefined">
-                            Uyruk
-                          </option>
+                          <option [value]="undefined">Uyruk</option>
 
                           <option
                             *ngFor="let country of countries"
@@ -346,9 +338,7 @@
                           [(ngModel)]="invoice.destCountry"
                           name="destCountry"
                         >
-                          <option [value]="undefined">
-                            Ülke
-                          </option>
+                          <option [value]="undefined">Ülke</option>
 
                           <option
                             *ngFor="let country of countries"
@@ -389,9 +379,7 @@
                         [(ngModel)]="invoice.way"
                         name="way"
                       >
-                        <option [value]="undefined">
-                          Ulaşım Şekli
-                        </option>
+                        <option [value]="undefined">Ulaşım Şekli</option>
 
                         <option *ngFor="let way of ways" [value]="way">
                           {{ way }}
@@ -412,9 +400,7 @@
                           [class.firstColor]="!invoice.terminalId"
                           name="terminal"
                         >
-                          <option [value]="undefined">
-                            Terminal
-                          </option>
+                          <option [value]="undefined">Terminal</option>
 
                           <option
                             *ngFor="let terminal of terminals"
@@ -429,18 +415,18 @@
                       class="form-group col-6"
                       [ngClass]="{ focused: focus1 === true }"
                     >
-                    <div class="input-group input-group-alternative">
-                      <input
-                        class="form-control form-control-alternative"
-                        placeholder="Varış Havaalanı"
-                        onkeyup="this.value = this.value.toUpperCase();"
-                        type="text"
-                        name="airport"
-                        [(ngModel)]="invoice.airport"
-                        (focus)="focus15 = true"
-                        (blur)="focus15 = false"
-                      />
-                    </div>
+                      <div class="input-group input-group-alternative">
+                        <input
+                          class="form-control form-control-alternative"
+                          placeholder="Varış Havaalanı"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                          type="text"
+                          name="airport"
+                          [(ngModel)]="invoice.airport"
+                          (focus)="focus15 = true"
+                          (blur)="focus15 = false"
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -494,9 +480,7 @@
                           [(ngModel)]="invoice.airlineId"
                           name="airline"
                         >
-                        <option [value]="undefined">
-                          Uçak Şirketi
-                        </option>
+                          <option [value]="undefined">Uçak Şirketi</option>
                           <option
                             *ngFor="let airline of airlines"
                             [value]="airline._id"
@@ -540,9 +524,7 @@
                           [(ngModel)]="invoice.agencyId"
                           name="agency"
                         >
-                          <option [value]="null">
-                            Acente
-                          </option>
+                          <option [value]="null">Acente</option>
 
                           <option
                             *ngFor="let agency of agencies"
@@ -641,9 +623,7 @@
                                     (change)="selectCat(selectedCategory)"
                                     [(ngModel)]="selectedCategory"
                                   >
-                                    <option
-                                      [value]="undefined"
-                                    >
+                                    <option [value]="undefined">
                                       Kategorisi
                                     </option>
 
@@ -729,11 +709,7 @@
                                     class="form-control-sm form-control-alternative w-100"
                                     [(ngModel)]="newProduct.unit"
                                   >
-                                    <option
-                                      [value]="undefined"
-                                    >
-                                      Birim
-                                    </option>
+                                    <option [value]="undefined">Birim</option>
 
                                     <option *ngFor="let u of units" [value]="u">
                                       {{ u }}
@@ -821,9 +797,16 @@
                               {{ detail.quantity }}
                             </td>
                             <td>{{ numberBeautify(detail.price) }} TL</td>
-                            <td>{{ numberBeautify(detail.quantity * detail.price) }} TL</td>
+                            <td>
+                              {{
+                                numberBeautify(detail.quantity * detail.price)
+                              }}
+                              TL
+                            </td>
                             <td>%{{ detail.kdv }}</td>
-                            <td>{{ numberBeautify(detail.productTotal) }} TL</td>
+                            <td>
+                              {{ numberBeautify(detail.productTotal) }} TL
+                            </td>
                             <td>
                               <button
                                 class="btn btn-icon btn-2 btn-danger btn-sm"
@@ -850,37 +833,36 @@
                         </tbody>
                       </table>
                       <div
-                      class="d-flex flex-col w-100 justify-content-end text-nowrap p-2 text-left text-sm"
-                      
-                    >
-                      <table style="color:black">
-                        <tr class="border-bottom">
-                          <td class="col">Ara Toplam</td>
-                          <td class="col">
-                            {{ numberBeautify(totalBrut) }} TL
-                          </td>
-                        </tr>
-                        <tr class="border-bottom">
-                          <td class="col">KDV Turarı (V.A.T) %8</td>
-                          <td class="col">
-                            {{ numberBeautify(totalKdv8) }} TL
-                          </td>
-                        </tr>
-                        <tr class="border-bottom">
-                          <td class="col">KDV Turarı (V.A.T) %18</td>
-                          <td class="col">
-                            {{ numberBeautify(totalKdv18) }} TL
-                          </td>
-                        </tr>
-                        <tr class="border-bottom">
-                          <td class="col">Genel TOPLAM</td>
-                          <td class="col">
-                            {{ numberBeautify(totalProduct) }} TL
-                          </td>
-                        </tr>
-                      </table>
+                        class="d-flex flex-col w-100 justify-content-end text-nowrap p-2 text-left text-sm"
+                      >
+                        <table style="color: black">
+                          <tr class="border-bottom">
+                            <td class="col">Ara Toplam</td>
+                            <td class="col">
+                              {{ numberBeautify(totalBrut) }} TL
+                            </td>
+                          </tr>
+                          <tr class="border-bottom">
+                            <td class="col">KDV Turarı (V.A.T) %8</td>
+                            <td class="col">
+                              {{ numberBeautify(totalKdv8) }} TL
+                            </td>
+                          </tr>
+                          <tr class="border-bottom">
+                            <td class="col">KDV Turarı (V.A.T) %18</td>
+                            <td class="col">
+                              {{ numberBeautify(totalKdv18) }} TL
+                            </td>
+                          </tr>
+                          <tr class="border-bottom">
+                            <td class="col">Genel TOPLAM</td>
+                            <td class="col">
+                              {{ numberBeautify(totalProduct) }} TL
+                            </td>
+                          </tr>
+                        </table>
 
-                      <!-- <tr>
+                        <!-- <tr>
                           <td></td>
                           <td></td>
                           <td></td>
@@ -890,7 +872,7 @@
                           <td>{{ totalKdv | number: "1.0-1" }} TL</td>
                           <td>{{ totalProduct | number: "1.0-1" }} TL</td>
                         </tr> -->
-                    </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -913,6 +895,7 @@
           KAYDET
         </button>
         <button
+          *ngIf="perm == 'SUPERADMIN'"
           type="button"
           (click)="open(delete, '', 'sm', invoice._id)"
           class="btn btn-danger my-4"

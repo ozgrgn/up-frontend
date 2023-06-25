@@ -39,6 +39,8 @@ companies:any;
   approveNo: any;
   invoiceDate: DaterangeModel = {} as DaterangeModel;
   dateRange2: DaterangeModel = {} as DaterangeModel;
+  deparDate: DaterangeModel = {} as DaterangeModel;
+
   perm: any;
   datePickerConfig = { format: "YYYY-MM-DD", firstDayOfWeek: "mo" };
 
@@ -106,8 +108,12 @@ if(this.company._id=="undefined") {
         this.invoiceNo,
         this.fullName,
         this.status,
-        undefined,
-        undefined,
+        this.deparDate?.startDate
+        ? this.deparDate.startDate.toISOString()
+        : undefined,
+      this.deparDate?.endDate
+        ? this.deparDate.endDate.toISOString()
+        : undefined,
         this.invoiceDate?.startDate
           ? this.invoiceDate.startDate.toISOString()
           : undefined,
@@ -119,6 +125,7 @@ if(this.company._id=="undefined") {
       .then((data) => {
         this.totalDataCount = data["count"];
         this.invoices = data["invoices"];
+        console.log(this.invoices,"invoices")
         this.invoices.map((invoice, i) => {
           this.invoiceNos = [...this.invoiceNos, invoice.invoiceMerged];
         });

@@ -114,7 +114,7 @@
         >
           <i class="ni ni-cart text-icon"></i> Ürün Raporu
         </a>
-        <a *ngIf="perm!='EXIT'"
+        <a *ngIf="perm=='SUPERADMIN'"
         class="nav-link"
         [routerLink]="['/icmal']"
         routerLinkActive="router-link-active"
