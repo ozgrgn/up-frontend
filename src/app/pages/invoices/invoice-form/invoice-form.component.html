@@ -651,7 +651,7 @@
                                     </option>
 
                                     <option
-                                      *ngFor="let cat of categories"
+                                      *ngFor="let cat of selectedCategories"
                                       value="{{ cat._id }}"
                                     >
                                       {{ cat.category }}
@@ -825,15 +825,15 @@
                             </td>
                           </tr>
                           <tr class="border-bottom">
-                            <td class="col">KDV Turarı (V.A.T) %8</td>
+                            <td class="col">KDV Turarı (V.A.T) %10</td>
                             <td class="col">
-                              {{numberBeautify(totalKdv8) }} TL
+                              {{numberBeautify(totalKdv10) }} TL
                             </td>
                           </tr>
                           <tr class="border-bottom">
-                            <td class="col">KDV Turarı (V.A.T) %18</td>
+                            <td class="col">KDV Turarı (V.A.T) %20</td>
                             <td class="col">
-                              {{ numberBeautify(totalKdv18) }} TL
+                              {{ numberBeautify(totalKdv20) }} TL
                             </td>
                           </tr>
                           <tr class="border-bottom">

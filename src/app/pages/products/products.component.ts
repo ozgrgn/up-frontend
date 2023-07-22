@@ -12,13 +12,14 @@ export class ProductsComponent implements OnInit {
   closeResult: any;
   focus;
   focus1;
-  categories:any
+  categories: any;
   selectedCategory: any;
   cat: any;
   newCategory: any;
-  newProduct:any = {};
-  loading:Boolean=true
-
+  newProduct: any = {};
+  loading: Boolean = true;
+  type:any="null";
+  types:any=["14A","18A","14P","18P","TAŞ","İŞÇİLİK"];
   constructor(
     private modalService: NgbModal,
     private restService: RestService,
@@ -27,91 +28,88 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    this.loading=false;
+    this.loading = false;
   }
-  getCategories(){
+  getCategories() {
     this.restService
       .getCategories()
       .toPromise()
-      .then((data) => 
-      {if (data["status"]) {
-      
-        this.categories=data['category']
-        
-      }
-  });
+      .then((data) => {
+        if (data["status"]) {
+          this.categories = data["category"];
+        }
+      });
   }
   addCategory() {
     this.restService
       .addCategory(this.newCategory)
       .toPromise()
-      .then((data) => 
-      {if (data["status"]) {
-        this.toaster.success("Yeni Kategori Oluşturuldu");    
-        this.newCategory=undefined   
-      }
-      this.getCategories();
-  });
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Yeni Kategori Oluşturuldu");
+          this.newCategory = undefined;
+        }
+        this.getCategories();
+      });
   }
-  updateCategory(category:any){
-    console.log(category)
+  updateCategory(category: any) {
+    console.log(category);
     this.restService
       .updateCategory(category)
       .toPromise()
-      .then((data) => 
-      {if (data["status"]) {
-        this.toaster.success("Kategori Güncellendi");        
-      }
-  });  
-}
-deleteCategory(id){
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Kategori Güncellendi");
+        }
+      });
+  }
+  deleteCategory(id) {
     this.restService
       .deleteCategory(id)
       .toPromise()
-      .then((data) => 
-      {if (data["status"]) {
-        this.toaster.success("Kategori Silindi");     
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Kategori Silindi");
 
-      this.getCategories();
-      }
-  });  
-}
+          this.getCategories();
+        }
+      });
+  }
   addProduct() {
-   
-    this.cat.product.push(this.newProduct)
-    
-    console.log(this.cat.product,"newproductssss")
+    this.cat.product.push(this.newProduct);
+
+    console.log(this.cat.product, "newproductssss");
     this.restService
-      .addProduct(this.selectedCategory,this.cat.product)
+      .addProduct(this.selectedCategory, this.cat.product)
       .toPromise()
-      .then((data) => 
-      {if (data["status"]) {
-        this.toaster.success("Yeni Ürün Oluşturuldu");   
-        this.newProduct={};     
-      }
-  });
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Yeni Ürün Oluşturuldu");
+          this.newProduct = {};
+        }
+      });
   }
 
-deleteProduct(index){
-  this.cat.product.splice(index, 1);
-  this.restService
-  .addProduct(this.selectedCategory,this.cat.product)
-  .toPromise()
-  .then((data) => 
-  {if (data["status"]) {
-    this.toaster.success("Ürün Silindi");        
+  deleteProduct(index) {
+    this.cat.product.splice(index, 1);
+    this.restService
+      .addProduct(this.selectedCategory, this.cat.product)
+      .toPromise()
+      .then((data) => {
+        if (data["status"]) {
+          this.toaster.success("Ürün Silindi");
+        }
+      });
   }
-});
-}
   selectCat(a) {
-    
-    console.log(a)
-    console.log(this.selectedCategory,"selectedCategory")
-    this.cat =  this.categories.filter(function(b) {
-      console.log(a._id,"test")
+    console.log(a);
+    console.log(this.selectedCategory, "selectedCategory");
+    this.cat = this.categories.filter(function (b) {
+      console.log(a._id, "test");
       return b._id == a;
-      }); this.cat=this.cat[0] 
-      console.log(this.cat)
+    });
+    this.cat = this.cat[0];
+    console.log(this.cat);
   }
   //MODAL
   open(content?, type?, modalDimension?) {

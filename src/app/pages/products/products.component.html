@@ -114,12 +114,13 @@
                         <tr>
                           <th scope="col">ÜRÜN İSMİ</th>
                           <th scope="col">KDV</th>
+                          <th scope="col">TİPİ</th>
                           <th scope="col">İŞLEM</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td >
+                          <td>
                             <div class="form-group mb-0">
                               <div class="input-group input-group-alternative">
                                 <input
@@ -132,7 +133,7 @@
                               </div>
                             </div>
                           </td>
-                          <td style="max-width: 100px;">
+                          <td style="max-width: 100px">
                             <div class="form-group mb-0">
                               <div class="input-group input-group-alternative">
                                 <input
@@ -142,6 +143,25 @@
                                   name="kdv"
                                   [(ngModel)]="newProduct.kdv"
                                 />
+                              </div>
+                            </div>
+                          </td>
+                          <td style="max-width: 100px">
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <select
+                                  class="form-control form-control-alternative"
+                                  [(ngModel)]="newProduct.type"
+                                >
+                                  <option value="null">Tipi</option>
+
+                                  <option
+                                    *ngFor="let type of types"
+                                    [value]="type"
+                                  >
+                                    {{ type }}
+                                  </option>
+                                </select>
                               </div>
                             </div>
                           </td>
@@ -169,29 +189,50 @@
                                     class="form-control form-control-alternative"
                                     placeholder="Ürün İsmi"
                                     type="text"
-                                    name="name{{i}}"
+                                    name="name{{ i }}"
                                     [(ngModel)]="cat.product[i].name"
                                     disabled
                                   />
                                 </div>
                               </div>
                             </td>
+                           
                             <td>
-                                <div class="form-group mb-0">
-                                  <div class="input-group input-group-alternative">
-                                    <input
-                                      class="form-control form-control-alternative"
-                                      placeholder="KDV"
-                                      type="number"
-                                      name="kdv{{i}}"
-                                      [(ngModel)]="cat.product[i].kdv"
-                                      disabled
-                                    />
-                                  </div>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="KDV"
+                                    type="number"
+                                    name="kdv{{ i }}"
+                                    [(ngModel)]="cat.product[i].kdv"
+                                    disabled
+                                  />
                                 </div>
-                              </td>
+                              </div>
+                            </td>
+                             <td>
+                              <div
+                                class="form-group col-12 mb-0"
+                                [ngClass]="{ focused: focus1 === true }"
+                              >
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                <input
+                                class="form-control form-control-alternative"
+                                placeholder="Ürün İsmi"
+                                type="text"
+                                name="type{{ i }}"
+                                [(ngModel)]="cat.product[i].type"
+                                disabled
+                              />
+                                </div>
+                              </div>
+                            </td>
                             <td>
-                             
                               <button
                                 class="btn btn-icon btn-2 btn-danger btn-sm w-100"
                                 type="button"
@@ -201,9 +242,15 @@
                                   ><i class="ni ni-fat-delete"></i
                                 ></span>
                               </button>
-                              <ng-template #delete let-c="close" let-d="dismiss">
+                              <ng-template
+                                #delete
+                                let-c="close"
+                                let-d="dismiss"
+                              >
                                 <div class="modal-content">
-                                  <div class="modal-header text-muted text-center pt-3">
+                                  <div
+                                    class="modal-header text-muted text-center pt-3"
+                                  >
                                     <button
                                       type="button"
                                       class="close"
@@ -217,12 +264,14 @@
                                   <div class="modal-body text-center">
                                     Bu Ürünü Silmek İstediğinizden Emin misiniz?
                                   </div>
-                              
+
                                   <div class="modal-footer">
                                     <button
                                       type="button"
                                       class="btn btn-danger"
-                                      (click)="deleteProduct(i); d('Cross click')"
+                                      (click)="
+                                        deleteProduct(i); d('Cross click')
+                                      "
                                     >
                                       SİL
                                     </button>
@@ -335,7 +384,9 @@
               type="button"
               (click)="updateCategory(cat)"
             >
-              <span class="btn-inner--icon"><i class="ni ni-check-bold"></i></span>
+              <span class="btn-inner--icon"
+                ><i class="ni ni-check-bold"></i
+              ></span>
             </button>
           </div>
           <div class="col-2">
@@ -356,5 +407,3 @@
     <div class="modal-footer"></div>
   </div>
 </ng-template>
-
-

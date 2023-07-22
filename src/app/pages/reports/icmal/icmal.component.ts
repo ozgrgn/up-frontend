@@ -18,7 +18,7 @@ export class IcmalComponent implements OnInit {
   closeResult: any;
   loading: Boolean = true;
   totalDataCount: number;
-  limit: number = 10;
+  limit: number = 100000000000000;
   rowSize: number = 10;
   skip: number = 0;
   fullName: any;
