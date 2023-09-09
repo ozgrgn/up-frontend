@@ -40,6 +40,8 @@ export class InvoiceEditComponent implements OnInit {
   totalProduct: any;
   totalBrut: any;
   totalKdv: any;
+  totalKdv10: any = 0;
+  totalKdv20: any = 0;
   totalKdv8: any = 0;
   totalKdv18: any = 0;
   focus;
@@ -162,13 +164,20 @@ export class InvoiceEditComponent implements OnInit {
           this.totalKdv =
             this.totalKdv + (product.productTotal - product.productBrut);
           if (product.kdv == 8) {
-            console.log("88888");
             this.totalKdv8 =
               this.totalKdv8 + (product.productTotal - product.productBrut);
           }
           if (product.kdv == 18) {
             this.totalKdv18 =
               this.totalKdv18 + (product.productTotal - product.productBrut);
+          }
+          if (product.kdv == 10) {
+            this.totalKdv10 =
+              this.totalKdv10 + (product.productTotal - product.productBrut);
+          }
+          if (product.kdv == 20) {
+            this.totalKdv20 =
+              this.totalKdv20 + (product.productTotal - product.productBrut);
           }
         });
       });
@@ -415,6 +424,26 @@ export class InvoiceEditComponent implements OnInit {
     if (this.product.kdv == 18) {
       this.totalKdv18 =
         this.totalKdv18 +
+        (this.newProduct.quantity * this.newProduct.price +
+          (this.newProduct.quantity *
+            this.newProduct.price *
+            this.product.kdv) /
+            100 -
+          this.newProduct.quantity * this.newProduct.price);
+    }
+    if (this.product.kdv == 10) {
+      this.totalKdv10 =
+        this.totalKdv10 +
+        (this.newProduct.quantity * this.newProduct.price +
+          (this.newProduct.quantity *
+            this.newProduct.price *
+            this.product.kdv) /
+            100 -
+          this.newProduct.quantity * this.newProduct.price);
+    }
+    if (this.product.kdv == 20) {
+      this.totalKdv20 =
+        this.totalKdv20 +
         (this.newProduct.quantity * this.newProduct.price +
           (this.newProduct.quantity *
             this.newProduct.price *

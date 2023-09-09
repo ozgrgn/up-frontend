@@ -164,6 +164,8 @@
                   <th class="text-dark" scope="col">Kdv Tutarı</th>
                   <th class="text-dark" scope="col">Genel Toplam</th>
                   <th class="text-dark" scope="col">Terminal</th>
+                  <th class="text-dark" scope="col">Onaylanmama Sebebi</th>
+
 
                   <!-- <th class="text-dark" scope="col">Şirket/Şube</th>
                   <th class="text-dark" scope="col">Uyruk</th>
@@ -252,6 +254,9 @@
                     </td>
                     <td>
                       {{ invoice?.terminalId?.name }}
+                    </td>
+                    <td>
+                      {{ invoice?.reasonId?.name }}
                     </td>
 
                     <!-- <td>{{ invoice?.company?.name }}/{{ invoice?.branch }}</td>
