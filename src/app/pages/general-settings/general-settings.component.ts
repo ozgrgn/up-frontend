@@ -51,7 +51,7 @@ export class GeneralSettingsComponent implements OnInit {
       return;
     }
     this.restService
-      .addCompany(this.newCompany.name)
+      .addCompany(this.newCompany.name,this.newCompany.vkn)
       .toPromise()
       .then((data) => {
         if (data["status"]) {

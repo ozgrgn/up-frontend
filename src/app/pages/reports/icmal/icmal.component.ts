@@ -37,7 +37,7 @@ export class IcmalComponent implements OnInit {
   approveDate: DaterangeModel = {} as DaterangeModel;
   deparDate: DaterangeModel = {} as DaterangeModel;
   perm: any;
-
+ startOfMonthISO:any
   constructor(
     private modalService: NgbModal,
     private restService: RestService,
@@ -47,6 +47,13 @@ export class IcmalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPermission();
+    this.setStartOfMonth()
+  }
+  setStartOfMonth(): void {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    this.startOfMonthISO = startOfMonth.toISOString();
+    console.log(this.startOfMonthISO,"this.startOfMonthISO")
   }
   getPermission() {
     this.authService
@@ -56,7 +63,7 @@ export class IcmalComponent implements OnInit {
         this.perm = perm["userType"];
 
         console.log(perm, "perm");
-        if (this.perm == "SUPERADMIN") {
+        if (this.perm == "SUPERADMIN" || this.perm == "ICMAL") {
           this.company._id = undefined;
           this.getCompanies()
           this.getIcmal();
@@ -88,9 +95,11 @@ export class IcmalComponent implements OnInit {
       });
   }
   getIcmal() {
-    if(this.perm!="SUPERADMIN") {
+    if(this.perm!="SUPERADMIN" && this.perm!="ICMAL") {
 return
     }
+   
+
     console.log(this.company._id);
     this.restService
       .getIcmal(
@@ -115,7 +124,7 @@ return
         : undefined,
         this.invoiceDate?.startDate
           ? this.invoiceDate.startDate.toISOString()
-          : undefined,
+          : this.startOfMonthISO,
         this.invoiceDate?.endDate
           ? this.invoiceDate.endDate.toISOString()
           : undefined,

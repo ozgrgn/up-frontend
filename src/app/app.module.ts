@@ -37,6 +37,11 @@ import { ProductReportComponent } from './pages/reports/product-report/product-r
 import { IcmalComponent } from './pages/reports/icmal/icmal.component';
 import { CustomerListComponent } from './pages/reports/customer-list/customer-list.component';
 import { IcmalKuyumComponent } from './pages/reports/icmal-kuyum/icmal-kuyum.component';
+import { FCheckComponent } from './pages/f-check/f-check.component';
+import { FCheckEditComponent } from './pages/f-check-edit/f-check-edit.component';
+import { FCheckRatioComponent } from './pages/f-check-ratio/f-check-ratio.component';
+import { CurrencyComponent } from './pages/currency/currency.component';
+import { TransactionListComponent } from './pages/reports/transaction-list/transaction-list.component';
 
 moment.tz.setDefault("Europe/Istanbul");
 
@@ -79,7 +84,11 @@ moment.tz.setDefault("Europe/Istanbul");
     IcmalComponent,
     CustomerListComponent,
     IcmalKuyumComponent,
-
+    FCheckComponent,
+    FCheckEditComponent,
+    FCheckRatioComponent,
+    CurrencyComponent,
+    TransactionListComponent,
   ],
   providers: [
     DatePipe,

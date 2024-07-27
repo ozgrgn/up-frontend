@@ -14,6 +14,11 @@ import { ProductReportComponent } from 'src/app/pages/reports/product-report/pro
 import { IcmalComponent } from 'src/app/pages/reports/icmal/icmal.component';
 import { CustomerListComponent } from 'src/app/pages/reports/customer-list/customer-list.component';
 import { IcmalKuyumComponent } from 'src/app/pages/reports/icmal-kuyum/icmal-kuyum.component';
+import { FCheckComponent } from 'src/app/pages/f-check/f-check.component';
+import { FCheckEditComponent } from 'src/app/pages/f-check-edit/f-check-edit.component';
+import { FCheckRatioComponent } from 'src/app/pages/f-check-ratio/f-check-ratio.component';
+import { CurrencyComponent } from 'src/app/pages/currency/currency.component';
+import { TransactionListComponent } from 'src/app/pages/reports/transaction-list/transaction-list.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -30,4 +35,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'user-form',   component: UserFormComponent },
     { path: 'user-edit/:id',   component: UserEditComponent },
     { path: 'customer-list',   component: CustomerListComponent },
+    { path: 'fcheck',   component: FCheckComponent },
+    { path: 'fcheck-edit/:id',   component: FCheckEditComponent },
+    { path: 'fcheck-ratio',   component: FCheckRatioComponent },
+    { path: 'currency',   component: CurrencyComponent },
+    { path: 'transactions',   component: TransactionListComponent },
+
+
+
 ];

@@ -1,0 +1,193 @@
+<div class="header bg-custom-grey pb-8 pt-5 pt-md-6">
+    <div class="title justify-content-center mb-4 mt-3">
+      <h4 class="text-muted text-center">DÖVİZ KURLARI</h4>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="container-fluid mt--7">
+    <div class="header-body text-center mb-7">
+      <div class="row justify-content-center">
+        <div class="col-12 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <!-- <div class="card-header bg-white border-0">
+                  <div class="row align-items-center">
+                    <div class="col-12 text-center">
+                      <button class="btn btn-sm mb-2">TARAFLAR</button>
+                      <button class="btn btn-sm mb-2">ARABULUCU/REFERANS</button>
+                    </div>
+                  </div>
+                </div> -->
+            <div class="card-body pb-0">
+              <form role="form">
+                <!-- <div class="row justify-content-between p-0 m-0">
+                      <h6 class="heading-small text-muted mb-4">
+                       FATURA BİLGİLERİ
+                      </h6>
+                      <div class="form-group text-right">
+                        <div style="display: inline-flex; font-size: 0.875rem">
+                          <label id="status" class="custom-toggle">
+                            <input type="checkbox" name="status" />
+                            <span
+                              class="custom-toggle-slider rounded-circle"
+                            ></span>
+                          </label>
+                          <span class="pl-2"> Aktif </span>
+                        </div>
+                      </div>
+                    </div> -->
+                <div class="row">
+                  <div class="col-12">
+                    <h6 class="heading-small text-muted mb-4 text-center">
+                      GÜNÜN DÖVİZ KURLARI
+                    </h6>
+                    <div class="table-responsive">
+                      <!-- Projects table -->
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">M.Bankası USD</th>
+                            <th scope="col">Upartner USD</th>
+                            <th scope="col">M.Bankası EUR</th>
+                            <th scope="col">Upartner EUR</th>
+                            <th scope="col">Güncelle</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td >
+                              <div class="form-group mb-0">
+                                <div class="input-group input-group-alternative">
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="USD"
+                                    type="number"
+                                    name="apiUSD"
+                                    [(ngModel)]="currency.apiUSD"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td >
+                                <div class="form-group mb-0">
+                                  <div class="input-group input-group-alternative">
+                                    <input
+                                      class="form-control form-control-alternative"
+                                      placeholder="UP USD"
+                                      type="number"
+                                      name="realUSD"
+                                      [(ngModel)]="currency.realUSD"
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                              <td >
+                                <div class="form-group mb-0">
+                                  <div class="input-group input-group-alternative">
+                                    <input
+                                      class="form-control form-control-alternative"
+                                      placeholder="EUR"
+                                      type="number"
+                                      name="apiEUR"
+                                      [(ngModel)]="currency.apiEUR"
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                              <td >
+                                <div class="form-group mb-0">
+                                  <div class="input-group input-group-alternative">
+                                    <input
+                                      class="form-control form-control-alternative"
+                                      placeholder="UP EURO"
+                                      type="number"
+                                      name="realEUR"
+                                      [(ngModel)]="currency.realEUR"
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <button
+                                  class="btn btn-icon btn-2 btn-success btn-sm w-100"
+                             
+                                  type="button"
+                                  (click)="updateCurrency()"
+                                >
+                                  <span class="btn-inner--icon">Güncelle</span>
+                                </button>
+                              </td>
+                            <!-- <td style="max-width: 100px">
+                              <div class="form-group mb-0">
+                                <div class="input-group input-group-alternative">
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Aralık 2"
+                                    type="number"
+                                    name="value2"
+                                    [(ngModel)]="currency.value2"
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td style="max-width: 100px">
+                              <div class="form-group mb-0">
+                                <div class="input-group input-group-alternative">
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Oran"
+                                    type="number"
+                                    name="Oran"
+                                    [(ngModel)]="currency.ratio"
+                                  />
+                                </div>
+                              </div>
+                            </td> -->
+                            <!-- <td style="max-width: 100px">
+                              <div class="form-group mb-0">
+                                <div class="input-group input-group-alternative">
+                                  <select
+                                    class="form-control form-control-alternative"
+                                    [(ngModel)]="newProduct.type"
+                                  >
+                                    <option value="null">Tipi</option>
+  
+                                    <option
+                                      *ngFor="let type of types"
+                                      [value]="type"
+                                    >
+                                      {{ type }}
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </td> -->
+                            <td>
+                              <!-- <button
+                                class="btn btn-icon btn-2 btn-success btn-sm w-100"
+                                [class.disabled]="
+                                  !currency.value1 && !currency.kdv
+                                "
+                                type="button"
+                                (click)="addFcheckRatio()"
+                              >
+                                <span class="btn-inner--icon">Yeni Kayıt</span>
+                              </button> -->
+                            </td>
+                          </tr>
+                       
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+ 
+  

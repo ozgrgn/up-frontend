@@ -1,0 +1,420 @@
+<div class="header bg-custom-grey pb-8 pt-5 pt-md-6">
+  <div class="title justify-content-center mb-4 mt-3">
+    <h4 class="text-muted text-center">F-CHECK ORANLAR</h4>
+  </div>
+</div>
+<div *ngIf="!loading" class="container-fluid mt--7">
+  <div class="header-body text-center mb-7">
+    <div class="row justify-content-center">
+      <div class="col-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+          <!-- <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                  <div class="col-12 text-center">
+                    <button class="btn btn-sm mb-2">TARAFLAR</button>
+                    <button class="btn btn-sm mb-2">ARABULUCU/REFERANS</button>
+                  </div>
+                </div>
+              </div> -->
+          <div class="card-body pb-0">
+            <form role="form">
+              <!-- <div class="row justify-content-between p-0 m-0">
+                    <h6 class="heading-small text-muted mb-4">
+                     FATURA BİLGİLERİ
+                    </h6>
+                    <div class="form-group text-right">
+                      <div style="display: inline-flex; font-size: 0.875rem">
+                        <label id="status" class="custom-toggle">
+                          <input type="checkbox" name="status" />
+                          <span
+                            class="custom-toggle-slider rounded-circle"
+                          ></span>
+                        </label>
+                        <span class="pl-2"> Aktif </span>
+                      </div>
+                    </div>
+                  </div> -->
+              <div class="row">
+                <div class="col-12">
+                  <h6 class="heading-small text-muted mb-4 text-center">
+                    F-Check Oranları
+                  </h6>
+                  <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">KDV ORANI</th>
+                          <th scope="col">ARALIK 1</th>
+                          <th scope="col">ARALIK 2</th>
+                          <th scope="col">ORAN %</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="max-width: 30px">
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <select
+                                  class="form-control form-control-alternative"
+                                  [(ngModel)]="newRatio.kdv"
+                                >
+                                  <option value="null">KDV</option>
+
+                                  <option
+                                    *ngFor="let ratio of ratios"
+                                    [value]="ratio"
+                                  >
+                                    {{ ratio }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </td>
+                          <td style="max-width: 100px">
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="Aralık 1"
+                                  type="number"
+                                  name="value1"
+                                  [(ngModel)]="newRatio.value1"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td style="max-width: 100px">
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="Aralık 2"
+                                  type="number"
+                                  name="value2"
+                                  [(ngModel)]="newRatio.value2"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td style="max-width: 100px">
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <input
+                                  class="form-control form-control-alternative"
+                                  placeholder="Oran"
+                                  type="number"
+                                  name="Oran"
+                                  [(ngModel)]="newRatio.ratio"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <!-- <td style="max-width: 100px">
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative">
+                                <select
+                                  class="form-control form-control-alternative"
+                                  [(ngModel)]="newProduct.type"
+                                >
+                                  <option value="null">Tipi</option>
+
+                                  <option
+                                    *ngFor="let type of types"
+                                    [value]="type"
+                                  >
+                                    {{ type }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </td> -->
+                          <td>
+                            <button
+                              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+                              [class.disabled]="
+                                !newRatio.value1 && !newRatio.kdv
+                              "
+                              type="button"
+                              (click)="addFcheckRatio()"
+                            >
+                              <span class="btn-inner--icon">Yeni Kayıt</span>
+                            </button>
+                          </td>
+                        </tr>
+                        <ng-container *ngIf="fcheckRatios">
+                          <tr *ngFor="let p of fcheckRatios; let i = index">
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="KDV"
+                                    type="text"
+                                    name="kdv{{ i }}"
+                                    [(ngModel)]="fcheckRatios[i].kdv"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Aralık 1"
+                                    type="Number"
+                                    name="value1{{ i }}"
+                                    [(ngModel)]="fcheckRatios[i].value1"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Aralık 2"
+                                    type="Number"
+                                    name="value2{{ i }}"
+                                    [(ngModel)]="fcheckRatios[i].value2"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Oran"
+                                    type="Number"
+                                    name="ratio{{ i }}"
+                                    [(ngModel)]="fcheckRatios[i].ratio"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <!-- <td>
+                              <div class="form-group mb-0">
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="KDV"
+                                    type="number"
+                                    name="kdv{{ i }}"
+                                    [(ngModel)]="cat.product[i].kdv"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div
+                                class="form-group col-12 mb-0"
+                                [ngClass]="{ focused: focus1 === true }"
+                              >
+                                <div
+                                  class="input-group input-group-alternative"
+                                >
+                                  <input
+                                    class="form-control form-control-alternative"
+                                    placeholder="Ürün İsmi"
+                                    type="text"
+                                    name="type{{ i }}"
+                                    [(ngModel)]="cat.product[i].type"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </td> -->
+                            <td>
+                              <button
+                                class="btn btn-icon btn-2 btn-danger btn-sm w-100"
+                                type="button"
+                                (click)="open(delete, '', 'sm')"
+                              >
+                                <span class="btn-inner--icon"
+                                  ><i class="ni ni-fat-delete"></i
+                                ></span>
+                              </button>
+                              <ng-template
+                                #delete
+                                let-c="close"
+                                let-d="dismiss"
+                              >
+                                <div class="modal-content">
+                                  <div
+                                    class="modal-header text-muted text-center pt-3"
+                                  >
+                                    <button
+                                      type="button"
+                                      class="close"
+                                      data-dismiss="modal"
+                                      aria-label="Close"
+                                      (click)="d('Cross click')"
+                                    >
+                                      <span aria-hidden="true">×</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body text-center">
+                                    Bu Oranı Silmek İstediğinizden Emin misiniz?
+                                  </div>
+
+                                  <div class="modal-footer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-danger"
+                                      (click)="
+                                      deleteFcheckRatio(fcheckRatios[i]._id); d('Cross click')
+                                      "
+                                    >
+                                   SİL
+                                    </button>
+                                    <button
+                                      type="button"
+                                      class="btn btn-secondary"
+                                      data-dismiss="modal"
+                                      (click)="d('Cross click')"
+                                    >
+                                      VAZGEÇ
+                                    </button>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 
+<ng-template #category let-c="close" let-d="dismiss">
+  <div class="modal-content">
+    <div class="modal-header text-muted text-center pt-3">
+      <h6 class="modal-title" id="modal-title-default">Ekle</h6>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body bg-secondary">
+      <form role="form">
+        <div class="row justify-content-center">
+          <div class="col-12 mb-2"></div>
+          <div
+            class="form-group col-6 d-flex justify-content-center"
+            [ngClass]="{ focused: focus === true }"
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="ni ni-archive-2"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Yeni Kategori"
+                type="text"
+                (focus)="focus = true"
+                (blur)="focus = false"
+                [(ngModel)]="newCategory"
+                name="newCategory"
+              />
+            </div>
+          </div>
+          <div class="col-4">
+            <button
+              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+              [class.disabled]="!newCategory"
+              type="button"
+              (click)="addCategory()"
+            >
+              <span class="btn-inner--icon">Yeni Kayıt</span>
+            </button>
+          </div>
+        </div>
+        <div
+          *ngFor="let cat of categories; let i = index"
+          class="row justify-content-center"
+        >
+          <div class="col-12 mb-2"></div>
+          <div
+            class="form-group col-6 d-flex justify-content-center"
+            [ngClass]="{ focused: focus === true }"
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="ni ni-archive-2"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Kategori"
+                type="text"
+                (focus)="focus = true"
+                (blur)="focus = false"
+                [(ngModel)]="cat.category"
+                name="catCategory{{ i }}"
+              />
+            </div>
+          </div>
+          <div class="col-2">
+            <button
+              class="btn btn-icon btn-2 btn-success btn-sm w-100"
+              type="button"
+              (click)="updateCategory(cat)"
+            >
+              <span class="btn-inner--icon"
+                ><i class="ni ni-check-bold"></i
+              ></span>
+            </button>
+          </div>
+          <div class="col-2">
+            <button
+              class="btn btn-icon btn-2 btn-danger btn-sm w-100"
+              type="button"
+              (click)="deleteCategory(cat._id)"
+            >
+              <span class="btn-inner--icon"
+                ><i class="ni ni-fat-delete"></i
+              ></span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer"></div>
+  </div>
+</ng-template> -->

@@ -55,7 +55,7 @@
                 
               </select>
               </div> -->
-              <div *ngIf="perm=='SUPERADMIN'" class="col-2">
+              <div *ngIf="perm=='SUPERADMIN' || perm=='ICMAL'" class="col-2">
                 <select style="width:100%;"
                 class="form-control-sm form-control "
                 [(ngModel)]="selectedCompany"

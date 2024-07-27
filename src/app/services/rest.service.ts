@@ -197,6 +197,20 @@ export class RestService {
     });
   }
 
+  getBoxOffices() {
+    return this.http.get(`${this.apiUrl}/others/boxOffices`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+  getUpBranches() {
+    return this.http.get(`${this.apiUrl}/others/upBranches`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
   getCompanies() {
     return this.http.get(`${this.apiUrl}/companies`, {
       headers: new HttpHeaders({
@@ -205,11 +219,12 @@ export class RestService {
     });
   }
 
-  addCompany(name: String) {
+  addCompany(name: String, vkn: String) {
     return this.http.post(
       `${this.apiUrl}/companies`,
       {
         name,
+        vkn,
       },
       {
         headers: new HttpHeaders({
@@ -242,6 +257,35 @@ export class RestService {
         }),
       }
     );
+  }
+  // FCHECKRATIOS
+  getFcheckRatios() {
+    return this.http.get(`${this.apiUrl}/others/fcheckRatios`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+  addFcheckRatio(fcheckRatio: Object) {
+    return this.http.post(
+      `${this.apiUrl}/others/fcheckRatio`,
+      {
+        fcheckRatio,
+      },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+  deleteFcheckRatio(id: any) {
+    return this.http.delete(`${this.apiUrl}/others/fcheckRatio/${id}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
   }
 
   addInvoice(
@@ -323,7 +367,7 @@ export class RestService {
     sort?: String,
     creator?: String
   ) {
-    console.log(deparDate2,"deparDate2 rent")
+    console.log(deparDate2, "deparDate2 rent");
     let query: any = {};
     if (limit) {
       query.limit = limit;
@@ -416,8 +460,26 @@ export class RestService {
   }
 
   syncInvoices() {
-    return this.http.post(
-      `${this.apiUrl}/services/syncInvoices`,
+    return this.http.post(`${this.apiUrl}/services/syncInvoices`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+  // CURRENCY
+  getTodayCurrency() {
+    return this.http.get(`${this.apiUrl}/others/currency`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+  updateTodayCurrency(currency: any) {
+    return this.http.put(
+      `${this.apiUrl}/others/currency/${currency._id}`,
+      { currency },
       {
         headers: new HttpHeaders({
           Authorization: localStorage.getItem("token"),
@@ -425,8 +487,6 @@ export class RestService {
       }
     );
   }
-
-
   getPerformance(
     company?: String,
     branch?: Boolean,
@@ -537,6 +597,48 @@ export class RestService {
     });
   }
 
+
+  getTransactions(
+    limit?: number,
+    skip?: number,
+    boxOffice?: String,
+    sort?: Object,
+  ) {
+    let query: any = {};
+    if (limit) {
+      query.limit = limit;
+    }
+    if (skip) {
+      query.skip = skip;
+    }
+    if (boxOffice) {
+      query.boxOffice = boxOffice;
+    }
+    if (sort) {
+      query.sort = JSON.stringify(sort);
+    }
+
+    console.log(boxOffice);
+    return this.http.get(`${this.apiUrl}/transaction/`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+      params: query,
+    });
+  }
+  addTransaction(transaction: Object) {
+    return this.http.post(
+      `${this.apiUrl}/transaction/`,
+      {
+        transaction,
+      },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
   getIcmal(
     limit?: number,
     skip?: number,
@@ -603,7 +705,175 @@ export class RestService {
       params: query,
     });
   }
+  getFcheck(search: String) {
+    return this.http.get(`${this.apiUrl}/fcheckInvoice/fcheck/${search}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+  addFcheckInvoice(
+    invoiceDate?: String,
+    company?: String,
+    branch?: String,
+    campaign?: String,
+    shopman?: String,
+    destCountry?: String,
+    destCity?: String,
+    way?: String,
+    airport?: String,
+    terminal?: String,
+    deparDate?: any,
+    deparTime?: any,
+    invoiceSerial?: String,
+    invoiceNo?: String,
+    airline?: String,
+    flight?: String,
+    agency?: String,
+    guide?: String,
+    note?: String,
+    client?: any[],
+    details?: any[],
+    agencyId?: String,
+    campaignId?: String,
+    airlineId?: String,
+    terminalId?: String
+  ) {
+    return this.http.post(
+      `${this.apiUrl}/invoice`,
+      {
+        invoiceDate,
+        company,
+        branch,
+        campaign,
+        shopman,
+        destCountry,
+        destCity,
+        way,
+        airport,
+        terminal,
+        deparDate,
+        deparTime,
+        invoiceSerial,
+        invoiceNo,
+        airline,
+        flight,
+        agency,
+        guide,
+        note,
+        client,
+        details,
+        agencyId,
+        campaignId,
+        airlineId,
+        terminalId,
+      },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
 
+  getFcheckInvoices(
+    limit?: number,
+    skip?: number,
+    company?: String,
+    branch?: Boolean,
+    invoiceNo?: String,
+    fullName?: String,
+    status?: String,
+    deparDate1?: String,
+    deparDate2?: String,
+    invoiceDate1?: String,
+    invoiceDate2?: String,
+    sort?: String,
+    creator?: String
+  ) {
+    console.log(deparDate2, "deparDate2 rent");
+    let query: any = {};
+    if (limit) {
+      query.limit = limit;
+    }
+    if (skip) {
+      query.skip = skip;
+    }
+    if (company) {
+      query.company = company;
+    }
+    if (fullName) {
+      query.fullName = fullName;
+    }
+    if (status) {
+      query.status = status;
+    }
+    if (deparDate1) {
+      query.deparDate1 = deparDate1;
+    }
+    if (deparDate2) {
+      query.deparDate2 = deparDate2;
+    }
+    if (invoiceDate1) {
+      query.invoiceDate1 = invoiceDate1;
+    }
+    if (invoiceDate2) {
+      query.invoiceDate2 = invoiceDate2;
+    }
+    if (sort) {
+      query.sort = JSON.stringify(sort);
+    }
+    if (creator) {
+      query.creator = creator;
+    }
+    console.log(company);
+    return this.http.get(`${this.apiUrl}/invoice`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+      params: query,
+    });
+  }
+
+  getFcheckInvoice(invoiceId: String) {
+    return this.http.get(`${this.apiUrl}/fcheckinvoice/one/${invoiceId}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+
+  updateFcheckInvoice(invoice: any) {
+    return this.http.put(
+      `${this.apiUrl}/fcheckinvoice/${invoice._id}`,
+      { invoice },
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+
+  deleteFcheckInvoice(id: any) {
+    return this.http.delete(`${this.apiUrl}/fcheckinvoice/${id}`, {
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem("token"),
+      }),
+    });
+  }
+  cancelPayment(
+    invoiceId?: string,
+  ) {
+    return this.http.post(
+      `${this.apiUrl}/fcheckinvoice/cancelPayment/${invoiceId}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
   getUsers(
     limit?: number,
     skip?: number,

@@ -1,0 +1,371 @@
+<div class="page-container d-flex flex-column justify-content-between">
+  <div class="header bg-custom-grey pb-5 pt-4 pt-md-2">
+    <div class="title justify-content-center mb-4 mt-3">
+      <h4 class="text-muted text-center">KASA HAREKETLERİ</h4>
+    </div>
+
+    <div class="container-fluid">
+      <div class="header-body text-center mb-7">
+        <!-- Card stats -->
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <div class="card h-100 card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row sm:flex justify-content-center pt-2">
+                  <!-- <input
+                        style="width: 100px"
+                        placeholder="İsim Arama"
+                        type="text"
+                        class="form-control form-control-sm text-justify centered mr-2"
+                        [(ngModel)]="fullName"
+                        (input)="getData()"
+                      /> -->
+
+                  <!-- <div *ngIf="perm=='SUPERADMIN'" class="col-2">
+                  <select style="width:100%;"
+                  class="form-control-sm form-control "
+                  [(ngModel)]="noPending"
+                  (change)="getData()"
+                >
+                <option [ngValue] ="false" >
+                  TÜM FATURALAR
+                 </option>
+                <option [ngValue] ="true" >
+                 ONAYLI + ONAYSIZ
+                </option>
+  
+                </select>
+                </div> -->
+                  <div *ngIf="perm == 'SUPERADMIN'" class="col-md-2">
+                    <select
+                      style="width: 100%"
+                      class="form-control-sm form-control"
+                      [(ngModel)]="selectedBoxoffice"
+                      (change)="getData()"
+                    >
+                      <option disabled [ngValue]="undefined">
+                        TÜM KASALAR
+                      </option>
+                      <option *ngFor="let u of boxOffices" [value]="u._id">
+                        {{ u.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div *ngIf="balance && boxOffice.currency" class="pt-2">
+                  <h5>Bakiye: {{ balance }} {{ boxOffice.currency }}</h5>
+                </div>
+                <button
+                  *ngIf="balance && boxOffice.currency"
+                  class="btn btn-icon btn-2 btn-warning btn-sm mt-3 ml-1"
+                  type="button"
+                  (click)="open(addTransaction, '', 'sm')"
+                >
+                  <span class="btn-inner--icon"
+                    ><i class="ni ni-check-bold"></i> Kasa Hareketi Ekle</span
+                  >
+                </button>
+                <div
+                  *ngIf="perm == 'SUPERADMIN' && balance && boxOffice.currency"
+                  class="flex flex-col justify-center mt-3"
+                >
+                  <input
+                    style="width: 350px"
+                    type="button"
+                    value="Excel"
+                    class="btn btn-success mt-0 m-1"
+                    (click)="exportexcel()"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Page content -->
+  <div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+      <div class="col">
+        <div class="card shadow">
+          <!-- <div class="card-header pt-1 border-0">
+                <h3 *ngIf="page == 'all'" class="mb-0">TÜM FATURALAR</h3>
+              </div> -->
+          <div class="table-responsive">
+            <table
+              id="excel-table"
+              *ngIf="!loading"
+              class="table align-items-center table-flush"
+            >
+              <thead class="thead-light">
+                <tr class="text-center">
+                  <th class="text-dark" scope="col">Tarih</th>
+                  <th class="text-dark" scope="col">İşlem</th>
+                  <th class="text-dark" scope="col">Kasa</th>
+                  <th class="text-dark" scope="col">Açıklama</th>
+                  <th class="text-dark" scope="col">Miktar</th>
+
+                  <!-- <th class="text-dark" scope="col">Şirket/Şube</th>
+                    <th class="text-dark" scope="col">Uyruk</th>
+                    <th class="text-dark" scope="col">Kampanya</th> -->
+                </tr>
+              </thead>
+
+              <tbody>
+                <ng-container
+                  *ngFor="let transaction of transactions; let i = index"
+                >
+                  <tr class="text-center">
+                    <td>
+                      {{ transaction?.date | date : "dd.MM.yyyy" }}
+                    </td>
+
+                    <td>
+                      <span
+                        style="cursor: pointer"
+                        class="badge w-100"
+                        [ngClass]="
+                          transaction.deposit ? 'badge-success' : 'badge-danger'
+                        "
+                        >{{ transaction.deposit ? "YATIRMA" : "ÇEKME" }}</span
+                      >
+                    </td>
+                    <td>
+                      {{ transaction?.boxOffice.name }}
+                    </td>
+                    <td>
+                      {{ transaction?.description }}
+                    </td>
+                    <td>
+                      <span
+                        [ngClass]="
+                          transaction.deposit ? 'text-success' : 'text-danger'
+                        "
+                      >
+                        {{ transaction?.amount }} {{ boxOffice.currency }}
+                      </span>
+                    </td>
+                  </tr>
+                </ng-container>
+
+                <!-- <tr *ngFor="let transaction of transactions">
+  
+                      <td>
+                        <i class="fa fa-building primary"></i> {{ transaction.company }}<br /><br />
+                        <i class="fa fa-store primary"></i> {{ transaction.branch }}
+                      </td>
+                      <td>
+                        <i class="fa fa-file-transaction primary"></i> {{ transaction.transactionMerged }}
+                        <br /><br />
+                        <i class="fa fa-calendar primary"></i> {{ transaction.transactionDate | date: "dd.MM.yyyy"  }}
+                      </td>
+                      <td>
+                        <i class="fa fa-user primary"></i> {{ transaction.fullName }} <br /><br />
+                        <i class="fa fa-passport primary"></i> {{ transaction.client.passportNo }}
+                      </td>
+                      <td>
+                        <i class="fa fa-plane-arrival primary"></i>  {{ transaction.destCountry }} <br /><br />
+                        <i class="fa fa-plane-arrival primary"></i> {{ transaction.destCity }}
+                      </td>
+                      <td>
+                        <i class="fa fa-plane-departure primary"></i> {{ transaction.airline }} <br /><br />
+                        <i class="fa fa-plane-departure primary"></i> {{ transaction.flight }}
+                      </td>
+                      <td>
+                        <i class="fa fa-calendar-check primary"></i>  {{ transaction.deparDate | date: "dd.MM.yyyy" }} <br /><br />
+                        <i class="fa fa-clock primary"></i> {{ transaction.deparTime }}
+                      </td>
+                      <td class="note br_zero"> <span *ngIf="transaction.campaign"> {{ transaction.campaign  }} </span><br />
+                        {{ transaction.note }}
+                      </td>
+                      <td  *ngIf="page!='onay'">
+                        <span
+                        (click)="open(changeStatus, '', 'sm', transaction._id)"
+                        style="cursor:pointer;"
+                          class="badge w-100 "
+  
+                          [ngClass]="transaction.status == 'CONFIRMED'?'badge-success':transaction.status == 'DECLINE'?'badge-danger':'badge-default'"
+                          >{{transaction.status == 'CONFIRMED'?'ONAYLI':transaction.status == 'DECLINE'?'ONAYSIZ':'BEKLEMEDE'}}</span
+                        >
+                      </td>
+                      <td class="br_zero">
+                        <button
+                          class="btn btn-sm btn-secondary w-100 mb-2 mr-0"
+                          [routerLink]="['/transaction-edit', transaction._id]"
+                        >
+                          Düzenle
+                        </button>
+                        <br />
+                        <button
+                          *ngIf="page == 'onay'"
+                          class="btn btn-sm btn-success btn-3"
+  
+                          (click)="open(approve, '', 'sm', transaction._id)"
+                        >
+                          Onay
+                        </button>
+                        <button *ngIf="page=='onay'"
+                          class="btn btn-sm btn-danger btn-3"
+  
+                          (click)="open(cancel, '', 'sm', transaction._id)"
+                        >
+                          İptal
+                        </button>
+                      </td>
+                    </tr> -->
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer py-4">
+            <nav>
+              <ul class="pagination float-right">
+                <td class="mr-2" scope="col">
+                  <select
+                    class="form-control form-control-sm mt-1"
+                    [(ngModel)]="rowSize"
+                    (ngModelChange)="changeRowSize()"
+                    name="rowSize"
+                  >
+                    <option [value]="10">10</option>
+                    <option [value]="50">50</option>
+                    <option [value]="100">100</option>
+                    <option [value]="99999999">Tümü</option>
+                  </select>
+                </td>
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    (click)="
+                      skip != 0 ? (skip = skip - limit) : (skip = skip);
+                      getData()
+                    "
+                    ><i class="fa fa-angle-left"></i
+                  ></a>
+                </li>
+                <li
+                  *ngFor="let page of pages(); let i = index"
+                  [class.hidden]="i - skip / limit > 1 || skip / limit - i > 1"
+                  [class.active]="skip == limit * i"
+                  (click)="skip = limit * i; getData()"
+                  class="page-item"
+                >
+                  <a class="page-link">{{ i + 1 }}</a>
+                </li>
+
+                <li class="page-item">
+                  <a class="page-link" (click)="ceilAndCalculate()"
+                    ><i class="fa fa-angle-right"></i
+                  ></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #addTransaction let-c="close" let-d="dismiss">
+  <div class="modal-content">
+    <div class="modal-header text-muted text-center pt-3">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body text-center">
+      <h4>Kasa Hareketi Girişi</h4>
+    </div>
+    <div class="row p-4">
+      <div class="col">
+        <label class="form-control-label text-left">İşlem Tarihi:</label>
+
+        <div class="input-group input-group-alternative w-100">
+          <input
+            class="form-control form-control-alternative datepicker"
+            placeholder="İşlem Tarihi"
+            name="dp3"
+            [(ngModel)]="newTransaction.date"
+            ngbDatepicker
+            #d3="ngbDatepicker"
+            (click)="d3.toggle()"
+            type="text"
+            autocomplete="off"
+            (focus)="focus = true"
+            (blur)="focus = false"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <label class="form-control-label text-left">Kasa Hareketi:</label>
+
+        <div class="input-group input-group-alternative w-100">
+          <div class="input-group input-group-alternative">
+            <select
+              class="form-control form-control-alternative firstColor"
+              [(ngModel)]="newTransaction.deposit"
+            >
+              <option [value]="1">Kasa Girişi</option>
+              <option [value]="0">Kasa Çıkışı</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <label class="form-control-label text-left">Miktar</label>
+
+        <div class="input-group input-group-alternative w-100">
+          <input
+            class="form-control form-control-alternative w-100"
+            placeholder="Miktar"
+            type="number"
+            name="newTransaction.amount"
+            [(ngModel)]="newTransaction.amount"
+            step="0.01"
+            (focus)="focus1 = true"
+            (blur)="focus1 = false"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row px-4">
+      <div class="col">
+        <label class="form-control-label text-left">Açıklama</label>
+
+        <div class="input-group input-group-alternative w-100">
+          <input
+            class="form-control form-control-alternative w-100"
+            placeholder="Açıklama"
+            type="text"
+            name="newTransaction.description"
+            [(ngModel)]="newTransaction.description"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="addNewTransaction(); d('Cross click')"
+      >
+        ONAYLA
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-dismiss="modal"
+        (click)="d('Cross click')"
+      >
+        VAZGEÇ
+      </button>
+    </div>
+  </div>
+</ng-template>

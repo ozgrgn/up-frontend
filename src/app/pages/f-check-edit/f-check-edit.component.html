@@ -1,0 +1,874 @@
+<div class="header bg-custom-grey pb-8 pt-8 pt-md-2" id="non-printable">
+  <div class="title justify-content-center mb-4 mt-3">
+    <h4 class="text-muted text-center">
+      {{ invoice?.invoiceMerged }} SERİ NOLU FATURA
+    </h4>
+  </div>
+</div>
+<div class="container-fluid mt--7" id="non-printable">
+  <div class="header-body text-center mb-7">
+    <div *ngIf="!loading" class="row">
+      <div class="col-xl-12 order-xl-1">
+        <div class="card bg-secondary shadow mb-2">
+          <div class="card-body pb-2">
+            <div class="row">
+              <div class="col-12 align-items-center">
+                <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                  <div class="row text-left align-items-center">
+                    <div class="col">
+                      <label class="form-control-label text-left"
+                        >Kullanıcı:</label
+                      >
+
+                      <div class="input-group input-group-alternative w-100">
+                        <input
+                          class="form-control form-control-alternative w-100"
+                          placeholder="Kullanıcı"
+                          type="text"
+                          name="invoiceSerial"
+                          [(ngModel)]="fullName"
+                          onkeyup="this.value = this.value.toUpperCase();"
+                          maxlength="3"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                          style="text-transform: uppercase"
+                          disabled
+                        />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="form-control-label text-left"
+                        >İşlem Tarihi:</label
+                      >
+
+                      <div class="input-group input-group-alternative w-100">
+                        <input
+                          class="form-control form-control-alternative datepicker"
+                          placeholder="İşlem Tarihi"
+                          name="dp3"
+                          [(ngModel)]="invoice.transactionDate"
+                          ngbDatepicker
+                          #d3="ngbDatepicker"
+                          (click)="d3.toggle()"
+                          type="text"
+                          autocomplete="off"
+                          (focus)="focus = true"
+                          (blur)="focus = false"
+                        />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="form-control-label text-left">Şube:</label>
+
+                      <div class="input-group input-group-alternative w-100">
+                        <div class="input-group input-group-alternative">
+                          <select
+                            class="form-control form-control-alternative firstColor"
+                            [(ngModel)]="invoice.upBranch"
+                          >
+                            <option [value]="undefined" disabled>Şube</option>
+
+                            <option
+                              *ngFor="let branch of upBranches"
+                              [value]="branch._id"
+                            >
+                              {{ branch.name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="form-control-label text-left">Gişe:</label>
+
+                      <div class="input-group input-group-alternative w-100">
+                        <div class="input-group input-group-alternative">
+                          <select
+                            class="form-control form-control-alternative firstColor"
+                            [(ngModel)]="invoice.boxOffice"
+                            (change)="calcPayingTaxFree()"
+                            onkeyup="this.value = this.value.toUpperCase();"
+                          >
+                            <option [value]="undefined">Gişe</option>
+
+                            <option
+                              *ngFor="let boxOffice of boxOffices"
+                              [value]="boxOffice._id"
+                            >
+                              {{ boxOffice.name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="form-control-label text-left"
+                        >TL Kuru:</label
+                      >
+
+                      <div class="input-group input-group-alternative w-100">
+                        <input
+                          class="form-control form-control-alternative w-100"
+                          placeholder="TL Kuru"
+                          type="number"
+                          name="invoice.tlCurrency"
+                          [(ngModel)]="invoice.tlCurrency"
+                          step="0.01"
+                          (focus)="focus1 = true"
+                          (blur)="focus1 = false"
+                          style="text-transform: uppercase"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-secondary shadow">
+          <div class="card-body pb-0">
+            <form role="form">
+              <div class="row px-2 gx-4">
+                <div class="col-12 col-md-4 align-items-center border">
+                  <h6 class="heading-small text-dark mb-4 text-center">
+                    GENEL BİLGİLER
+                  </h6>
+
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Fatura No:</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Fatura No"
+                            type="text"
+                            name="invoiceSerial"
+                            [(ngModel)]="invoice.invoiceMerged"
+                            onkeyup="this.value = this.value.toUpperCase();"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2 w-full">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Fatura Tarihi:</label
+                        >
+                      </div>
+
+                      <div class="col-8 text-right">
+                        <div class="input-group input-group-alternative">
+                          <input
+                            class="form-control form-control-alternative datepicker"
+                            placeholder="Fatura Tarihi"
+                            name="dp3"
+                            [(ngModel)]="invoice.invoiceDate"
+                            ngbDatepicker
+                            #d3="ngbDatepicker"
+                            (click)="d3.toggle()"
+                            type="text"
+                            autocomplete="off"
+                            (focus)="focus = true"
+                            (blur)="focus = false"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="invoice.approveDate" class="mb-2 w-full">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Onay Tarihi:</label
+                        >
+                      </div>
+
+                      <div class="col-8 text-right">
+                        <div class="input-group input-group-alternative">
+                          <input
+                            class="form-control form-control-alternative datepicker"
+                            placeholder="Onay Tarihi"
+                            name="dp5f"
+                            [(ngModel)]="invoice.approveDate"
+                            ngbDatepicker
+                            #d5="ngbDatepicker"
+                            (click)="d5.toggle()"
+                            type="text"
+                            autocomplete="off"
+                            (focus)="focus = true"
+                            (blur)="focus = false"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Onay No:</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Onay No"
+                            type="text"
+                            name="approveNo"
+                            [(ngModel)]="invoice.approveNo"
+                            onkeyup="this.value = this.value.toUpperCase();"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2 w-full">
+                    <div class="row text-left align-items-center pt-4">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Mağaza:</label
+                        >
+                      </div>
+
+                      <div class="col-8 text-right">
+                        <div
+                          *ngIf="perm == 'SUPERADMIN'"
+                          [ngClass]="{ focused: focus3 === true }"
+                        >
+                          <div class="input-group input-group-alternative">
+                            <select
+                              class="form-control form-control-alternative firstColor"
+                              [(ngModel)]="invoice.company._id"
+                              onkeyup="this.value = this.value.toUpperCase();"
+                            >
+                              <option [value]="undefined">Firma</option>
+
+                              <option
+                                *ngFor="let com of companies"
+                                [value]="com._id"
+                              >
+                                {{ com.name }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2 w-full">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Şube:</label
+                        >
+                      </div>
+
+                      <div class="col-8 text-right">
+                        <div class="input-group input-group-alternative">
+                          <select
+                            class="form-control form-control-alternative firstColor"
+                            [(ngModel)]="invoice.branch"
+                          >
+                            <option value="undefined">Şube Seçin</option>
+                            <ng-container>
+                              <option
+                                *ngFor="let u of invoice.company.branches"
+                                [attr.selected]="
+                                  u.name == invoice.branch ? true : null
+                                "
+                                [ngValue]="u.name"
+                              >
+                                {{ u.name }}
+                              </option>
+                            </ng-container>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4 border">
+                  <h6 class="heading-small text-dark mb-4 text-center">
+                    YOLCU BİLGİLERİ
+                  </h6>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Pasaport No:</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Pasaport"
+                            type="text"
+                            name="clientPass"
+                            [(ngModel)]="invoice.client.passportNo"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left">Adı:</label>
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="İsim"
+                            type="text"
+                            name="clientName"
+                            [(ngModel)]="invoice.client.name"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Soyadı:</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Soyisim"
+                            type="text"
+                            name="clientSurName"
+                            [(ngModel)]="invoice.client.surname"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Ülke:</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Ülkesi"
+                            type="text"
+                            name="clientCountry"
+                            [(ngModel)]="invoice.client.nation"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="mb-2 pt-4"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Telefon:</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Telefon"
+                            type="text"
+                            name="clientPhone"
+                            [(ngModel)]="invoice.client.phone"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Para Birimi:</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <select
+                            class="form-control form-control-alternative"
+                            [(ngModel)]="invoice.currency"
+                            (change)="calcPayingTaxFree()"
+
+                            onkeyup="this.value = this.value.toUpperCase();"
+                          >
+                            <option [value]="undefined">Para Birimi</option>
+
+                            <option
+                              *ngFor="let currency of currencies"
+                              [value]="currency.slug"
+                            >
+                              {{ currency.name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <!-- <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Ödeme Şekli:</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            [(ngModel)]="invoice.client.phone"
+                            type="radio"
+                            name="inlineRadioOptions"
+                            id="inlineRadio1"
+                            value="option1"
+                          />
+                          <label class="form-check-label" for="inlineRadio1"
+                            >Nakit</label
+                          >
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="inlineRadioOptions"
+                            id="inlineRadio2"
+                            value="option2"
+                          />
+                          <label class="form-check-label" for="inlineRadio2"
+                            >K/K</label
+                          >
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="inlineRadioOptions"
+                            id="inlineRadio3"
+                            value="option3"
+                          />
+                          <label class="form-check-label" for="inlineRadio3"
+                            >Çek</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="col-12 col-md-4">
+                  <h6 class="heading-small text-dark mb-4 text-center">
+                    TUTARLAR
+                  </h6>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Fatura Brüt Toplamı</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Fatura Brüt Toplamı"
+                            type="text"
+                            name="invoiceBrutTotal"
+                            [(ngModel)]="invoice.invoiceBrutTotal"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Fatura KDV</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Fatura KDV "
+                            type="text"
+                            name="invoiceTaxTotal"
+                            [(ngModel)]="invoice.invoiceTaxTotal"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Fatura KDV %</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Fatura KDV % "
+                            type="text"
+                            name="invoiceTaxRatio"
+                            [(ngModel)]="invoice.invoiceTaxRatio"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2" [ngClass]="{ focused: focus1 === true }">
+                    <div class="row text-left align-items-center">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Net İade TRY</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="Net İade TRY"
+                            type="text"
+                            name="invoiceFcheckTotal"
+                            [(ngModel)]="invoice.invoiceFcheckTotal"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="invoice.payedCurrency"
+                    class="mb-2"
+                    [ngClass]="{ focused: focus1 === true }"
+                  >
+                    <div class="row text-left align-items-center pt-4">
+                      <div class="col-4">
+                        <label class="form-control-label text-left"
+                          >Net İade {{ invoice?.payedCurrency }}</label
+                        >
+                      </div>
+
+                      <div class="col-8">
+                        <div class="input-group input-group-alternative w-100">
+                          <input
+                            class="form-control form-control-alternative w-100"
+                            placeholder="NET İADE DÖVİZ "
+                            type="text"
+                            name="payedTaxFree"
+                            [(ngModel)]="invoice.payedTaxFree"
+                            maxlength="3"
+                            (focus)="focus1 = true"
+                            (blur)="focus1 = false"
+                            style="text-transform: uppercase"
+                            disabled="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="text-center">
+        <button
+          type="button"
+          (click)="printContent()"
+          class="btn btn-success my-4"
+          [disabled]="!invoice.invoiceMerged || !invoice.payedCurrency"
+        >
+          <span *ngIf="!invoice.payed">YAZDIR ve ÖDEME YAP</span>
+          <span *ngIf="invoice.payed">YAZDIR</span>
+        </button>
+      </div>
+      <div *ngIf="invoice.payed && perm == 'SUPERADMIN'" class="pl-2">
+        <button
+          type="button"
+          class="btn btn-danger my-4"
+          (click)="cancelPayment()"
+        >
+          <span *ngIf="invoice.payed">ÖDEMEYİ İPTAL ET</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bg-white" id="print-area">
+  <div class="modal-content bg-white">
+    <div class="modal-body bg-white h-100" id="printable-content">
+      <div class="bg-white">
+        <h2 class="text-center pb-2">VAT REFUND RECEIPT</h2>
+        <div class="py-4">
+          <table>
+            <tr>
+              <td>
+                <h5 style="width: 150px" class="font-weight-bold">BRANCH:</h5>
+              </td>
+              <td *ngIf="invoice.upBranch">
+                <h5 class="">{{ findUpBranch() }}</h5>
+              </td>
+            </tr>
+            <tr class="py-2">
+              <td>
+                <h5 style="width: 150px" class="font-weight-bold">DATE:</h5>
+              </td>
+              <td>
+                <h5 *ngIf="invoice?.transactionDate?.year" class="">
+                  {{
+                    convertIsoString(invoice?.transactionDate)
+                      | date : "dd/MM/yyyy"
+                  }}
+                </h5>
+                <h5 *ngIf="!invoice?.transactionDate?.year" class="">
+                  {{ invoice?.transactionDate | date : "dd/MM/yyyy" }}
+                </h5>
+              </td>
+            </tr>
+            <tr class="py-2">
+              <td>
+                <h5 style="width: 150px" class="font-weight-bold">
+                  TRANSACTION NO:
+                </h5>
+              </td>
+              <td>
+                <h5 class="">{{ invoice?.customNo }}</h5>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="invoice" class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr class="text-center">
+                <th class="text-dark" scope="col">Document No</th>
+                <th class="text-dark" scope="col">Invoice Date</th>
+                <th class="text-dark" scope="col">Firm VKN</th>
+                <th class="text-dark" scope="col">Approve Date</th>
+                <th class="text-dark" scope="col">Vat Amount</th>
+                <th class="text-dark" scope="col">Refund Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center">
+                <td>
+                  <h5>{{ invoice?.invoiceMerged }}</h5>
+                </td>
+                <td>
+                  <h5>{{ invoice?.approveNo }}</h5>
+                </td>
+                <td>
+                  <h5>{{ invoice?.vkn }}</h5>
+                </td>
+                <td>
+                  <h5 *ngIf="invoice?.approveDate?.year">
+                    {{
+                      convertIsoString(invoice?.approveDate)
+                        | date : "dd/MM/yyyy"
+                    }}
+                  </h5>
+                  <h5 *ngIf="!invoice?.approveDate?.year">
+                    {{ invoice?.approveDate | date : "dd/MM/yyyy" }}
+                  </h5>
+                </td>
+                <td>
+                  <h5>{{ invoice?.invoiceTaxTotal }}</h5>
+                </td>
+                <td>
+                  <h5>{{ invoice?.invoiceFcheckTotal }}</h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row py-4 px-8">
+          <div class="col-6">
+            <div>
+              <table>
+                <tr>
+                  <td>
+                    <h5 style="width: 150px" class="font-weight-bold">
+                      Refund Amount:
+                    </h5>
+                  </td>
+                  <td>
+                    <h5 class="">{{ invoice?.invoiceFcheckTotal }} TRY</h5>
+                  </td>
+                </tr>
+                <tr class="py-2">
+                  <td>
+                    <h5 style="width: 150px" class="font-weight-bold">
+                      Exchange Rate:
+                    </h5>
+                  </td>
+                  <td>
+                    <h5 class="">
+                      1 TL = {{ tldov }} {{ invoice?.payedCurrency }}
+                    </h5>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row justify-content-center">
+              <h5>CURRENCY REFUND AMOUNT</h5>
+            </div>
+            <div class="row justify-content-center">
+              <h5 class="">
+                {{ invoice?.payedTaxFree }} {{ invoice?.payedCurrency }}
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="row px-6 pt-2 text-center">
+          <div class="col-12">
+            <h5 class="font-weight-normal">
+              I accept that I have been offered a choice of currencies for
+              payment & that this choice final. I accept the conversion rate &
+              final amount & that the selected transaction currency is TRY.
+            </h5>
+          </div>
+        </div>
+        <div class="row text-right">
+          <div class="col-6"></div>
+          <div class="pt-4">
+            <table>
+              <tr>
+                <td>
+                  <h5 style="width: 200px" class="font-weight-bold">
+                    CUSTOMER NAME:
+                  </h5>
+                </td>
+                <td>
+                  <h5 class="text-left px-2 font-weight-normal">
+                    {{ invoice?.client?.name }} {{ invoice?.client?.surname }}
+                  </h5>
+                </td>
+              </tr>
+              <tr class="py-2">
+                <td>
+                  <h5 style="width: 200px" class="font-weight-bold">
+                    PASSPORT NUMBER:
+                  </h5>
+                </td>
+                <td>
+                  <h5 class="text-left px-2 font-weight-normal">
+                    {{ invoice?.client?.passportNo }}
+                  </h5>
+                </td>
+              </tr>
+              <tr class="py-2 pt-4">
+                <td>
+                  <h5 style="width: 200px" class="font-weight-bold pt-2">
+                    SIGNATURE:
+                  </h5>
+                </td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,271 @@
+<div class="page-container d-flex flex-column justify-content-between">
+  <div class="header bg-custom-grey pb-5 pt-4 pt-md-2">
+    <div class="title justify-content-center mb-4 mt-3">
+      <h4 class="text-muted text-center">FATURALAR</h4>
+    </div>
+
+    <div class="container-fluid">
+      <div class="header-body text-center mb-7">
+        <!-- Card stats -->
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <div class="card h-100 card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row flex justify-content-center pt-2">
+                  <input
+                    style="width: 180px"
+                    placeholder="F.No-Pass-İsim Arama"
+                    type="text"
+                    class="form-control form-control-sm text-justify centered mr-2"
+                    [(ngModel)]="search"
+                  />
+                  <button
+                    (click)="getData()"
+                    class="btn btn-sm btn-success"
+                    [class.disabled]="!search"
+                  >
+                    ARA
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--4">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <!-- <div class="card-header pt-1 border-0">
+                <h3 *ngIf="page == 'all'" class="mb-0">TÜM FATURALAR</h3>
+              </div> -->
+            <div class="table-responsive">
+              <table
+                id="excel-table"
+                *ngIf="!loading"
+                class="table align-items-center table-flush"
+              >
+                <thead class="thead-light">
+                  <tr class="text-center">
+                    <th class="text-dark" scope="col">Fatura No</th>
+                    <th class="text-dark" scope="col">Yolcu İsmi</th>
+                    <th class="text-dark" scope="col">Pasaport No</th>
+                    <th class="text-dark" scope="col">Yolcu Telefon</th>
+                    <th class="text-dark" scope="col">Fatura Tarih</th>
+                    <th class="text-dark" scope="col">Uçuş Tarihi</th>
+                    <th class="text-dark" scope="col">Uçuş Saati</th>
+                    <th class="text-dark" scope="col">Uçuş Kodu</th>
+                    <th class="text-dark" scope="col">Gidiş Ülke/Şehir</th>
+                    <!-- <th class="text-dark" scope="col">Acente</th>
+                  <th class="text-dark" scope="col">Rehber</th>
+                  <th class="text-dark" scope="col">Notlar</th>
+                  <th class="text-dark" scope="col">Matrah</th>
+                  <th class="text-dark" scope="col">Kdv Tutarı</th>
+                  <th class="text-dark" scope="col">Genel Toplam</th>
+                  <th class="text-dark" scope="col">Terminal</th>
+                  <th class="text-dark" scope="col">Onaylanmama Sebebi</th> -->
+
+                    <!-- <th class="text-dark" scope="col">Şirket/Şube</th>
+                    <th class="text-dark" scope="col">Uyruk</th>
+                    <th class="text-dark" scope="col">Kampanya</th> -->
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <ng-container *ngFor="let invoice of invoices; let i = index">
+                    <tr class="text-center" role="button" [routerLink]="['/fcheck-edit', invoice._id]">
+                      <td>
+                        {{ invoice?.invoiceDate | date : "dd.MM.yyyy" }}
+                      </td>
+                      <td>
+                        {{ invoice?.invoiceMerged }}
+                      </td>
+                 
+                      <td>
+                        {{ invoice?.client?.name }} {{ invoice?.client?.surname }}
+                      </td>
+                      <td>
+                        {{ invoice?.client?.passportNo }}
+                      </td>
+                      <td>
+                        {{ invoice?.client?.phone }}
+                      </td>
+                     
+                      <td>
+                        {{ invoice?.deparDate | date : "dd.MM.yyyy" }}
+                      </td>
+                      <td>
+                        {{ invoice?.deparTime }}
+                      </td>
+                      <td>
+                        {{ invoice?.airline }}
+                      </td>
+                      <td>
+                        {{ invoice?.flight }}
+                      </td>
+                      <!-- <td>
+                      {{ invoice?.destCountry | uppercase }}-{{
+                        invoice?.destCity
+                      }}
+                    </td>
+                    <td>
+                      {{ invoice?.agency }}
+                    </td>
+                    <td>
+                      {{ invoice?.guide }}
+                    </td>
+                    <td>
+                      {{ invoice?.note }}
+                    </td>
+                    <td>
+                      {{ numberBeautify(invoice?.productBrut) }}
+                    </td>
+                    <td>
+                      {{
+                        numberBeautify(
+                          invoice?.productTotal - invoice?.productBrut
+                        )
+                      }}
+                    </td>
+                    <td>
+                      {{ numberBeautify(invoice?.productTotal) }}
+                    </td>
+                    <td>
+                      {{ invoice?.terminalId?.name }}
+                    </td>
+                    <td>
+                      {{ invoice?.reasonId?.name }}
+                    </td> -->
+
+                      <!-- <td>{{ invoice?.company?.name }}/{{ invoice?.branch }}</td>
+                      <td>
+                        {{ invoice?.client?.nation | uppercase }}
+                      </td>
+                     
+                      <td>
+                        {{ invoice?.campaign }}
+                      </td> -->
+                    </tr>
+                  </ng-container>
+
+                  <!-- <tr *ngFor="let invoice of invoices">
+  
+                      <td>
+                        <i class="fa fa-building primary"></i> {{ invoice.company }}<br /><br />
+                        <i class="fa fa-store primary"></i> {{ invoice.branch }}
+                      </td>
+                      <td>
+                        <i class="fa fa-file-invoice primary"></i> {{ invoice.invoiceMerged }}
+                        <br /><br />
+                        <i class="fa fa-calendar primary"></i> {{ invoice.invoiceDate | date: "dd.MM.yyyy"  }}
+                      </td>
+                      <td>
+                        <i class="fa fa-user primary"></i> {{ invoice.fullName }} <br /><br />
+                        <i class="fa fa-passport primary"></i> {{ invoice.client.passportNo }}
+                      </td>
+                      <td>
+                        <i class="fa fa-plane-arrival primary"></i>  {{ invoice.destCountry }} <br /><br />
+                        <i class="fa fa-plane-arrival primary"></i> {{ invoice.destCity }}
+                      </td>
+                      <td>
+                        <i class="fa fa-plane-departure primary"></i> {{ invoice.airline }} <br /><br />
+                        <i class="fa fa-plane-departure primary"></i> {{ invoice.flight }}
+                      </td>
+                      <td>
+                        <i class="fa fa-calendar-check primary"></i>  {{ invoice.deparDate | date: "dd.MM.yyyy" }} <br /><br />
+                        <i class="fa fa-clock primary"></i> {{ invoice.deparTime }}
+                      </td>
+                      <td class="note br_zero"> <span *ngIf="invoice.campaign"> {{ invoice.campaign  }} </span><br />
+                        {{ invoice.note }}
+                      </td>
+                      <td  *ngIf="page!='onay'">
+                        <span
+                        (click)="open(changeStatus, '', 'sm', invoice._id)"
+                        style="cursor:pointer;"
+                          class="badge w-100 "
+  
+                          [ngClass]="invoice.status == 'CONFIRMED'?'badge-success':invoice.status == 'DECLINE'?'badge-danger':'badge-default'"
+                          >{{invoice.status == 'CONFIRMED'?'ONAYLI':invoice.status == 'DECLINE'?'ONAYSIZ':'BEKLEMEDE'}}</span
+                        >
+                      </td>
+                      <td class="br_zero">
+                        <button
+                          class="btn btn-sm btn-secondary w-100 mb-2 mr-0"
+                          [routerLink]="['/invoice-edit', invoice._id]"
+                        >
+                          Düzenle
+                        </button>
+                        <br />
+                        <button
+                          *ngIf="page == 'onay'"
+                          class="btn btn-sm btn-success btn-3"
+  
+                          (click)="open(approve, '', 'sm', invoice._id)"
+                        >
+                          Onay
+                        </button>
+                        <button *ngIf="page=='onay'"
+                          class="btn btn-sm btn-danger btn-3"
+  
+                          (click)="open(cancel, '', 'sm', invoice._id)"
+                        >
+                          İptal
+                        </button>
+                      </td>
+                    </tr> -->
+                </tbody>
+              </table>
+            </div>
+            <!-- <div class="card-footer py-4">
+            <nav>
+              <ul class="pagination float-right">
+                <td class="mr-2" scope="col">
+                  <select
+                    class="form-control form-control-sm mt-1"
+                    [(ngModel)]="rowSize"
+                    (ngModelChange)="changeRowSize()"
+                    name="rowSize"
+                  >
+                    <option [value]="10">10</option>
+                    <option [value]="50">50</option>
+                    <option [value]="100">100</option>
+                    <option [value]="99999999">Tümü</option>
+                  </select>
+                </td>
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    (click)="
+                      skip != 0 ? (skip = skip - limit) : (skip = skip);
+                      getData()
+                    "
+                    ><i class="fa fa-angle-left"></i
+                  ></a>
+                </li>
+                <li
+                  *ngFor="let page of pages(); let i = index"
+                  [class.hidden]="i - skip / limit > 1 || skip / limit - i > 1"
+                  [class.active]="skip == limit * i"
+                  (click)="skip = limit * i; getData()"
+                  class="page-item"
+                >
+                  <a class="page-link">{{ i + 1 }}</a>
+                </li>
+
+                <li class="page-item">
+                  <a class="page-link" (click)="ceilAndCalculate()"
+                    ><i class="fa fa-angle-right"></i
+                  ></a>
+                </li>
+              </ul>
+            </nav>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

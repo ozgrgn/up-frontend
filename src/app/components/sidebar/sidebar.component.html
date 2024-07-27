@@ -14,17 +14,13 @@
     </button>
 
     <!-- Brand -->
-    <a
-      class="navbar-brand pt-0"
-      routerLinkActive="active"
-    
-    >
+    <a class="navbar-brand pt-0" routerLinkActive="active">
       <img
         src="/assets/img/icons/uplogo-1.png"
         class="navbar-brand-img brand"
       />
-      <br>
-      UP REFUND 
+      <br />
+      UP REFUND
     </a>
 
     <div
@@ -64,9 +60,7 @@
         </div>
       </form> -->
       <!-- Navigation -->
-      <ul class="navbar-nav"
-      *ngIf="perm!='EXIT'"
-      >
+      <ul class="navbar-nav" *ngIf="perm != 'EXIT' && perm != 'ICMAL'">
         <li
           *ngFor="let menuItem of menuItems"
           class="{{ menuItem.class }} nav-item"
@@ -79,9 +73,58 @@
           >
             <i class="{{ menuItem.icon }}"></i>
             {{ menuItem.title }}
-          </a> 
+          </a>
         </li>
       </ul>
+      <div  *ngIf="perm == 'SUPERADMIN'">
+      <!-- Divider -->
+      <hr class="my-3" />
+      <!-- Heading -->
+      <h6 class="navbar-heading text-muted">FATURA CHECK</h6>
+      <!-- Navigation -->
+      <ul class="navbar-nav mb-md-3">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/fcheck']"
+            routerLinkActive="router-link-active"
+            (click)="toggleSide()"
+          >
+            <i class="ni ni-books text-icon"></i> Fatura Bul
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/fcheck-ratio']"
+            routerLinkActive="router-link-active"
+            (click)="toggleSide()"
+          >
+            <i class="ni ni-compass-04 text-icon"></i> Oranlar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/currency']"
+            routerLinkActive="router-link-active"
+            (click)="toggleSide()"
+          >
+            <i class="ni ni-world text-icon"></i> Bugün Döviz Kuru
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/transactions']"
+            routerLinkActive="router-link-active"
+            (click)="toggleSide()"
+          >
+            <i class="ni ni-money-coins text-icon"></i> Kasa Hareketleri
+          </a>
+        </li>
+      </ul>
+    </div>
       <!-- Divider -->
       <hr class="my-3" />
       <!-- Heading -->
@@ -90,15 +133,16 @@
       <ul class="navbar-nav mb-md-3">
         <li class="nav-item">
           <a
-          class="nav-link"
-          [routerLink]="['/customer-list']"
-          routerLinkActive="router-link-active"
-          (click)="toggleSide()"
-        >
-        
-          <i class="ni ni-satisfied text-icon"></i> Müşteri Raporu
-        </a>
-          <a *ngIf="perm!='EXIT'"
+          *ngIf="perm != 'EXIT' && perm != 'ICMAL'"
+            class="nav-link"
+            [routerLink]="['/customer-list']"
+            routerLinkActive="router-link-active"
+            (click)="toggleSide()"
+          >
+            <i class="ni ni-satisfied text-icon"></i> Müşteri Raporu
+          </a>
+          <a
+            *ngIf="perm != 'EXIT' && perm != 'ICMAL'"
             class="nav-link"
             [routerLink]="['/performance-reports']"
             routerLinkActive="router-link-active"
@@ -106,34 +150,36 @@
           >
             <i class="ni ni-chart-bar-32 text-icon"></i> Performans Raporu
           </a>
-          <a *ngIf="perm!='EXIT'"
-          class="nav-link"
-          [routerLink]="['/product-reports']"
-          routerLinkActive="router-link-active"
-          (click)="toggleSide()"
-        >
-          <i class="ni ni-cart text-icon"></i> Ürün Raporu
-        </a>
-        <a *ngIf="perm=='SUPERADMIN'"
-        class="nav-link"
-        [routerLink]="['/icmal']"
-        routerLinkActive="router-link-active"
-        (click)="toggleSide()"
-      >
-        <i class="fas fa-folder-open text-icon"></i> İcmal
-      </a>
+          <a
+            *ngIf="perm != 'EXIT' && perm != 'ICMAL'"
+            class="nav-link"
+            [routerLink]="['/product-reports']"
+            routerLinkActive="router-link-active"
+            (click)="toggleSide()"
+          >
+            <i class="ni ni-cart text-icon"></i> Ürün Raporu
+          </a>
+          <a
+            *ngIf="perm == 'SUPERADMIN' || perm == 'ICMAL'"
+            class="nav-link"
+            [routerLink]="['/icmal']"
+            routerLinkActive="router-link-active"
+            (click)="toggleSide()"
+          >
+            <i class="fas fa-folder-open text-icon"></i> İcmal
+          </a>
         </li>
       </ul>
-      
+
       <!-- Divider -->
       <hr class="my-3" />
       <!-- Heading -->
-      <div *ngIf="perm=='SUPERADMIN'">
-      <h6 class="navbar-heading text-muted">YÖNETİM</h6>
-    </div>
+      <div *ngIf="perm == 'SUPERADMIN'">
+        <h6 class="navbar-heading text-muted">YÖNETİM</h6>
+      </div>
       <!-- Navigation -->
-      <ul  class="navbar-nav mb-md-3">
-        <li *ngIf="perm=='SUPERADMIN'" class="nav-item">
+      <ul class="navbar-nav mb-md-3">
+        <li *ngIf="perm == 'SUPERADMIN'" class="nav-item">
           <a
             class="nav-link"
             [routerLink]="['/products']"
@@ -143,7 +189,7 @@
             <i class="ni ni-bag-17 text-icon"></i> Ürünler
           </a>
         </li>
-        <li *ngIf="perm=='SUPERADMIN'" class="nav-item">
+        <li *ngIf="perm == 'SUPERADMIN'" class="nav-item">
           <a
             class="nav-link"
             [routerLink]="['/general-settings']"
@@ -153,18 +199,15 @@
             <i class="ni ni-settings-gear-65 text-icon"></i> Genel Ayarlar
           </a>
         </li>
-        <li *ngIf="perm=='SUPERADMIN'" class="nav-item">
+        <li *ngIf="perm == 'SUPERADMIN'" class="nav-item">
           <a
             class="nav-link"
             [routerLink]="['/user-list']"
             routerLinkActive="router-link-active"
-            
           >
             <i class="ni ni-ui-04 text-icon"></i> Kullanıcı Ayarları
           </a>
         </li>
-
-
 
         <li class="nav-item">
           <a class="nav-link" (click)="logout()" [routerLink]="['/']">
