@@ -60,7 +60,7 @@
         </div>
       </form> -->
       <!-- Navigation -->
-      <ul class="navbar-nav" *ngIf="perm != 'EXIT' && perm != 'ICMAL'">
+      <ul class="navbar-nav" *ngIf="perm != 'EXIT' ">
         <li
           *ngFor="let menuItem of menuItems"
           class="{{ menuItem.class }} nav-item"

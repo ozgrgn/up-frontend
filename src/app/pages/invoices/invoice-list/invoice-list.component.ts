@@ -70,7 +70,7 @@ companies:any;
         if (this.perm == "EXIT") {
           this.router.navigate(["/customer-list"]);
         }
-        if (this.perm == "SUPERADMIN") {
+        if (this.perm == "SUPERADMIN" || this.perm == "ICMAL") {
           this.company._id = undefined;
           this.getData()
           // this.syncInvoices();

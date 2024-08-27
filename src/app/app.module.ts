@@ -42,6 +42,7 @@ import { FCheckEditComponent } from './pages/f-check-edit/f-check-edit.component
 import { FCheckRatioComponent } from './pages/f-check-ratio/f-check-ratio.component';
 import { CurrencyComponent } from './pages/currency/currency.component';
 import { TransactionListComponent } from './pages/reports/transaction-list/transaction-list.component';
+import { FCheckIcmalComponent } from './pages/f-check-icmal/f-check-icmal.component';
 
 moment.tz.setDefault("Europe/Istanbul");
 
@@ -89,6 +90,7 @@ moment.tz.setDefault("Europe/Istanbul");
     FCheckRatioComponent,
     CurrencyComponent,
     TransactionListComponent,
+    FCheckIcmalComponent,
   ],
   providers: [
     DatePipe,

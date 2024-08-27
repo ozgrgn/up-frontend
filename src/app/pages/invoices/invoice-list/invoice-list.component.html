@@ -237,7 +237,7 @@
                 >
                   <button
                   *ngIf="
-                  invoice.status != 'CONFIRMED' || this.perm == 'SUPERADMIN'
+                  invoice.status != 'CONFIRMED' || this.perm == 'SUPERADMIN'|| this.perm == 'ICMAL'
                 "
                     class="btn btn-sm btn-secondary w-100 mt-2 mr-0"
                     [routerLink]="['/invoice-edit', invoice._id]"
